@@ -80,59 +80,59 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User',array('updateInfo.post','updateAddress.post'), array($this, 'infoAfter'), 200);
 
         // catégories de jeux préférées du client
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabGame\Service\PrizeCategoryUser','edit.post', array($this, 'prizeCategoryAfter'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundGame\Service\PrizeCategoryUser','edit.post', array($this, 'prizeCategoryAfter'), 200);
 
         // inscription à un jeu
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
             ),'play.post', array($this, 'playAfter'), 200);
 
         // partage par mail
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
         ),'sendShareMail.post', array($this, 'sendShareMailAfter'), 200);
 
         // partage par wall FB
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
         ),'postFbWall.post', array($this, 'postFbWallAfter'), 200);
 
         // partage par wall FB
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
         ),'postFbRequest.post', array($this, 'postFbRequestAfter'), 200);
 
         // partage par twitter
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
         ),'postTwitter.post', array($this, 'postTwitterAfter'), 200);
 
         // partage par wall FB
         $this->listeners[] = $events->getSharedManager()->attach(array(
-                'AdfabGame\Service\Lottery',
-                'AdfabGame\Service\PostVote',
-                'AdfabGame\Service\Quiz',
-                'AdfabGame\Service\InstantWin'
+                'PlaygroundGame\Service\Lottery',
+                'PlaygroundGame\Service\PostVote',
+                'PlaygroundGame\Service\Quiz',
+                'PlaygroundGame\Service\InstantWin'
         ),'postGoogle.post', array($this, 'postGoogleAfter'), 200);
 
         // reponses justes aux quiz
         $this->listeners[] = $events->getSharedManager()->attach(
-            'AdfabGame\Service\Quiz',
+            'PlaygroundGame\Service\Quiz',
             'createQuizReply.post',
             array($this, 'createQuizReplyAfter'),
             200
