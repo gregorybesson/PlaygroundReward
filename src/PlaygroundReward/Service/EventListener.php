@@ -69,15 +69,15 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
     public function attach(EventManagerInterface $events)
     {
         //REGISTER
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabUser\Service\User','register.post', array($this, 'registerAfter'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User','register.post', array($this, 'registerAfter'), 200);
 
         //optin, optinPartner
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabUser\Service\User','updateNewsletter.pre', array($this, 'newsletterBefore'), 200);
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabUser\Service\User','updateNewsletter.post', array($this, 'newsletterAfter'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User','updateNewsletter.pre', array($this, 'newsletterBefore'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User','updateNewsletter.post', array($this, 'newsletterAfter'), 200);
 
         //username, avatar, address, city, telephone, children
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabUser\Service\User',array('updateInfo.pre','updateAddress.pre'), array($this, 'infoBefore'), 200);
-        $this->listeners[] = $events->getSharedManager()->attach('AdfabUser\Service\User',array('updateInfo.post','updateAddress.post'), array($this, 'infoAfter'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User',array('updateInfo.pre','updateAddress.pre'), array($this, 'infoBefore'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach('PlaygroundUser\Service\User',array('updateInfo.post','updateAddress.post'), array($this, 'infoAfter'), 200);
 
         // catégories de jeux préférées du client
         $this->listeners[] = $events->getSharedManager()->attach('AdfabGame\Service\PrizeCategoryUser','edit.post', array($this, 'prizeCategoryAfter'), 200);
@@ -755,7 +755,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $badge 		 = '';
         $userScore   = $sm->get('viewhelpermanager')->get('UserScore');
 
-        $mailService = $sm->get('adfabuser_message');
+        $mailService = $sm->get('playgrounduser_message');
         $to 		 = $user->getEmail();
         $subject 	 = "Obtention d'un badge";
 
