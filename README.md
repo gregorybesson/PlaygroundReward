@@ -1,4 +1,4 @@
-PlaygroundReward
-================
+AdfabReward
+===========
 
-Playground Reward Module
+Gestion des rewards
