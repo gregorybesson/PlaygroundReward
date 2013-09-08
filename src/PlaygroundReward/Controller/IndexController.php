@@ -6,7 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
-use AdfabCore\ORM\Pagination\LargeTablePaginator as ORMPaginator;
+use PlaygroundCore\ORM\Pagination\LargeTablePaginator as ORMPaginator;
 
 class IndexController extends AbstractActionController
 {
