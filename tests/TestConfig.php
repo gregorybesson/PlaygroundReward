@@ -9,6 +9,7 @@ return array(
     	'AsseticBundle',
     	'ZfcBase',
    		'PlaygroundCore',
+        'PlaygroundDesign',
     	'PlaygroundReward',
     ),
     'module_listener_options' => array(
