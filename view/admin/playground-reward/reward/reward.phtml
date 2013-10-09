@@ -1,0 +1,66 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundreward');?>
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<div class="return"><a href="<?php echo $this->url('admin/reward/list');?>"><?php echo $this->translate('Retour'); ?></a></div>
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+<?php echo $this->form()->openTag($form) ?>
+<?php $form->get('submit')->setLabel($this->translate('Validate')); ?>
+<?php echo $this->formButton($form->get('submit')) ?>
+<div class="tab-pane active" id="general">
+    <div>
+        <div class="label-input">
+        <?php echo $this->formHidden($form->get('id')); ?>
+        </div>
+
+        <div class="label-input">
+        <?php echo $this->formLabel($form->get('title')); ?>
+        <?php echo $this->formInput($form->get('title')); ?>
+        <?php echo $this->formElementErrors($form->get('title')) ?>
+        </div>
+
+        <div class="label-input">
+        <?php echo $this->formLabel($form->get('active')); ?>
+        <?php echo $this->formSelect($form->get('active')); ?>
+        <?php echo $this->formElementErrors($form->get('active')) ?>
+        </div>
+        
+        <div class="label-input">
+            <?php echo $this->formLabel($form->get('type')); ?>
+            <?php echo $this->formSelect($form->get('type')); ?>
+            <?php echo $this->formElementErrors($form->get('type')); ?>
+    	</div>
+	
+    	<div class="label-input">
+            <?php echo $this->formLabel($form->get('category')); ?>
+            <?php echo $this->formSelect($form->get('category')); ?>
+            <?php echo $this->formElementErrors($form->get('category')); ?>
+    	</div>
+    	
+    	<div class="label-input">
+            <?php echo $this->formLabel($form->get('points')); ?>
+            <?php echo $this->formInput($form->get('points')); ?>
+            <?php echo $this->formElementErrors($form->get('points')) ?>
+    	</div>
+    	
+    	<div class="label-input">
+            <?php echo $this->formLabel($form->get('countLimit')); ?>
+            <?php echo $this->formInput($form->get('countLimit')); ?>
+            <?php echo $this->formElementErrors($form->get('countLimit')) ?>
+    	</div>
+        
+        <div class="label-input file">
+    	    <?php echo $this->formLabel($form->get('uploadImage')); ?>
+    	    <?php echo $this->formFile($form->get('uploadImage')); ?>
+    	    <?php if($form->get('image')->getValue() != ''):?>
+    	    	<img src="<?php echo $this->basePath($form->get('image')->getValue()); ?>" />
+    	    <?php endif;?>
+        </div>
+        
+    </div>
+</div>

@@ -83,12 +83,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $this->listeners[] = $events->getSharedManager()->attach('PlaygroundGame\Service\PrizeCategoryUser','edit.post', array($this, 'prizeCategoryAfter'), 200);
 
         // inscription à un jeu
-        $this->listeners[] = $events->getSharedManager()->attach(array(
-                'PlaygroundGame\Service\Lottery',
-                'PlaygroundGame\Service\PostVote',
-                'PlaygroundGame\Service\Quiz',
-                'PlaygroundGame\Service\InstantWin'
-            ),'play.post', array($this, 'playAfter'), 200);
+        $this->listeners[] = $events->getSharedManager()->attach(array('*'),'play.post', array($this, 'playAfter'), 200);
 
         // partage par mail
         $this->listeners[] = $events->getSharedManager()->attach(array(

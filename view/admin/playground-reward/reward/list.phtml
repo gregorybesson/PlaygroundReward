@@ -1,0 +1,42 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundreward'); ?>
+<?php
+$fm = $this->flashMessenger()->setNamespace('playgroundreward')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}
+?>
+
+<ul class="liste-buttons">
+	<li class="btn btn-default right margin-left10"><a href="<?php echo $this->url('admin/reward/create');?>"><?php echo $this->translate('Add new Reward'); ?></a></li>
+</ul>
+
+<h1><?php echo $this->translate('Reward list'); ?></h1>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Id'); ?></th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('Active'); ?></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->rewards as $reward): ?>
+        <tr>
+            <td><?php echo $reward->getId() ?></td>
+            <td><?php echo $reward->getTitle() ?></td>
+            <td><?php echo ($reward->getActive())? $this->translate('Yes'):$this->translate('No'); ?></td>
+            <?php $editLink = $this->url('admin/reward/edit', array('rewardId' => $reward->getId()));?>
+            <?php $deleteLink = $this->url('admin/reward/remove', array('rewardId' => $reward->getId()));?>
+            <?php $optionLink = $this->url('admin/reward/rule-list', array('rewardId' => $reward->getId())); ?>
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Add options'); ?></a><?php endif;?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php echo $this->paginationControl($this->rewards, 'Sliding', 'playground-reward/reward/pagination_rewardlist'); ?>

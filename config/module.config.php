@@ -30,7 +30,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'playgroundrewardadmin' => 'PlaygroundReward\Controller\AdminController',
+            'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
             'playgroundreward'      => 'PlaygroundReward\Controller\IndexController',
         ),
     ),
@@ -92,9 +92,8 @@ return array(
         	),
             'admin' => array(
                 'child_routes' => array(
-                    'playgroundrewardadmin' => array(
+                    'reward' => array(
                         'type' => 'Literal',
-                        'priority' => 1000,
                         'options' => array(
                             'route' => '/reward',
                             'defaults' => array(
@@ -126,22 +125,67 @@ return array(
                             'edit' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/edit/:actionId',
+                                    'route' => '/edit/:rewardId',
                                     'defaults' => array(
                                         'controller' => 'playgroundrewardadmin',
                                         'action'     => 'edit',
-                                        'userId'     => 0
+                                        'rewardId'     => 0
                                     ),
                                 ),
                             ),
                             'remove' => array(
                                 'type' => 'Segment',
                                 'options' => array(
-                                    'route' => '/remove/:actionId',
+                                    'route' => '/remove/:rewardId',
                                     'defaults' => array(
                                         'controller' => 'playgroundrewardadmin',
                                         'action'     => 'remove',
-                                        'userId'     => 0
+                                        'rewardId'     => 0
+                                    ),
+                                ),
+                            ),
+
+                            'rule-list' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:rewardId/rule-list',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundrewardadmin',
+                                        'action'     => 'listRule',
+                                        'rewardId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'rule-add' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/:rewardId/rule-add',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundrewardadmin',
+                                        'action'     => 'addRule',
+                                        'rewardId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'rule-edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/rule-edit/:ruleId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundrewardadmin',
+                                        'action'     => 'editRule',
+                                        'ruleId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'rule-remove' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/rule-remove/:ruleId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundrewardadmin',
+                                        'action'     => 'removeRule',
+                                        'ruleId'     => 0
                                     ),
                                 ),
                             ),
@@ -176,21 +220,21 @@ return array(
                 'action'     => 'leaderboard'
             ),
         ),
-        /*'admin' => array(
+        'admin' => array(
             'playgroundrewardadmin' => array(
-                'label' => 'Actions',
-                'route' => 'admin/playgroundrewardadmin/list',
+                'label' => 'Rewards',
+                'route' => 'admin/reward/list',
                 'resource' => 'reward',
                 'privilege' => 'list',
                 'pages' => array(
                     'create' => array(
-                        'label' => 'New Action',
-                        'route' => 'admin/playgroundcmsadmin/pages/list',
+                        'label' => 'List',
+                        'route' => 'admin/reward/list',
                         'resource' => 'reward',
                         'privilege' => 'list',
                     ),
                 ),
             ),
-        ),*/
+        ),
     )
 );

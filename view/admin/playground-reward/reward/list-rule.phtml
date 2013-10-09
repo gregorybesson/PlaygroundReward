@@ -1,0 +1,49 @@
+<?php
+/*$fm = $this->flashMessenger()->setNamespace('playgroundreward')->getMessages();
+if (isset($fm[0]))
+{
+    print '<span class=>' . $fm[0] . '</span>';
+}*/
+?>
+<?php $this->plugin('translate')->setTranslatorTextDomain('playgroundreward'); ?>
+<?php $addLink = $this->url('admin/reward/rule-add', array('rewardId' => $this->reward_id)); ?>
+
+
+<ul class="liste-buttons">
+	<li class="btn-admin"><a href="<?php echo $addLink;?>"><?php echo $this->translate('Add new rule'); ?></a></li>
+	<!--<li class="btn-admin"><a href="<?php echo $this->url('admin/reward/list');?>"><?php echo $this->translate('Retour'); ?></a></li>-->
+</ul>
+
+<h1><a href="<?php echo $this->url('admin/reward/edit', array('rewardId' => $this->reward_id)) ?>"><?php echo $this->reward->getTitle(); ?></a></h1>
+
+<h3><?php echo $this->translate('Liste des rules'); ?></h3>
+
+<table class="table">
+    <tr>
+        <!--<th><?php echo $this->translate('Id'); ?></th>-->
+        <th><?php echo $this->translate('Completion Type'); ?></th>
+        <th><?php echo $this->translate('Answers'); ?></th>
+        <th></th>
+    </tr>
+    <tbody>
+    <?php foreach ($this->rules as $rule): ?>
+    	<?php $editLink   = $this->url('admin/reward/rule-edit', array('ruleId' => $rule->getId()));?>
+        <?php $deleteLink = $this->url('admin/reward/rule-remove', array('ruleId' => $rule->getId()));?>
+    	<tr class="sortable" id="<?php echo $rule->getId() ?>" 
+    		data-url="<?php echo $editLink; ?>">
+            <!--<td><?php echo $rule->getId() ?></td>-->
+            <td><?php echo $rule->getCompletionType() ?></td>
+            
+            <td>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<ul class="liste-buttons bottom">
+	<li class="btn-admin bottom"><a href="<?php echo $addLink;?>"><?php echo $this->translate('Add new rule'); ?></a></li>
+</ul>
+
+<?php //echo $this->paginationControl($this->pages, 'Sliding', 'playground-game/page/pagination_pagelist.phtml'); ?>

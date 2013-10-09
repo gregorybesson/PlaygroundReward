@@ -74,6 +74,7 @@ class Module
                     'playgroundreward_event_service'        => 'PlaygroundReward\Service\Event',
                     'playgroundreward_event_listener'       => 'PlaygroundReward\Service\EventListener',
                     'playgroundreward_achievement_service'  => 'PlaygroundReward\Service\Achievement',
+                    'playgroundreward_reward_service'       => 'PlaygroundReward\Service\Reward',
                     'playgroundreward_achievement_listener' => 'PlaygroundReward\Service\AchievementListener',
                     'playgroundreward_leaderboard_service'  => 'PlaygroundReward\Service\Leaderboard',
                     'playgroundreward_cron_service'         => 'PlaygroundReward\Service\Cron',
@@ -103,12 +104,55 @@ class Module
                         $sm->get('playgroundreward_module_options')
                     );
                 },
+                'playgroundreward_reward_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\Reward(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
+                'playgroundreward_rewardrule_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\RewardRule(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
+                'playgroundreward_rewardrulecondition_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\RewardRuleCondition(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
                 'playgroundreward_editaction_form' => function($sm) {
                     $options = $sm->get('playgroundreward_module_options');
                     $form = new Form\EditAction(null, $options, $sm);
 
                     return $form;
                 },
+                'playgroundreward_reward_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\Reward(null, $sm, $translator);
+                    $reward = new Entity\Reward();
+                    $form->setInputFilter($reward->getInputFilter());
+                
+                    return $form;
+                },
+                'playgroundreward_rewardrule_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\RewardRule(null, $sm, $translator);
+                    $rewardRule = new Entity\RewardRule();
+                    $form->setInputFilter($rewardRule->getInputFilter());
+                
+                    return $form;
+                },
+                'playgroundreward_rewardrulecondition_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\RewardRuleCondition(null, $sm, $translator);
+                    $rewardRuleCondition = new Entity\RewardRuleCondition();
+                    $form->setInputFilter($rewardRuleCondition->getInputFilter());
+                
+                    return $form;
+                },
+
             ),
         );
     }
