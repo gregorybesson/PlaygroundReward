@@ -21,8 +21,8 @@ if (isset($fm[0]))
 <table class="table">
     <tr>
         <!--<th><?php echo $this->translate('Id'); ?></th>-->
-        <th><?php echo $this->translate('Completion Type'); ?></th>
-        <th><?php echo $this->translate('Answers'); ?></th>
+        <th><?php echo $this->translate('Rule'); ?></th>
+        <th><?php echo $this->translate('Actions'); ?></th>
         <th></th>
     </tr>
     <tbody>
@@ -32,7 +32,7 @@ if (isset($fm[0]))
     	<tr class="sortable" id="<?php echo $rule->getId() ?>" 
     		data-url="<?php echo $editLink; ?>">
             <!--<td><?php echo $rule->getId() ?></td>-->
-            <td><?php echo $rule->getCompletionType() ?></td>
+            <td><?php echo "count of story '" . $rule->getStoryMappings() . "' " . $rule->getCountType() . " " . $rule->getCount();?></td>
             
             <td>
                 <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a>

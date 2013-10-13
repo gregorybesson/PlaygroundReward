@@ -30,22 +30,9 @@ $form->prepare();
             <div class="control-group">
                 <?php echo $this->formLabel($form->get('storyMappings')); ?>
                 <div class="controls">
-                    <?php echo $this->formTextarea($form->get('storyMappings')); ?>
+                    <?php echo $this->formSelect($form->get('storyMappings')); ?>
                     <?php echo $this->formElementErrors($form->get('storyMappings')) ?>
                 </div>
-            <?php $this->QgCKEditor(
-                'storyMappings',
-                    array(
-                    	'BasePath' => $this->basePath('js/lib/ckeditor'),
-                    	'Width' => "450",
-                        'Height' => "100",
-                        //'Color' => "#000",
-                        'Toolbar'=> array(
-    	                     array('Bold','Italic','Underline','Link','Unlink'),
-                         )
-                    )
-                );
-            ?>
             </div>
             
             <div class="control-group">
@@ -67,7 +54,14 @@ $form->prepare();
 			</ul>
 			
             <div id="condition_entry" class="control-group">
-            <?php echo $this->formCollection($form->get('conditions'));?>
+            <?php foreach($form->get('conditions') as $fieldset):?>
+                <fieldset>
+                <?php foreach($fieldset as $element):?>
+                    <?php echo $this->formRow($element); ?>
+                <?php endforeach;?>
+                </fieldset>
+            <?php endforeach;?>
+            <?php echo $this->formCollection()->renderTemplate($form->get('conditions'));?>
             </div>
             
             <ul class="liste-buttons">
@@ -85,23 +79,25 @@ $form->prepare();
 </script>
 <script>
 	
-    var template = $('#condition_entry > fieldset > span');
-    var datatemplate = $('#condition_entry > fieldset > span').data('template');
+    var template = $('#condition_entry > span');
+    var datatemplate = $('#condition_entry > span').data('template');
     template.data('template', '<fieldset id="conditions__index__">'+datatemplate+'</fieldset>');
     
     function add_condition() {
         var currentCount = $('#condition_entry fieldset').length;
-        var template = $('#condition_entry > fieldset > span').data('template');
+        var template = $('#condition_entry > span').data('template');
         template = template.replace(/__index__/g, currentCount);
+        $('#condition_entry').append('<fieldest>');
         $('#condition_entry').append(template);
         $('#condition_entry').append('<hr/>');
+        $('#condition_entry').append('</fieldset>');
 
         return false;
     }
 	
 
-    $('#condition_entry button').live('click',function(){
-    	$(this).parent().parent().empty();
+    $( document ).on( "click", "#condition_entry button", function(){
+    	$(this).parent().empty();
     	return false;
     });
 

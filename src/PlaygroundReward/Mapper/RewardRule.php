@@ -37,6 +37,11 @@ class RewardRule
     {
         return $this->getEntityRepository()->findBy(array('reward' => $reward));
     }
+    
+    public function findBy($array)
+    {
+        return $this->getEntityRepository()->findBy($array);
+    }
 
     public function insert($entity)
     {

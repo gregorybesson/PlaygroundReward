@@ -19,6 +19,7 @@ class Module
 
         $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
         $eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
+        $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
 
         // I can post cron tasks to be scheduled by the core cron service
         $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
@@ -78,6 +79,7 @@ class Module
                     'playgroundreward_achievement_listener' => 'PlaygroundReward\Service\AchievementListener',
                     'playgroundreward_leaderboard_service'  => 'PlaygroundReward\Service\Leaderboard',
                     'playgroundreward_cron_service'         => 'PlaygroundReward\Service\Cron',
+                    'playgroundreward_reward_listener'      => 'PlaygroundReward\Service\RewardListener',
                ),
 
             'factories' => array(

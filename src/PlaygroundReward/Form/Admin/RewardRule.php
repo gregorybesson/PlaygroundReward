@@ -11,11 +11,15 @@ use Zend\ServiceManager\ServiceManager;
 
 class RewardRule extends ProvidesEventsForm
 {
-    public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
+    protected $serviceManager;
+    
+    public function __construct($name = null, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
+        
+        $this->setServiceManager($sm);
 
-        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+        $entityManager = $sm->get('doctrine.entitymanager.orm_default');
 
         // The form will hydrate an object of type "QuizQuestion"
         // This is the secret for working with collections with Doctrine
@@ -62,10 +66,9 @@ class RewardRule extends ProvidesEventsForm
             'options' => array(
                 'empty_option' => $translator->translate('Count type', 'playgroundreward'),
                 'value_options' => array(
-                    'less'  => $translator->translate('Less than', 'playgroundreward'),
+                    'less_than'  => $translator->translate('Less than', 'playgroundreward'),
                     'equals' => $translator->translate('Equals', 'playgroundreward'),
-                    'more' => $translator->translate('More than', 'playgroundreward'),
-                    'in' => $translator->translate('In', 'playgroundreward'),
+                    'more_than' => $translator->translate('More than', 'playgroundreward'),
                 ),
                 'label' => $translator->translate('Count type', 'playgroundreward')
             )
@@ -82,6 +85,18 @@ class RewardRule extends ProvidesEventsForm
             ),
         ));
         
+        $stories = $this->getStories();
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'storyMappings',
+            'options' => array(
+                'empty_option' => $translator->translate('Select a story', 'playgroundreward'),
+                'value_options' => $stories,
+                'label' => $translator->translate('Stories', 'playgroundreward')
+            )
+        ));
+        
+        /*
         $this->add(array(
             'type' => 'Zend\Form\Element\Textarea',
             'name' => 'storyMappings',
@@ -94,8 +109,9 @@ class RewardRule extends ProvidesEventsForm
                 'id' => 'storyMappings'
             )
         ));
-
-        $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null,$serviceManager,$translator);
+        */
+        
+        $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null,$sm,$translator);
         $this->add(array(
             'type'    => 'Zend\Form\Element\Collection',
             'name'    => 'conditions',
@@ -121,5 +137,45 @@ class RewardRule extends ProvidesEventsForm
             'priority' => -100,
         ));
 
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getStories()
+    {
+        $stories = array();
+        $storyService = $this->getServiceManager()->get('playgroundflow_domain_service');
+        $results = $storyService->getStoryMappingMapper()->findByDomainId(3);
+    
+        foreach ($results as $result) {
+            $stories[$result->getId()] = $result->getStory()->getLabel();
+        }
+    
+        return $stories;
+    }
+    
+    /**
+     * Retrieve service manager instance
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager ()
+    {
+        return $this->serviceManager;
+    }
+    
+    /**
+     * Set service manager instance
+     *
+     * @param  ServiceManager $sm
+     * @return User
+     */
+    public function setServiceManager (ServiceManager $sm)
+    {
+        $this->serviceManager = $sm;
+    
+        return $this;
     }
 }

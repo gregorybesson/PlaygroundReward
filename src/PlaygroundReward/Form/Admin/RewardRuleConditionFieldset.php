@@ -53,10 +53,9 @@ class RewardRuleConditionFieldset extends Fieldset
                 'options' => array(
                         'empty_option' => $translator->translate('Comparison ?', 'playgroundreward'),
                         'value_options' => array(
-                            'less'  => $translator->translate('Less than', 'playgroundreward'),
+                            'less_than'  => $translator->translate('Less than', 'playgroundreward'),
                             'equals' => $translator->translate('Equals', 'playgroundreward'),
-                            'more' => $translator->translate('More than', 'playgroundreward'),
-                            'in' => $translator->translate('In', 'playgroundreward'),
+                            'more_than' => $translator->translate('More than', 'playgroundreward'),
                         ),
                         'label' => $translator->translate('Comparison', 'playgroundreward'),
                 ),

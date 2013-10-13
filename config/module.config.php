@@ -228,7 +228,7 @@ return array(
                 'privilege' => 'list',
                 'pages' => array(
                     'create' => array(
-                        'label' => 'List',
+                        'label' => 'Rewards list',
                         'route' => 'admin/reward/list',
                         'resource' => 'reward',
                         'privilege' => 'list',

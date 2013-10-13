@@ -32,7 +32,7 @@ if (isset($fm[0]))
             <?php $deleteLink = $this->url('admin/reward/remove', array('rewardId' => $reward->getId()));?>
             <?php $optionLink = $this->url('admin/reward/rule-list', array('rewardId' => $reward->getId())); ?>
             <td>
-                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Add options'); ?></a><?php endif;?>
+                <a href='<?php echo $editLink ?>'><?php echo $this->translate('Edit'); ?></a> | <a href='<?php echo $deleteLink ?>'><?php echo $this->translate('Delete'); ?></a><?php if($optionLink != ''):?> | <a href='<?php echo $optionLink ?>'><?php echo $this->translate('Manage rules'); ?></a><?php endif;?>
             </td>
         </tr>
     <?php endforeach; ?>

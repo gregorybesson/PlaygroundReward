@@ -238,7 +238,7 @@ class RewardController extends AbstractActionController
         $service->getRewardRuleMapper()->remove($rule);
         $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('The rule has been deleted');
 
-        return $this->redirect()->toRoute('admin/reward/reward-rule-list', array('rewardId'=>$rewardId));
+        return $this->redirect()->toRoute('admin/reward/rule-list', array('rewardId'=>$rewardId));
     }
 
 
