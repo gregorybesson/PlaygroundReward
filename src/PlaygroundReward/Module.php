@@ -17,6 +17,7 @@ class Module
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
 
+
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
             $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
