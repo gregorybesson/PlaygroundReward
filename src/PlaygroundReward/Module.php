@@ -17,9 +17,12 @@ class Module
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
 
-        $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
-        $eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
-        $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
+        // I don't attach the events in a cli situation to avoid Doctrine database update problems.
+        if (PHP_SAPI !== 'cli') {
+            $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
+            $eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
+            $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
+        }
 
         // I can post cron tasks to be scheduled by the core cron service
         $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
@@ -135,7 +138,7 @@ class Module
                     $form = new Form\Admin\Reward(null, $sm, $translator);
                     $reward = new Entity\Reward();
                     $form->setInputFilter($reward->getInputFilter());
-                
+
                     return $form;
                 },
                 'playgroundreward_rewardrule_form' => function($sm) {
@@ -143,7 +146,7 @@ class Module
                     $form = new Form\Admin\RewardRule(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
                     $form->setInputFilter($rewardRule->getInputFilter());
-                
+
                     return $form;
                 },
                 'playgroundreward_rewardrulecondition_form' => function($sm) {
@@ -151,7 +154,7 @@ class Module
                     $form = new Form\Admin\RewardRuleCondition(null, $sm, $translator);
                     $rewardRuleCondition = new Entity\RewardRuleCondition();
                     $form->setInputFilter($rewardRuleCondition->getInputFilter());
-                
+
                     return $form;
                 },
 
