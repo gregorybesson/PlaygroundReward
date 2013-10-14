@@ -13,7 +13,17 @@ class Module
         $serviceManager  = $application->getServiceManager();
         $eventManager    = $application->getEventManager();
 
+        $options = $serviceManager->get('playgroundcore_module_options');
+        $locale = $options->getLocale();
         $translator = $serviceManager->get('translator');
+        if (!empty($locale)) {
+            //translator
+            $translator->setLocale($locale);
+
+            // plugins
+            $translate = $serviceManager->get('viewhelpermanager')->get('translate');
+            $translate->getTranslator()->setLocale($locale);
+        }
 
         AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
 
