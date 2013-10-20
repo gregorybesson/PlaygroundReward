@@ -84,7 +84,7 @@ class RewardRule extends ProvidesEventsForm
                 'label' => $translator->translate('Count', 'playgroundreward'),
             ),
         ));
-        
+        /*
         $stories = $this->getStories();
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',
@@ -93,6 +93,32 @@ class RewardRule extends ProvidesEventsForm
                 'empty_option' => $translator->translate('Select a story', 'playgroundreward'),
                 'value_options' => $stories,
                 'label' => $translator->translate('Stories', 'playgroundreward')
+            )
+        ));*/
+        
+        $this->add(array(
+            'name' => 'storyMappings',
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+            'options' => array(
+                //'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
+                'label' => $translator->translate('Stories', 'playgroundreward'),
+                'object_manager' => $entityManager,
+                'target_class' => '\PlaygroundFlow\Entity\OpenGraphStoryMapping',
+                'is_method'      => true,
+                'find_method'    => array(
+                    'name'   => 'findBy',
+                    'params' => array( 
+                        'criteria' => array('domain' => 3),
+                    ),
+                ),
+                //'property' => 'id',
+                'label_generator' => function($targetEntity) {
+                    return $targetEntity->getStory()->getCode();
+                },
+            ),
+            'attributes' => array(
+                'required' => false,
+                'multiple' => 'multiple',
             )
         ));
         
