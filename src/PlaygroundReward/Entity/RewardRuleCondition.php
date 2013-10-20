@@ -42,6 +42,18 @@ class RewardRuleCondition
     protected $attribute;
     
     /**
+     * values : Boolean
+	 *			DateTime
+	 *			Float
+	 *			Integer
+	 *			String
+	 *			Array
+     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $type;
+    
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $comparison;
@@ -147,6 +159,22 @@ class RewardRuleCondition
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+    }
+
+	/**
+     * @return the $type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+	/**
+     * @param field_type $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
 	/**

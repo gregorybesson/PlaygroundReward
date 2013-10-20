@@ -70,6 +70,41 @@ class Reward extends ProvidesEventsForm
                 'value' => ''
             )
         ));
+        
+        $this->add(array(
+            'name' => 'hint',
+            'options' => array(
+                'label' => $translator->translate('Hint', 'playgroundreward')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Hint', 'playgroundreward')
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'activityStreamText',
+            'options' => array(
+                'label' => $translator->translate('Activity Stream Text', 'playgroundreward')
+            ),
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => $translator->translate('Activity Stream Text', 'playgroundreward')
+            )
+        ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'hide',
+            'options' => array(
+                'empty_option' => $translator->translate('Hide this reward', 'playgroundreward'),
+                'value_options' => array(
+                    '0' => $translator->translate('No', 'playgroundreward'),
+                    '1' => $translator->translate('Yes', 'playgroundreward'),
+                ),
+                'label' => $translator->translate('Hide this Reward while not won', 'playgroundreward')
+            )
+        ));
 
         $this->add(array(
             'type' => 'Zend\Form\Element\Select',

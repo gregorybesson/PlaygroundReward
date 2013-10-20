@@ -92,7 +92,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $rules = $service->getRewardRuleMapper()->findRulesByStoryMapping($storyMappingId);
         
         foreach ($rules as $rule) {
-            //echo $rule->getReward()->getTitle() . " : " .$rule->getStoryMappings() . " " . $rule->getCountType() . " " . $rule->getCount() . "<br>";
+            //echo $rule->getReward()->getTitle() . " : " . " " . $rule->getCountType() . " " . $rule->getCount() . "<br>";
             $countType = $rule->getCountType();
 
             // Is the intercepted storytelling compliant with the rule/conditions ?
@@ -101,18 +101,33 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
             $compliancy = false;
             if (count($rule->getConditions()) > 0) {
                 foreach ($rule->getConditions() as $condition) {
-                    $operator = $condition->getComparison();
+                    //echo "is condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "??<br>";
                     $object = json_decode($storyTelling->getObject(), true);
-                    if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
-                        //echo "has condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
-                        $compliancy = true;
+                    $operator = $condition->getComparison();
+                    
+                    //print_r($object);
+                    
+                    if($condition->getType() === 'datetime'){
+                        if (isset($object[$condition->getObject()][$condition->getAttribute()])){
+                            $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
+                            //echo 'condition : ' . $dateTime->format('d/m/Y') . ' value : ' . $condition->getValue();
+                            if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
+                                //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                                $compliancy = true;
+                            }
+                        }
+                    } else {
+                        if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
+                            //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                            $compliancy = true;
+                        }
                     }
                 }
             } else{
                 //echo "has no condition so is compliant<br>";
                 $compliancy = true;
             }
-            
+
             if($compliancy){
             
                 $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
@@ -127,8 +142,20 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                         foreach ($rule->getConditions() as $condition) {
                             $operator = $condition->getComparison();
                             $object = json_decode($story->getObject(), true);
-                            if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
-                                ++ $nbCompliantStories;
+                            
+                            if($condition->getType() === 'datetime'){
+                                if (isset($object[$condition->getObject()][$condition->getAttribute()])){
+                                    $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
+
+                                    if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
+                                        //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                                        ++ $nbCompliantStories;
+                                    }
+                                }
+                            } else {
+                                if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
+                                    ++ $nbCompliantStories;
+                                }
                             }
                         }
                     }
@@ -138,10 +165,11 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 //echo "has " . $nbCompliantStories . " compliant stories<br>";
                 // $this->$countType is the operator : === / <= / >=
                 if ($this->$countType($nbCompliantStories, $rule->getCount())) {
+                    //echo 'Creation du badge ' . $rule->getReward()->getTitle(); 
                     $achievement = new \PlaygroundReward\Entity\Achievement();
                     $achievement->setUser($storyTelling->getUser());
                     $achievement->setType($rule->getReward()->getType());
-                    $achievement->setCategory('player');
+                    $achievement->setCategory($rule->getReward()->getCategory());
                     $achievement->setLevel(1);
                     $achievement->setLevelLabel('GrG Level');
                     $achievement->setLabel($rule->getReward()->getTitle());

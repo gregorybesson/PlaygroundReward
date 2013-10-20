@@ -37,6 +37,21 @@ class Reward
      * @ORM\Column(type="text", nullable=true)
      */
     protected $category;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $hint;
+    
+    /**
+     * @ORM\Column(name="activity_stream_text", type="text", nullable=true)
+     */
+    protected $activityStreamText;
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $hide=false;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -162,6 +177,54 @@ class Reward
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+	/**
+     * @return the $hint
+     */
+    public function getHint()
+    {
+        return $this->hint;
+    }
+
+	/**
+     * @param field_type $hint
+     */
+    public function setHint($hint)
+    {
+        $this->hint = $hint;
+    }
+
+	/**
+     * @return the $activityStreamText
+     */
+    public function getActivityStreamText()
+    {
+        return $this->activityStreamText;
+    }
+
+	/**
+     * @param field_type $activityStreamText
+     */
+    public function setActivityStreamText($activityStreamText)
+    {
+        $this->activityStreamText = $activityStreamText;
+    }
+
+	/**
+     * @return the $hide
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+	/**
+     * @param boolean $hide
+     */
+    public function setHide($hide)
+    {
+        $this->hide = $hide;
     }
 
 	/**

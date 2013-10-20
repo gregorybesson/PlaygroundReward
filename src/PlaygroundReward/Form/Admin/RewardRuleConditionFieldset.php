@@ -48,6 +48,27 @@ class RewardRuleConditionFieldset extends Fieldset
         ));
         
         $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'type',
+            'attributes' =>  array(
+                'id' => 'type',
+                'options' => array(
+                    'boolean' => $translator->translate('Boolean', 'playgroundreward'),
+                    'float' => $translator->translate('Float', 'playgroundreward'),
+                    'integer' => $translator->translate('Integer', 'playgroundreward'),
+                    'string' => $translator->translate('String', 'playgroundreward'),
+                    'array' => $translator->translate('Array', 'playgroundreward'),
+                    'datetime' => $translator->translate('DateTime', 'playgroundreward'),
+                    'date' => $translator->translate('Date', 'playgroundreward'),
+                ),
+            ),
+            'options' => array(
+                'empty_option' => $translator->translate('Type de l\'attribut', 'playgroundreward'),
+                'label' => $translator->translate('Type de l\'attribut', 'playgroundreward'),
+            ),
+        ));
+        
+        $this->add(array(
                 'type' => 'Zend\Form\Element\Select',
                 'name' => 'comparison',
                 'options' => array(
