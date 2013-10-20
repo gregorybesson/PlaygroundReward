@@ -241,8 +241,6 @@ class RewardController extends AbstractActionController
         return $this->redirect()->toRoute('admin/reward/rule-list', array('rewardId'=>$rewardId));
     }
 
-
-
     public function getRewardService()
     {
         if (!$this->rewardService) {

@@ -31,7 +31,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
-            'playgroundreward'      => 'PlaygroundReward\Controller\IndexController',
+            'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
         ),
     ),
 
@@ -62,6 +62,16 @@ return array(
         'routes' => array(
         	'frontend' => array(
        			'child_routes' => array(
+       			    'badges' => array(
+       			        'type' => 'Literal',
+       			        'options' => array(
+       			            'route' => 'mon-compte/mes-badges',
+       			            'defaults' => array(
+       			                'controller' => 'playgroundreward',
+       			                'action'     => 'badges',
+       			            ),
+       			        ),
+       			    ),
 		            'reward' => array(
 		                'type' => 'Zend\Mvc\Router\Http\Segment',
 		                'options' => array(
