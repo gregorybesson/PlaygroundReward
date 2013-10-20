@@ -43,7 +43,11 @@ class RewardRule
     protected $completionType;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToMany(targetEntity="\PlaygroundFlow\Entity\OpenGraphStoryMapping")
+     * @ORM\JoinTable(name="rewards_storymappings",
+     *      joinColumns={@ORM\JoinColumn(name="reward_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="storymapping_id", referencedColumnName="id")}
+     *      )
      */
     protected $storyMappings;
 
@@ -71,6 +75,7 @@ class RewardRule
     public function __construct()
     {
         $this->conditions = new ArrayCollection();
+        $this->storyMappings = new ArrayCollection();
     }
 
     /** @PrePersist */
@@ -196,6 +201,20 @@ class RewardRule
     public function setStoryMappings($storyMappings)
     {
         $this->storyMappings = $storyMappings;
+    }
+    
+    public function addStoryMappings(\Doctrine\Common\Collections\ArrayCollection $storyMappings)
+    {
+        foreach ($storyMappings as $storyMapping) {
+            $this->storyMappings->add($storyMapping);
+        }
+    }
+    
+    public function removeStoryMappings(\Doctrine\Common\Collections\ArrayCollection $storyMappings)
+    {
+        foreach ($storyMappings as $storyMapping) {
+            $this->storyMappings->removeElement($storyMapping);
+        }
     }
 
 	/**
