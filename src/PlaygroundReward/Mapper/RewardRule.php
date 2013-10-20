@@ -42,6 +42,18 @@ class RewardRule
     {
         return $this->getEntityRepository()->findBy($array);
     }
+    
+    public function findRulesByStoryMapping($storyMappingId){
+        
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('r'))
+        ->from('PlaygroundReward\Entity\RewardRule', 'r')
+        ->join('r.storyMappings', 's')
+        ->where('s = :storyMapping')
+        ->setParameter('storyMapping', $storyMappingId);
+        
+        return $qb->getQuery()->getResult();
+    }
 
     public function insert($entity)
     {

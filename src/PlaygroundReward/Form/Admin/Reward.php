@@ -88,8 +88,12 @@ class Reward extends ProvidesEventsForm
             'type' => 'Zend\Form\Element\Select',
             'name' => 'category',
             'options' => array(
-                //'empty_option' => $translator->translate('Reward category', 'playgroundreward'),
-                'value_options' => array(),
+                'empty_option' => $translator->translate('Reward category', 'playgroundreward'),
+                'value_options' => array(
+                    'event'  => $translator->translate('Event', 'playgroundreward'),
+                    'game' => $translator->translate('Game', 'playgroundreward'),
+                    'visitor' => $translator->translate('Visitor', 'playgroundreward'),
+                ),
                 'label' => $translator->translate('Reward category', 'playgroundreward'),
             ),
         ));

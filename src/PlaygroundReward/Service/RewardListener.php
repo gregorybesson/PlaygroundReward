@@ -88,9 +88,8 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $storyTriggered = explode('.', $e->getName());
         $storyMappingId = $storyTriggered[1];
         
-        $rules = $service->getRewardRuleMapper()->findBy(array(
-            'storyMappings' => $storyMappingId
-        ));
+        //$storyMapping = $storyTellingService->getStoryMappingMapper()->findById($storyMappingId);
+        $rules = $service->getRewardRuleMapper()->findRulesByStoryMapping($storyMappingId);
         
         foreach ($rules as $rule) {
             //echo $rule->getReward()->getTitle() . " : " .$rule->getStoryMappings() . " " . $rule->getCountType() . " " . $rule->getCount() . "<br>";
@@ -146,7 +145,9 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     $achievement->setLevel(1);
                     $achievement->setLevelLabel('GrG Level');
                     $achievement->setLabel($rule->getReward()->getTitle());
-                    $achievementService->getAchievementMapper()->insert($achievement);
+                    $achievement = $achievementService->getAchievementMapper()->insert($achievement);
+                    
+                    $e->getTarget()->getEventManager()->trigger('complete_reward.post', $this, array('user' => $storyTelling->getUser(), 'achievement' => $achievement));
                 }
             }
         }
