@@ -44,7 +44,7 @@ class Reward implements ServiceManagerAwareInterface
     public function create(array $data, $entity, $formClass)
     {
         $reward  = new $entity;
-        $entityManager = $this->getServiceManager()->get('zfcuser_doctrine_em');
+        $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
     
         $form  = $this->getServiceManager()->get($formClass);
         $form->bind($reward);
@@ -90,7 +90,7 @@ class Reward implements ServiceManagerAwareInterface
      */
     public function edit(array $data, $reward, $formClass)
     {
-        $entityManager = $this->getServiceManager()->get('zfcuser_doctrine_em');
+        $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
         $form  = $this->getServiceManager()->get($formClass);
         $form->bind($reward);
     
