@@ -218,7 +218,7 @@ return array(
             ),
     ),
 
-    'navigation' => array(
+    /*'navigation' => array(
         'default' => array(
             'reward' => array(
                 'label' => 'Les récompenses',
@@ -246,5 +246,5 @@ return array(
                 ),
             ),
         ),
-    )
+    )*/
 );
