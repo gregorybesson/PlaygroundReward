@@ -1,0 +1,73 @@
+<?php $this->plugin('translate')->setTranslatorTextDomain('application');// Pour le texte ?>
+
+
+<!-- USER ACTIVITY -->
+<div id="user-activity" class="row-fluid">
+				
+	<div class="row-fluid">
+		<h1 class="span5">Mon activité</h1>
+		<div class="filter span7">
+			<div class="row-fluid">
+				<p class="span7"><b>Filtrer l’historique par type d’action :</b></p>
+				<div class="span5">
+					<select name="filter-activity" id="filter-activity" class="select">
+						<option value="">Selectionnez</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>">Vue d'ensemble</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>/game">Participations</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>/user">Mon compte</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>/social">Invitations et parrainage</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>/badges">Badges</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<?php $i=0; foreach($this->events as $event):?>
+	<div id="list-activity" class="row-fluid orange-dot-top">
+		<div class="span10">
+		    <?php $now = new \DateTime('now');?>
+		    <?php $interval = $now->diff($event->getCreatedAt());?>
+		    <?php 
+		    //var_dump($now->diff($event->getCreatedAt()));
+		    $duration = 0;
+	        if($interval->days < 1){
+	            $duration = 'moins d\'1 jour';
+	        }elseif($interval->days < 2){
+	            $duration = '1 jour';
+	        }elseif($interval->days < 31){
+	            $duration = $interval->days . ' jours';
+	        }elseif($interval->days < 365){
+	            $duration = $interval->m . ' mois';
+	        }elseif($interval->days < 730){
+	            $duration = $interval->y . ' an';
+	        }else{
+	            $duration = $interval->y . ' ans';
+	        }
+	        ?>
+		    <?php if(in_array($event->getAction()->getId(), array(1,2,3,5,6,7,8,9,10,11))):?>
+			    <p>Vous avez rempli vos coordonnées « <b><?php echo $event->getLabel()?></b> »</p>
+			<?php elseif(in_array($event->getAction()->getId(), array(4))):?>
+				<p>Vous avez renseigné votre <b><?php echo $event->getLabel()?></b></p>
+			<?php elseif(in_array($event->getAction()->getId(), array(12))):?>
+			    <p>Vous avez participé au concours « <b><?php echo $event->getLabel()?></b> »</p>
+			<?php elseif(in_array($event->getAction()->getId(), array(20))):?>
+			    <p>Vous avez parrainé <a href="mailto:<?php echo $event->getLabel()?>" target="_blank"><?php echo $event->getLabel()?></a></p>
+			<?php elseif(in_array($event->getAction()->getId(), array(100, 101, 102))):?>
+			    <?php $badge = "";if($event->getAction()->getId() == 100) $badge = "en Bronze";?>
+			    <?php if($event->getAction()->getId() == 101) $badge = "en Argent"; ?>
+			    <?php if($event->getAction()->getId() == 102) $badge = "en Or"; ?>
+			    <p>Vous avez remporté le badge « <b><?php echo stripslashes($event->getLabel())?></b> » <?php echo $badge;?></p>
+			<?php endif;?>
+			<p class="date">Il y a <?php echo $duration;?></p>
+		</div>
+		<div class="span2">
+			<p class="orange-points">+ <?php echo $event->getPoints();?> points</p>
+		</div>
+	</div>
+	<?php $i++; endforeach;?>
+</div>
+<?php if($i < $this->total): ?>
+	<div id="more-activity" class="row-fluid more"><a href="<?php echo $this->url('frontend/activity'). '/' . $this->filter ;?>" data-count="2" data-total="<?php echo $total; ?>">+ Plus d'actus</a></div>
+<?php endif; ?>
+<!-- END USER ACTIVITY -->
