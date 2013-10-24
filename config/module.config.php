@@ -47,6 +47,12 @@ return array(
                     'children_views' => array(
                         'col_right'  => 'application/common/column_right.phtml',
                     ),
+                    'activity' => array(
+                        'layout' => 'layout/2columns-left',
+                        'children_views' => array(
+                            'col_left'  => 'playground-user/user/col-user.phtml',
+                        ),
+                    ),
                     'actions' => array(
                         'default_layout' => 'layout/homepage-2columns-right',
                         'children_views' => array(
@@ -72,6 +78,33 @@ return array(
        			            ),
        			        ),
        			    ),
+                    'activity' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'mon-compte/mon-activite[/:filter]',
+                            'constraints' => array(
+                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'playgroundreward',
+                                'action'     => 'activity',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'pagination' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '[/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundreward',
+                                        'action'     => 'activity',
+                                    ),
+                                    'constraints' => array('p' => '[0-9]*'),
+                                ),
+                            ),
+                        ),
+                    ),
 		            'reward' => array(
 		                'type' => 'Zend\Mvc\Router\Http\Segment',
 		                'options' => array(
@@ -223,6 +256,10 @@ return array(
             'reward' => array(
                 'label' => 'Les récompenses',
                 'route' => 'reward',
+            ),
+            array(
+                'label' => 'Mon activité',
+                'route' => 'activity',
             ),
             'leaderboard' => array(
                 'label' => 'Le classement',
