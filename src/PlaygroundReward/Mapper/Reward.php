@@ -56,6 +56,18 @@ class Reward
         return $this->getEntityRepository()->findAll();
     }
 
+     /**
+    * findBy : recupere des entites en fonction de filtre
+    * @param array $array tableau de filtre
+    *
+    * @return collection $reward collection de PlaygroundReward\Entity\Reward
+    */
+    public function findBy($array)
+    {
+        return $this->getEntityRepository()->findBy($array);
+    }
+
+
     public function remove($entity)
     {
         $this->em->remove($entity);

@@ -24,7 +24,10 @@ class IndexController extends AbstractActionController
      * @var adminActionService
      */
     protected $adminActionService;
+
+    protected $storyTellingService;
     
+    protected $objectService;
     /**
      * @var gameService
      */
@@ -49,17 +52,7 @@ class IndexController extends AbstractActionController
         $badgesGold       = 1 * $this->getRewardService()->getTotal($userId, 'badgesGold');
         $anniversaryTotal = 1 * $this->getRewardService()->getTotal($userId, 'anniversary');
         $total            = 1 * $this->getRewardService()->getTotal($userId);
-    
-        /*$this->layout()->setVariables(
-            array(
-                'adserving'       => array(
-                    'cat1' => 'playground',
-                    'cat2' => 'myaccount',
-                    'cat3' => ''
-                )
-            )
-        );*/
-    
+
         return new ViewModel(
             array(
                 'gamesTotal'       => $gamesTotal,
@@ -103,34 +96,63 @@ class IndexController extends AbstractActionController
     public function activityAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
-        $events = $this->getRewardService()->getEventMapper()->findActivity($this->zfcUserAuthentication()->getIdentity()->getId(),$filter);
-        $total = count($events);
+        $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+        $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
+        $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser($user, $filter);
+        $total = count($stories);
 
-        if (is_array($events)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($events));
+
+
+        $activities = array();
+        foreach ($stories as $story) {
+            $matchToFilter = false || empty($filter);
+            foreach ($story->getOpenGraphStoryMapping()->getStory()->getObjects() as $object) {
+                if (strtolower($filter) == strtolower($object->getCode())) {
+                    $matchToFilter = true;
+                }
+            }
+            if($matchToFilter) {
+                $activities[] = array("object" => json_decode($story->getObject(), true),
+                                      "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
+                                      "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
+                                      "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStreamText(),
+                                      "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
+                                      "points" => $story->getPoints(),
+                                      'created_at' => $story->getCreatedAt(),
+                                      'definition' => $story->getOpenGraphStoryMapping()->getStory()->getDefinition(),
+                                      'label' => $story->getOpenGraphStoryMapping()->getStory()->getLabel());
+            }
+        }
+
+
+        if (is_array($activities)) {
+            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($activities));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {
-            $paginator = $events;
+            $paginator = $activities;
         }
 
-        /*$this->layout()->setVariables(
-            array(
-                'adserving'       => array(
-                    'cat1' => 'playground',
-                    'cat2' => 'myaccount',
-                    'cat3' => ''
-                )
-            )
-        );*/
+        $filters = $this->getObjectService()->getObjectMapper()->findAll();
+
 
         return new ViewModel(
             array(
-                'events' => $paginator,
-                'filter' => $filter,
+                'stories' => $paginator,
+                'filter'  => $filter,
+                'filters' => $filters,
                 'total' => $total
             )
         );
+    }
+
+    public function getObjectService()
+    {
+
+        if (!$this->objectService) {
+            $this->objectService = $this->getServiceLocator()->get('playgroundflow_object_service');
+        }
+        return $this->objectService;
     }
 
     public function getLeaderboardService()
@@ -163,5 +185,13 @@ class IndexController extends AbstractActionController
         $this->rewardService = $rewardService;
     
         return $this;
+    }
+    public function getStoryTellingService()
+    {
+        if (!$this->storyTellingService) {
+            $this->storyTellingService = $this->getServiceLocator()->get('playgroundflow_storytelling_service');
+        }
+
+        return $this->storyTellingService;
     }
 }

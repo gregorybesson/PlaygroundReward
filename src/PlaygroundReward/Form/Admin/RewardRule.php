@@ -84,17 +84,6 @@ class RewardRule extends ProvidesEventsForm
                 'label' => $translator->translate('Count', 'playgroundreward'),
             ),
         ));
-        /*
-        $stories = $this->getStories();
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
-            'name' => 'storyMappings',
-            'options' => array(
-                'empty_option' => $translator->translate('Select a story', 'playgroundreward'),
-                'value_options' => $stories,
-                'label' => $translator->translate('Stories', 'playgroundreward')
-            )
-        ));*/
         
         $this->add(array(
             'name' => 'storyMappings',
@@ -106,36 +95,21 @@ class RewardRule extends ProvidesEventsForm
                 'target_class' => '\PlaygroundFlow\Entity\OpenGraphStoryMapping',
                 'is_method'      => true,
                 'find_method'    => array(
-                    'name'   => 'findBy',
-                    'params' => array( 
+                    'name'   => 'findAll',
+                 /*   'params' => array( 
                         'criteria' => array('domain' => 3),
-                    ),
+                    ),*/
                 ),
                 //'property' => 'id',
                 'label_generator' => function($targetEntity) {
-                    return $targetEntity->getStory()->getCode();
+                    return $targetEntity->getStory()->getCode()." ".$targetEntity->getDomain()->getDomain();
                 },
             ),
             'attributes' => array(
                 'required' => false,
                 'multiple' => 'multiple',
             )
-        ));
-        
-        /*
-        $this->add(array(
-            'type' => 'Zend\Form\Element\Textarea',
-            'name' => 'storyMappings',
-            'options' => array(
-                'label' => $translator->translate('Stories', 'playgroundreward')
-            ),
-            'attributes' => array(
-                'cols' => '10',
-                'rows' => '4',
-                'id' => 'storyMappings'
-            )
-        ));
-        */
+        ));     
         
         $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null,$sm,$translator);
         $this->add(array(

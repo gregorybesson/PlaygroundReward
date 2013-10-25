@@ -12,24 +12,55 @@
 				<div class="span5">
 					<select name="filter-activity" id="filter-activity" class="select">
 						<option value="">Selectionnez</option>
-						<option value="<?php echo $this->url('frontend/activity') ?>">Vue d'ensemble</option>
-						<option value="<?php echo $this->url('frontend/activity') ?>/game">Participations</option>
-						<option value="<?php echo $this->url('frontend/activity') ?>/user">Mon compte</option>
-						<option value="<?php echo $this->url('frontend/activity') ?>/social">Invitations et parrainage</option>
-						<option value="<?php echo $this->url('frontend/activity') ?>/badges">Badges</option>
+						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>">Vue d'ensemble</option>
+						<?php foreach ($filters  as $filter) : ?>
+							<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)).'/'.$filter->getCode()?>"><?php echo $filter->getLabel(); ?></option>
+						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<?php $i=0; foreach($this->events as $event):?>
+	<?php $i=0; foreach($this->stories as $story): ?>
+	<div id="list-activity" class="row-fluid orange-dot-top">
+		<div class="span10">
+			<!-- @todo : avoir des templates par type de telling -->
+			<?php //echo $story['openGraphMapping']; ?>
+			A <?php echo $story['created_at']->format('d-m-Y H:i:s') ?>, <?php echo $this->translate($story['label']); ?>
+				<?php 
+				foreach ($story['object'] as $type => $values) :
+					echo $type."<br />";
+					if(is_array($values)) {
+					foreach ($values as $key => $value) :
+						if(is_array($value)) {
+							foreach ($value as $k => $v) {
+								echo $k.":".$v."<br />";
+							}
+						} else {
+							echo $key.":".$value."<br />";	
+						}
+						
+					endforeach;
+					} else {
+						echo $value;
+					}
+
+					echo "<br/>";
+				endforeach;
+				?>
+		
+			<?php echo $story['points']?> points 
+
+		</div>
+	</div>
+	<?php /*?>
 	<div id="list-activity" class="row-fluid orange-dot-top">
 		<div class="span10">
 		    <?php $now = new \DateTime('now');?>
-		    <?php $interval = $now->diff($event->getCreatedAt());?>
+		    <?php $interval = $now->diff($storie->getCreatedAt());?>
 		    <?php 
-		    //var_dump($now->diff($event->getCreatedAt()));
+		    //var_dump($now->diff($storie->getCreatedAt()));
 		    $duration = 0;
 	        if($interval->days < 1){
 	            $duration = 'moins d\'1 jour';
@@ -45,29 +76,29 @@
 	            $duration = $interval->y . ' ans';
 	        }
 	        ?>
-		    <?php if(in_array($event->getAction()->getId(), array(1,2,3,5,6,7,8,9,10,11))):?>
-			    <p>Vous avez rempli vos coordonnées « <b><?php echo $event->getLabel()?></b> »</p>
-			<?php elseif(in_array($event->getAction()->getId(), array(4))):?>
-				<p>Vous avez renseigné votre <b><?php echo $event->getLabel()?></b></p>
-			<?php elseif(in_array($event->getAction()->getId(), array(12))):?>
-			    <p>Vous avez participé au concours « <b><?php echo $event->getLabel()?></b> »</p>
-			<?php elseif(in_array($event->getAction()->getId(), array(20))):?>
-			    <p>Vous avez parrainé <a href="mailto:<?php echo $event->getLabel()?>" target="_blank"><?php echo $event->getLabel()?></a></p>
-			<?php elseif(in_array($event->getAction()->getId(), array(100, 101, 102))):?>
-			    <?php $badge = "";if($event->getAction()->getId() == 100) $badge = "en Bronze";?>
-			    <?php if($event->getAction()->getId() == 101) $badge = "en Argent"; ?>
-			    <?php if($event->getAction()->getId() == 102) $badge = "en Or"; ?>
-			    <p>Vous avez remporté le badge « <b><?php echo stripslashes($event->getLabel())?></b> » <?php echo $badge;?></p>
+		    <?php if(in_array($storie->getAction()->getId(), array(1,2,3,5,6,7,8,9,10,11))):?>
+			    <p>Vous avez rempli vos coordonnées « <b><?php echo $storie->getLabel()?></b> »</p>
+			<?php elseif(in_array($storie->getAction()->getId(), array(4))):?>
+				<p>Vous avez renseigné votre <b><?php echo $storie->getLabel()?></b></p>
+			<?php elseif(in_array($storie->getAction()->getId(), array(12))):?>
+			    <p>Vous avez participé au concours « <b><?php echo $storie->getLabel()?></b> »</p>
+			<?php elseif(in_array($storie->getAction()->getId(), array(20))):?>
+			    <p>Vous avez parrainé <a href="mailto:<?php echo $storie->getLabel()?>" target="_blank"><?php echo $storie->getLabel()?></a></p>
+			<?php elseif(in_array($storie->getAction()->getId(), array(100, 101, 102))):?>
+			    <?php $badge = "";if($storie->getAction()->getId() == 100) $badge = "en Bronze";?>
+			    <?php if($storie->getAction()->getId() == 101) $badge = "en Argent"; ?>
+			    <?php if($storie->getAction()->getId() == 102) $badge = "en Or"; ?>
+			    <p>Vous avez remporté le badge « <b><?php echo stripslashes($storie->getLabel())?></b> » <?php echo $badge;?></p>
 			<?php endif;?>
 			<p class="date">Il y a <?php echo $duration;?></p>
 		</div>
 		<div class="span2">
-			<p class="orange-points">+ <?php echo $event->getPoints();?> points</p>
+			<p class="orange-points">+ <?php echo $storie->getPoints();?> points</p>
 		</div>
 	</div>
-	<?php $i++; endforeach;?>
+	<?php */ $i++; endforeach;?>
 </div>
 <?php if($i < $this->total): ?>
-	<div id="more-activity" class="row-fluid more"><a href="<?php echo $this->url('frontend/activity'). '/' . $this->filter ;?>" data-count="2" data-total="<?php echo $total; ?>">+ Plus d'actus</a></div>
+	<div id="more-activity" class="row-fluid more"><a href="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)). '/' . $this->filter ;?>" data-count="2" data-total="<?php echo $total; ?>">+ Plus d'actus</a></div>
 <?php endif; ?>
 <!-- END USER ACTIVITY -->
