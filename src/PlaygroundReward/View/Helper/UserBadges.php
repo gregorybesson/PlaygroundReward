@@ -31,20 +31,42 @@ class UserBadges extends AbstractHelper
         $userRewards = $this->getAchievementService()->getBadges($userId);
         $badges = array();
         $countBadges = 0;
+        $moreBadges = array();
+        $haveToUnset = false;
         foreach ($allRewards as $key => $reward) {
-            $badges[$key]['userReward'] = array();
+            if($detail) {
+                $badges[$key]['userReward'] = array();
+            } else {
+                $haveToUnset = false;
+                $moreBadges[$key]['userReward'] = array();
+            }
             foreach ($userRewards as $userReward) {
                 $isDone = ($reward->getType() == $userReward['type'] && $reward->getCategory() == $userReward['category'] && strtolower($reward->getTitle()) ==strtolower($userReward['label']));
-                $badges[$key]['reward'] = $reward;
-                $badges[$key]['done'] = $isDone;
+                if($detail) {
+                    $badges[$key]['reward'] = $reward;
+                    $badges[$key]['done'] = $isDone;
+                } else {
+                    $moreBadges[$key]['reward'] = $reward;
+                    $moreBadges[$key]['done'] = $isDone;
+                }
                 if($isDone === true) {
+                    if(!$detail) {
+                        $badges[$key]['userReward'] = array();
+                        $badges[$key]['reward'] = $reward;
+                        $badges[$key]['done'] = $isDone;
+                        $haveToUnset = true;
+                    }
                     $countBadges ++;  
                     $badges[$key]['userRewardinfo'] = $userReward;
                     $badges[$key]['userReward'][] = $reward->getId();
                 }
-                
             }
-
+            if($haveToUnset) {
+                unset($moreBadges[$key]);
+            }
+        }
+        if(!$detail) {
+            $badges = array_values(array_merge($badges, $moreBadges));
         }
         $badges['userCountBadges'] = $countBadges;
         return $badges;
