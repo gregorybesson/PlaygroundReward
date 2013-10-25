@@ -50,7 +50,7 @@ class IndexController extends AbstractActionController
         $anniversaryTotal = 1 * $this->getRewardService()->getTotal($userId, 'anniversary');
         $total            = 1 * $this->getRewardService()->getTotal($userId);
     
-        $this->layout()->setVariables(
+        /*$this->layout()->setVariables(
             array(
                 'adserving'       => array(
                     'cat1' => 'playground',
@@ -58,7 +58,7 @@ class IndexController extends AbstractActionController
                     'cat3' => ''
                 )
             )
-        );
+        );*/
     
         return new ViewModel(
             array(
