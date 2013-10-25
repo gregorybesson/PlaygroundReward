@@ -13,10 +13,9 @@
 					<select name="filter-activity" id="filter-activity" class="select">
 						<option value="">Selectionnez</option>
 						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>">Vue d'ensemble</option>
-						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>/game">Participations</option>
-						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>/user">Mon compte</option>
-						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>/social">Invitations et parrainage</option>
-						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>/badges">Badges</option>
+						<?php foreach ($filters  as $filter) : ?>
+							<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)).'/'.$filter->getCode()?>"><?php echo $filter->getLabel(); ?></option>
+						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>

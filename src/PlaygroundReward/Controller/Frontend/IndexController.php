@@ -27,6 +27,7 @@ class IndexController extends AbstractActionController
 
     protected $storyTellingService;
     
+    protected $objectService;
     /**
      * @var gameService
      */
@@ -106,21 +107,31 @@ class IndexController extends AbstractActionController
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
         $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
-        $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId, $filter);
-        $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser($user);
+        $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
+        $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser($user, $filter);
         $total = count($stories);
+
+
 
         $activities = array();
         foreach ($stories as $story) {
-            $activities[] = array("object" => json_decode($story->getObject(), true),
-                                  "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
-                                  "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
-                                  "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStreamText(),
-                                  "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
-                                  "points" => $story->getPoints(),
-                                  'created_at' => $story->getCreatedAt(),
-                                  'definition' => $story->getOpenGraphStoryMapping()->getStory()->getDefinition(),
-                                  'label' => $story->getOpenGraphStoryMapping()->getStory()->getLabel());
+            $matchToFilter = false || empty($filter);
+            foreach ($story->getOpenGraphStoryMapping()->getStory()->getObjects() as $object) {
+                if (strtolower($filter) == strtolower($object->getCode())) {
+                    $matchToFilter = true;
+                }
+            }
+            if($matchToFilter) {
+                $activities[] = array("object" => json_decode($story->getObject(), true),
+                                      "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
+                                      "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
+                                      "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStreamText(),
+                                      "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
+                                      "points" => $story->getPoints(),
+                                      'created_at' => $story->getCreatedAt(),
+                                      'definition' => $story->getOpenGraphStoryMapping()->getStory()->getDefinition(),
+                                      'label' => $story->getOpenGraphStoryMapping()->getStory()->getLabel());
+            }
         }
 
 
@@ -131,6 +142,8 @@ class IndexController extends AbstractActionController
         } else {
             $paginator = $activities;
         }
+
+        $filters = $this->getObjectService()->getObjectMapper()->findAll();
 
         $this->layout()->setVariables(
             array(
@@ -145,10 +158,20 @@ class IndexController extends AbstractActionController
         return new ViewModel(
             array(
                 'stories' => $paginator,
-                'filter' => $filter,
+                'filter'  => $filter,
+                'filters' => $filters,
                 'total' => $total
             )
         );
+    }
+
+    public function getObjectService()
+    {
+
+        if (!$this->objectService) {
+            $this->objectService = $this->getServiceLocator()->get('playgroundflow_object_service');
+        }
+        return $this->objectService;
     }
 
     public function getLeaderboardService()
