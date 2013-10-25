@@ -190,7 +190,7 @@ class Module
                     $viewHelper = new View\Helper\UserBadges;
                     $viewHelper->setAchievementService($locator->get('playgroundreward_achievement_service'));
                     $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
-                    $viewHelper->setRewardService($locator->get('playgroundreward_event_service'));
+                    $viewHelper->setRewardService($locator->get('playgroundreward_reward_service'));
                     //$viewHelper->setAchievementListener($locator->get('playgroundreward_achievement_listener'));
                     return $viewHelper;
                 },
