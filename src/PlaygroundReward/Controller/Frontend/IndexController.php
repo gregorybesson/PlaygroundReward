@@ -52,17 +52,7 @@ class IndexController extends AbstractActionController
         $badgesGold       = 1 * $this->getRewardService()->getTotal($userId, 'badgesGold');
         $anniversaryTotal = 1 * $this->getRewardService()->getTotal($userId, 'anniversary');
         $total            = 1 * $this->getRewardService()->getTotal($userId);
-    
-        $this->layout()->setVariables(
-            array(
-                'adserving'       => array(
-                    'cat1' => 'playground',
-                    'cat2' => 'myaccount',
-                    'cat3' => ''
-                )
-            )
-        );
-    
+
         return new ViewModel(
             array(
                 'gamesTotal'       => $gamesTotal,
@@ -145,15 +135,6 @@ class IndexController extends AbstractActionController
 
         $filters = $this->getObjectService()->getObjectMapper()->findAll();
 
-        $this->layout()->setVariables(
-            array(
-                'adserving'       => array(
-                    'cat1' => 'playground',
-                    'cat2' => 'myaccount',
-                    'cat3' => ''
-                )
-            )
-        );
 
         return new ViewModel(
             array(
