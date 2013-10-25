@@ -195,6 +195,19 @@ class RewardRule
         return $this->storyMappings;
     }
 
+    public function getStoryMappingsByDomain($domain)
+    {
+      
+        $storyMappings = $this->getStoryMappings();
+        foreach ($storyMappings as $storyMapping) {
+           
+            if($storyMapping->getDomain()->getId() == $domain){
+                return array($storyMapping);
+            }
+        }
+        return array();
+    }
+
 	/**
      * @param field_type $storyMappings
      */

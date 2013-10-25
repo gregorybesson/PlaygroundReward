@@ -26,52 +26,27 @@ class UserBadges extends AbstractHelper
             $userId = $this->getAuthService()->getIdentity()->getId();
         }
 
-        $badgesConfig = \PlaygroundReward\Service\AchievementListener::getBadges();
+
+        $allRewards  = $this->getRewardService()->getRewardMapper()->findBy(array('active' => true));
+        $userRewards = $this->getAchievementService()->getBadges($userId);
         $badges = array();
-
-        if ($userId != 0) {
-            if (! $detail) {
-                $badges = $this->getAchievementService()->getBadges($userId);
-            } else {
-                foreach ($badgesConfig as $key=>$badgeConfig) {
-                    $eventsDone        = 1 * $this->getRewardService()->getTotal($userId, $badgeConfig['event'], 'count');
-                    $eventsToNextBadge = 0;
-                    $nextBadge = '';
-                    $badge = $this->getAchievementService()->getTopBadge($userId, strtolower($key));
-                    $badges[$key]['badge'] = $badge;
-                    if ($badge) {
-                        if (isset($badgeConfig['levels'][$badge->getLevel()+1])) {
-                            $eventsToNextBadge = $badgeConfig['levels'][$badge->getLevel()+1]['conditions'] - $eventsDone;
-                            if ($eventsToNextBadge>1) {
-                                $nextBadge = $badgeConfig['levels'][$badge->getLevel()+1]['label'] . ' : ' . $eventsToNextBadge . ' ' . $badgeConfig['units'];
-                            } else {
-                                $nextBadge = $badgeConfig['levels'][$badge->getLevel()+1]['label'] . ' : ' . $eventsToNextBadge . ' ' . $badgeConfig['unit'];
-                            }
-
-                        } else {
-                            $nextBadge = 'Niveau max!';
-                        }
-                    } else {
-                        $eventsToNextBadge = $badgeConfig['levels'][1]['conditions'] - $eventsDone;
-                        if ($eventsToNextBadge>1) {
-                            $nextBadge = $badgeConfig['levels'][1]['label'] . ' : ' . $eventsToNextBadge . ' ' . $badgeConfig['units'];
-                        } else {
-                            $nextBadge = $badgeConfig['levels'][1]['label'] . ' : ' . $eventsToNextBadge . ' ' . $badgeConfig['unit'];
-                        }
-                    }
-                    $badges[$key]['eventsDoneCount'] = $eventsDone;
-                    if ($eventsDone>1) {
-                        $badges[$key]['eventsDone']        = $eventsDone . ' ' . $badgeConfig['units'];
-                    } else {
-                        $badges[$key]['eventsDone']        = $eventsDone . ' ' . $badgeConfig['unit'];
-                    }
-
-                    $badges[$key]['eventsToNextBadge'] = $eventsToNextBadge;
-                    $badges[$key]['nextBadge']         = $nextBadge;
+        $countBadges = 0;
+        foreach ($allRewards as $key => $reward) {
+            $badges[$key]['userReward'] = array();
+            foreach ($userRewards as $userReward) {
+                $isDone = ($reward->getType() == $userReward['type'] && $reward->getCategory() == $userReward['category'] && strtolower($reward->getTitle()) ==strtolower($userReward['label']));
+                $badges[$key]['reward'] = $reward;
+                $badges[$key]['done'] = $isDone;
+                if($isDone === true) {
+                    $countBadges ++;  
+                    $badges[$key]['userRewardinfo'] = $userReward;
+                    $badges[$key]['userReward'][] = $reward->getId();
                 }
+                
             }
-        }
 
+        }
+        $badges['userCountBadges'] = $countBadges;
         return $badges;
     }
 
@@ -126,10 +101,12 @@ class UserBadges extends AbstractHelper
         return $this->rewardService;
     }
 
-    public function setRewardService(\PlaygroundReward\Service\Event $rewardService)
+    public function setRewardService(\PlaygroundReward\Service\Reward $rewardService)
     {
         $this->rewardService = $rewardService;
 
         return $this;
     }
+
+
 }
