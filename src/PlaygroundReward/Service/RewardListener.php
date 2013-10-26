@@ -41,7 +41,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         
         // I deduplicate stories to be listened
         $arrayListeners = array();
-        /*
+        
         foreach ($rules as $rule) {
             foreach($rule->getStoryMappings() as $storyMapping){
                 $arrayListeners[$storyMapping->getId()] = 'story.' . $storyMapping->getId();
@@ -56,7 +56,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 $this,
                 'reward'
             ), 200);
-        } */
+        }
     }
 
     /**
