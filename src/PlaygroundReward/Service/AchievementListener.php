@@ -19,7 +19,7 @@ class AchievementListener extends EventProvider implements ListenerAggregateInte
     protected $listeners = array();
     protected $events = array();
 
-    protected static $badges = array(
+    /*protected static $badges = array(
         'PLAYER'      => array(
             'event' => 'game',
             'unit' => 'jeu',
@@ -116,12 +116,12 @@ class AchievementListener extends EventProvider implements ListenerAggregateInte
             ),
         ),
     );
-
-    public static function getBadges()
+*/
+    /*public static function getBadges()
     {
         return self::$badges;
     }
-
+*/
     /**
      * {@inheritDoc}
      */
@@ -168,11 +168,11 @@ class AchievementListener extends EventProvider implements ListenerAggregateInte
      */
     public function detach(EventManagerInterface $events)
     {
-        foreach ($this->listeners as $index => $listener) {
+        /*foreach ($this->listeners as $index => $listener) {
             if ($events->detach($listener)) {
                 unset($this->listeners[$index]);
             }
-        }
+        }*/
     }
 
 /*
@@ -304,9 +304,9 @@ class AchievementListener extends EventProvider implements ListenerAggregateInte
     }*/
 
 
-    public function grg(Event $e)
+/*    public function grg(Event $e)
     {
 
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array());
-    }
+    }*/
 }

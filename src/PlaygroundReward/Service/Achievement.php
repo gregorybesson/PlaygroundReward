@@ -74,7 +74,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
 
-        $query = $em->createQuery("SELECT MAX(a.level) as level, a.category, a.levelLabel, a.label, a.type FROM PlaygroundReward\Entity\Achievement a WHERE a.user = :user AND a.type = 'badge' GROUP BY a.category");
+        $query = $em->createQuery("SELECT a.level, a.category, a.levelLabel, a.label, a.type FROM PlaygroundReward\Entity\Achievement a WHERE a.user = :user AND a.type = 'badge' GROUP BY a.label");
         $query->setParameter('user', $user);
         $result = $query->getResult();
 
