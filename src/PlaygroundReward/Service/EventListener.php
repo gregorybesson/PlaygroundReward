@@ -36,9 +36,9 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         'ACTION_SOCIAL_SPONSORSHIP' => array('id'=>20, 'points'=>250, 'category' => 'social',     'label'=>'parrainage inscription'),
         'ACTION_USER_ANNIVERSARY'   => array('id'=>25, 'points'=>250, 'category' => 'user',       'label'=>'bonus anniversaire'),
         'ACTION_QUIZ_CORRECTANSWERS'=> array('id'=>30, 'points'=>0,   'category' => 'quiz',       'label'=>'Quiz : Bonnes réponses'),
-        'ACTION_BADGE_BRONZE'       => array('id'=>100,'points'=>250, 'category' => 'badge',      'label'=>'badge bronze'),
+        /*'ACTION_BADGE_BRONZE'       => array('id'=>100,'points'=>250, 'category' => 'badge',      'label'=>'badge bronze'),
         'ACTION_BADGE_SILVER'       => array('id'=>101,'points'=>500, 'category' => 'badge',      'label'=>'badge argent'),
-        'ACTION_BADGE_GOLD'         => array('id'=>102,'points'=>750, 'category' => 'badge',      'label'=>'badge or'),
+        'ACTION_BADGE_GOLD'         => array('id'=>102,'points'=>750, 'category' => 'badge',      'label'=>'badge or'),*/
     );
     
     protected static $populated = false;
@@ -204,7 +204,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
                 $event->setPoints($actions['ACTION_SOCIAL_SPONSORSHIP']['points']);
                 $event->setLabel($user->getEmail());
                 $eventService->getEventMapper()->insert($event);
-
+                /*
                 // badge player
                 $level = 0;
 
@@ -244,6 +244,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
                         $this->badgeGoldAfter($sm, $socialEvent->getUser(), 'Le parrain');
                     }
                 }
+                */
             }
         }
     }
@@ -410,7 +411,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $user = $e->getParam('user');
         $sm = $e->getTarget()->getServiceManager();
         $eventService = $sm->get('playgroundreward_event_service');
-        $achievementService = $sm->get('playgroundreward_achievement_service');
+        //$achievementService = $sm->get('playgroundreward_achievement_service');
         $actionService = $sm->get('playgroundreward_action_service');
         $actions = self::getActions($actionService);
 
@@ -421,6 +422,8 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $event->setLabel($game->getTitle());
         $eventService->getEventMapper()->insert($event);
 
+
+        /*
         // $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'game' => $game));
 
         // badge player
@@ -428,6 +431,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
 
         $existingEvents = $eventService->getEventMapper()->findBy(array('action' => $actions['ACTION_GAME_SUBSCRIBE']['action'],'user' => $user));
 
+        
         if (count($existingEvents) == 10) {
             $level = 1;
             $levelLabel = 'BRONZE';
@@ -462,7 +466,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
             if ($level == 3) {
                 $this->badgeGoldAfter($sm, $user, 'Le joueur');
             }
-        }
+        }*/
 
     }
 
@@ -486,7 +490,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $eventService->getEventMapper()->insert($event);
 
         // badge ambassador
-        $this->badgeAmbassador($sm, $user);
+        //$this->badgeAmbassador($sm, $user);
     }
 
     public function postFbWallAfter(Event $e)
@@ -509,7 +513,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $eventService->getEventMapper()->insert($event);
 
         // badge ambassador
-        $this->badgeAmbassador($sm, $user);
+        //$this->badgeAmbassador($sm, $user);
 
     }
 
@@ -533,7 +537,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $eventService->getEventMapper()->insert($event);
 
         // badge ambassador
-        $this->badgeAmbassador($sm, $user);
+        //$this->badgeAmbassador($sm, $user);
     }
 
     public function postGoogleAfter(Event $e)
@@ -556,7 +560,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $eventService->getEventMapper()->insert($event);
 
         // badge ambassador
-        $this->badgeAmbassador($sm, $user);
+       // $this->badgeAmbassador($sm, $user);
 
     }
 
@@ -580,7 +584,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
         $eventService->getEventMapper()->insert($event);
 
         // badge ambassador
-        $this->badgeAmbassador($sm, $user);
+        //$this->badgeAmbassador($sm, $user);
 
     }
 
@@ -592,14 +596,14 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
 
         $sm = $e->getTarget()->getServiceManager();
         $eventService = $sm->get('playgroundreward_event_service');
-        $achievementService = $sm->get('playgroundreward_achievement_service');
+        //$achievementService = $sm->get('playgroundreward_achievement_service');
         $actionService = $sm->get('playgroundreward_action_service');
         $actions = self::getActions($actionService);
 
         // badge brain
-        $level = 0;
+        //$level = 0;
 
-        $existingEvents = $eventService->getEventMapper()->findBy(array('action' => $actions['ACTION_QUIZ_CORRECTANSWERS']['action'],'user' => $user));
+        //$existingEvents = $eventService->getEventMapper()->findBy(array('action' => $actions['ACTION_QUIZ_CORRECTANSWERS']['action'],'user' => $user));
 
         // je crée autant d'events que de bonnes réponses
         for ($i=1;$i<=$data;$i++) {
@@ -609,7 +613,7 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
             $event->setPoints($actions['ACTION_QUIZ_CORRECTANSWERS']['points']);
             $event->setLabel($game->getTitle());
             $eventService->getEventMapper()->insert($event);
-
+            /*
             if (count($existingEvents)+$i == 25) {
                 $level = 1;
                 $levelLabel = 'BRONZE';
@@ -622,9 +626,10 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
                 $level = 3;
                 $levelLabel = 'GOLD';
             }
+            */
         }
 
-        if ($level > 0) {
+        /*if ($level > 0) {
             $achievement = new \PlaygroundReward\Entity\Achievement();
             $achievement->setUser($user);
             $achievement->setType('badge');
@@ -643,10 +648,10 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
             if ($level == 3) {
                 $this->badgeGoldAfter($sm, $user, 'Le cerveau');
             }
-        }
+        }*/
     }
 
-    public function badgeBronzeAfter($sm, $user, $label)
+    /*public function badgeBronzeAfter($sm, $user, $label)
     {
         $eventService = $sm->get('playgroundreward_event_service');
         $actionService = $sm->get('playgroundreward_action_service');
@@ -775,5 +780,5 @@ class EventListener extends EventProvider implements ListenerAggregateInterface
 
         $message = $mailService->createHtmlMessage($from, $to, $subject, 'playground-reward/email/win_badge', array('score' => $userScore, 'badge' => $badge, 'level' => $level, 'skinUrl' => $skinUrl, 'label' => $label, 'user' => $user));
         $mailService->send($message);
-    }
+    }*/
 }

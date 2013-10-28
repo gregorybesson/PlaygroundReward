@@ -31,7 +31,7 @@ class Module
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
             $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
-            $eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
+            //$eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
             $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
         }
 
@@ -90,7 +90,7 @@ class Module
                     'playgroundreward_event_listener'       => 'PlaygroundReward\Service\EventListener',
                     'playgroundreward_achievement_service'  => 'PlaygroundReward\Service\Achievement',
                     'playgroundreward_reward_service'       => 'PlaygroundReward\Service\Reward',
-                    'playgroundreward_achievement_listener' => 'PlaygroundReward\Service\AchievementListener',
+                    //'playgroundreward_achievement_listener' => 'PlaygroundReward\Service\AchievementListener',
                     'playgroundreward_leaderboard_service'  => 'PlaygroundReward\Service\Leaderboard',
                     'playgroundreward_cron_service'         => 'PlaygroundReward\Service\Cron',
                     'playgroundreward_reward_listener'      => 'PlaygroundReward\Service\RewardListener',
