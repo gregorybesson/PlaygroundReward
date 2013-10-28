@@ -29,6 +29,7 @@ class UserBadges extends AbstractHelper
 
         $allRewards  = $this->getRewardService()->getRewardMapper()->findBy(array('active' => true));
         $userRewards = $this->getAchievementService()->getBadges($userId);
+
         $badges = array();
         $countBadges = 0;
         $moreBadges = array();
@@ -36,17 +37,17 @@ class UserBadges extends AbstractHelper
         foreach ($allRewards as $key => $reward) {
             if($detail) {
                 $badges[$key]['userReward'] = array();
+                $badges[$key]['reward'] = $reward;
             } else {
                 $haveToUnset = false;
                 $moreBadges[$key]['userReward'] = array();
+                $moreBadges[$key]['reward'] = $reward;
             }
             foreach ($userRewards as $userReward) {
                 $isDone = ($reward->getType() == $userReward['type'] && $reward->getCategory() == $userReward['category'] && strtolower($reward->getTitle()) ==strtolower($userReward['label']));
                 if($detail) {
-                    $badges[$key]['reward'] = $reward;
                     $badges[$key]['done'] = $isDone;
                 } else {
-                    $moreBadges[$key]['reward'] = $reward;
                     $moreBadges[$key]['done'] = $isDone;
                 }
                 if($isDone === true) {
@@ -69,6 +70,7 @@ class UserBadges extends AbstractHelper
             $badges = array_values(array_merge($badges, $moreBadges));
         }
         $badges['userCountBadges'] = $countBadges;
+
         return $badges;
     }
 
