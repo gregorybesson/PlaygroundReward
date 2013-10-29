@@ -124,7 +124,6 @@ class IndexController extends AbstractActionController
             }
         }
 
-
         if (is_array($activities)) {
             $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($activities));
             $paginator->setItemCountPerPage(25);

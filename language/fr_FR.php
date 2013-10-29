@@ -59,4 +59,28 @@ return array(
 	'Value'				=> 'Valeur',
 	'Comparison ?'		=> 'Comparaison ?',
 	'Delete'			=> 'Supprimer',
+		
+	// FRONT
+	'My activity' => 'Mon activité',
+	'Filter history by type of action' => 'Filtrer l’historique par type d’action',
+	'Select' => 'Séléctionnez',
+    'Overall picture' => 'Vue d\'ensemble',
+    'Participations' => 'Participations',
+    'Invitations and sponsorship' => 'Invitations et parrainage',
+    'Badges' => 'Badges',
+    'More news' => 'Plus d\'actus',
+	'The ranking' => 'Le classement',
+	'This week' => 'Cette semaine',
+	'General' => 'Général',
+	'Participations' => 'Participations',
+	'Sponsorship' => 'Parrainages',
+	'Shares' => 'Partages',
+	'Search' => 'Rechercher',
+	'First' => 'Premier',
+	'Previous' => 'Précédent',
+	'Last' => 'Dernier',
+	'Next' => 'Suivant',
+	'' => '',
+	'' => '',
+		
 );
