@@ -80,13 +80,16 @@ return array(
 	'Previous' => 'Previous',
 	'Last' => 'Last',
 	'Next' => 'Next','' => '',
-	'' => '',
-	'' => '',
-	'' => '',
-		'' => '',
-		'' => '',
-		'' => '',
-		'' => '',
 	
-		
+	// EMAILS
+	'Good morning' => 'Good morning',
+	'You got the badge' => 'You got the badge',
+	'in version' => 'in version',
+	'View all badges' => 'View all badges',
+	'You have' => 'You have',
+	'See how to earn more points' => 'See how to earn more points',
+	'Thank you and see you soon on Playground!' => 'Thank you and see you soon on Playground!',
+	'Playground team' => 'Playground team',
+	'Follow us on Facebook' => 'Follow us on Facebook',
+	
 );

@@ -80,7 +80,16 @@ return array(
 	'Previous' => 'Précédent',
 	'Last' => 'Dernier',
 	'Next' => 'Suivant',
-	'' => '',
-	'' => '',
+	
+	// EMAILS	
+	'Good morning' => 'Bonjour',
+	'You got the badge' => 'Vous avez obtenu le badge',
+	'in version' => 'en version',
+	'View all badges' => 'Voir tous les badges',
+	'You have' => 'Vous avez',
+	'See how to earn more points' => 'Voir comment gagner plus de points',
+	'Thank you and see you soon on Playground!' => 'Merci et &agrave; tr&egrave;s vite sur Playground !',
+	'Playground team' => 'L&apos;&eacute;quipe Playground',
+	'Follow us on Facebook' => 'Suivez-nous sur Facebook',
 		
 );
