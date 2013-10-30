@@ -59,4 +59,37 @@ return array(
 	'Value'				=> 'Valeur',
 	'Comparison ?'		=> 'Comparaison ?',
 	'Delete'			=> 'Supprimer',
+		
+	// FRONT
+	'My activity' => 'Mon activité',
+	'Filter history by type of action' => 'Filtrer l’historique par type d’action',
+	'Select' => 'Séléctionnez',
+    'Overall picture' => 'Vue d\'ensemble',
+    'Participations' => 'Participations',
+    'Invitations and sponsorship' => 'Invitations et parrainage',
+    'Badges' => 'Badges',
+    'More news' => 'Plus d\'actus',
+	'The ranking' => 'Le classement',
+	'This week' => 'Cette semaine',
+	'General' => 'Général',
+	'Participations' => 'Participations',
+	'Sponsorship' => 'Parrainages',
+	'Shares' => 'Partages',
+	'Search' => 'Rechercher',
+	'First' => 'Premier',
+	'Previous' => 'Précédent',
+	'Last' => 'Dernier',
+	'Next' => 'Suivant',
+	
+	// EMAILS	
+	'Good morning' => 'Bonjour',
+	'You got the badge' => 'Vous avez obtenu le badge',
+	'in version' => 'en version',
+	'View all badges' => 'Voir tous les badges',
+	'You have' => 'Vous avez',
+	'See how to earn more points' => 'Voir comment gagner plus de points',
+	'Thank you and see you soon on Playground!' => 'Merci et &agrave; tr&egrave;s vite sur Playground !',
+	'Playground team' => 'L&apos;&eacute;quipe Playground',
+	'Follow us on Facebook' => 'Suivez-nous sur Facebook',
+		
 );

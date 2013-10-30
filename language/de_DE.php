@@ -91,5 +91,5 @@ return array(
 	'Thank you and see you soon on Playground!' => 'Thank you and see you soon on Playground!',
 	'Playground team' => 'Playground team',
 	'Follow us on Facebook' => 'Follow us on Facebook',
-		
+	
 );
