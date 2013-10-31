@@ -39,13 +39,7 @@ class Leaderboard
      * @ORM\Column(name="total_points",type="integer",columnDefinition="MEDIUMINT UNSIGNED NOT NULL DEFAULT 0")
      */
     protected $totalPoints;
-
-    /**
-     * Le nombre de points sur la semaine courante 
-     * @ORM\Column(name="week_points",type="integer",columnDefinition="MEDIUMINT UNSIGNED NOT NULL DEFAULT 0")
-     */
-    protected $weekPoints;
-    
+ 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */

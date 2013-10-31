@@ -27,11 +27,6 @@ class LeaderboardType
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PlaygroundReward\Entity\Action", mappedBy="leaderboard_types")
-     */
-    protected $actions;
-
-    /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -140,5 +135,19 @@ class LeaderboardType
     public function getArrayCopy()
     {
         return get_object_vars($this);
+    }
+
+
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function populate($data = array())
+    {
+        if (isset($data['name']) && $data['name'] != null) {
+            $this->name = $data['name'];
+        }
+
     }
 }
