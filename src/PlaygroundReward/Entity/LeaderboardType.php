@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\Factory as InputFactory;
 
 /**
  * @ORM\Entity @HasLifecycleCallbacks
@@ -13,6 +15,8 @@ use Doctrine\ORM\Mapping\PreUpdate;
 class LeaderboardType
 {
 
+    protected $inputFilter;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -149,5 +153,16 @@ class LeaderboardType
             $this->name = $data['name'];
         }
 
+    }
+
+    public function getInputFilter ()
+    {
+        if (! $this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+            $this->inputFilter = $inputFilter;
+        }
+    
+        return $this->inputFilter;
     }
 }

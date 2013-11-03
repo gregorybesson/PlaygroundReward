@@ -22,6 +22,7 @@ class UserScore extends AbstractHelper
      */
     public function __invoke($options = array())
     {
+        return '';
         return $this->getEventService()->getTotal($this->getAuthService()->getIdentity());
     }
 

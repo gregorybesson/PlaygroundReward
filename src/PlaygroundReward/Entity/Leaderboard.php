@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="reward_leaderboard",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="uniq_user_leaderboard_type", columns={"user_id", "leaderboardtype_id"})},
- *     indexes={@ORM\Index(name="idx_week_points", columns={"week_points"}),@ORM\Index(name="idx_total_points", columns={"total_points"})})
+ *     indexes={@ORM\Index(name="idx_total_points", columns={"total_points"})})
  */
 class Leaderboard
 {
@@ -128,22 +128,6 @@ class Leaderboard
     public function setTotalPoints($totalPoints)
     {
         $this->totalPoints = $totalPoints;
-    }
-
-    /**
-     * @return the $weekPoints
-     */
-    public function getWeekPoints()
-    {
-        return $this->weekPoints;
-    }
-
-    /**
-     * @param field_type $weekPoints
-     */
-    public function setWeekPoints($weekPoints)
-    {
-        $this->weekPoints = $weekPoints;
     }
     
     /**
