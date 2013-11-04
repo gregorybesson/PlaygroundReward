@@ -26,6 +26,8 @@ class IndexController extends AbstractActionController
     protected $adminActionService;
 
     protected $storyTellingService;
+
+    protected $leaderboardTypeService;
     
     protected $objectService;
     /**
@@ -41,32 +43,8 @@ class IndexController extends AbstractActionController
     public function badgesAction()
     {
         $userId           = 1 * $this->zfcUserAuthentication()->getIdentity()->getId();
-    
-        $gamesTotal       = 1 * $this->getRewardService()->getTotal($userId, 'game');
-        $userTotal        = 1 * $this->getRewardService()->getTotal($userId, 'user');
-        $newsletterTotal  = 1 * $this->getRewardService()->getTotal($userId, 'newsletter');
-        $sponsorshipTotal = 1 * $this->getRewardService()->getTotal($userId, 'sponsorship');
-        $socialTotal 	  = 1 * $this->getRewardService()->getTotal($userId, 'social');
-        $badgesBronze     = 1 * $this->getRewardService()->getTotal($userId, 'badgesBronze');
-        $badgesSilver     = 1 * $this->getRewardService()->getTotal($userId, 'badgesSilver');
-        $badgesGold       = 1 * $this->getRewardService()->getTotal($userId, 'badgesGold');
-        $anniversaryTotal = 1 * $this->getRewardService()->getTotal($userId, 'anniversary');
-        $total            = 1 * $this->getRewardService()->getTotal($userId);
 
-        return new ViewModel(
-            array(
-                'gamesTotal'       => $gamesTotal,
-                'userTotal'        => $userTotal,
-                'newsletterTotal'  => $newsletterTotal,
-                'sponsorshipTotal' => $sponsorshipTotal,
-                'socialTotal'	   => $socialTotal,
-                'badgesBronze'     => $badgesBronze,
-                'badgesSilver'     => $badgesSilver,
-                'badgesGold'       => $badgesGold,
-                'anniversaryTotal' => $anniversaryTotal,
-                'total'            => $total,
-            )
-        );
+        return new ViewModel();
     }
 
     public function leaderboardAction()
@@ -75,8 +53,10 @@ class IndexController extends AbstractActionController
         $period = $this->getEvent()->getRouteMatch()->getParam('period');
         $search = $this->params()->fromQuery('name');
 		
-		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, ($period=='week')?'week':'', $search);
-		
+		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter,'', $search);
+
+
+        $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
         $paginator = new Paginator(new DoctrineAdapter(new ORMPaginator($leaderboard)));
         $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
@@ -88,6 +68,7 @@ class IndexController extends AbstractActionController
                 'search' => $search,
                 'period' => $period,
                 'filter' => $filter,
+                'filters' => $filters,
                 'leaderboard' => $paginator
             )
         );
@@ -169,22 +150,24 @@ class IndexController extends AbstractActionController
 
         return $this;
     }
-    
-    public function getRewardService()
+
+
+    public function getLeaderboardTypeService()
     {
-        if (!$this->rewardService) {
-            $this->rewardService = $this->getServiceLocator()->get('playgroundreward_event_service');
+        if (!$this->leaderboardTypeService) {
+            $this->leaderboardTypeService = $this->getServiceLocator()->get('playgroundreward_leaderboardtype_service');
         }
-    
-        return $this->rewardService;
+
+        return $this->leaderboardTypeService;
     }
-    
-    public function setRewardService(rewardService $rewardService)
+
+    public function setLeaderboardTypeService($leaderboardTypeService)
     {
-        $this->rewardService = $rewardService;
-    
+        $this->leaderboardTypeService = $leaderboardTypeService;
+
         return $this;
     }
+    
     public function getStoryTellingService()
     {
         if (!$this->storyTellingService) {

@@ -15,6 +15,8 @@ use Zend\InputFilter\Factory as InputFactory;
 class LeaderboardType
 {
 
+    const LEADERBOARD_TYPE_DEFAULT = 'all';
+
     protected $inputFilter;
     
     /**

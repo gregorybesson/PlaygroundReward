@@ -14,6 +14,7 @@ class LeaderBoardTypeController extends AbstractActionController
 
     public function listAction()
     {
+
         $leaderboardTypes = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 
         return array('leaderboardTypes'   => $leaderboardTypes,

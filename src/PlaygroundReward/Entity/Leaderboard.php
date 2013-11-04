@@ -112,6 +112,8 @@ class Leaderboard
     public function setLeaderboardType($leaderboardType)
     {
         $this->leaderboardType = $leaderboardType;
+
+        return $this;
     }
 
     /**
@@ -128,6 +130,8 @@ class Leaderboard
     public function setTotalPoints($totalPoints)
     {
         $this->totalPoints = $totalPoints;
+
+        return $this;
     }
     
     /**
@@ -146,6 +150,8 @@ class Leaderboard
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -164,6 +170,8 @@ class Leaderboard
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundReward\Options\ModuleOptions;
 
-class LeaderboardType
+class Leaderboard
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -46,6 +46,7 @@ class LeaderboardType
     {
         return $this->getEntityRepository()->find($id);
     }
+
 
     public function findOneBy($filters)
     {
@@ -133,7 +134,7 @@ class LeaderboardType
     public function getEntityRepository()
     {
         if (null === $this->er) {
-            $this->er = $this->em->getRepository('PlaygroundReward\Entity\LeaderboardType');
+            $this->er = $this->em->getRepository('PlaygroundReward\Entity\Leaderboard');
         }
 
         return $this->er;

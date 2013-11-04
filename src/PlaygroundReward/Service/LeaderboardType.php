@@ -60,6 +60,18 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     }
 
 
+    public function getLeaderboardTypeDefault()
+    {
+        $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->findOneBy(array('name' => LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT));
+        if (empty($leaderboardTypeDefault)) {
+            $leaderboardTypeDefault = new LeaderboardTypeEntity();
+            $leaderboardTypeDefault->setName(LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT);
+            $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->insert($leaderboardTypeDefault);
+        }   
+
+        return $leaderboardTypeDefault;
+    }
+
 
     /* findById : recupere l'entite en fonction de son id
     * @param int $id id du theme

@@ -22,31 +22,7 @@ class UserScore extends AbstractHelper
      */
     public function __invoke($options = array())
     {
-        return '';
-        return $this->getEventService()->getTotal($this->getAuthService()->getIdentity());
-    }
-
-    /**
-     * Get eventService.
-     *
-     * @return EventService
-     */
-    public function getEventService()
-    {
-        return $this->eventService;
-    }
-
-    /**
-     * Set eventService.
-     *
-     * @param AuthenticationService $eventService
-     * @return
-     */
-    public function setEventService(\PlaygroundReward\Service\Event $eventService)
-    {
-        $this->eventService = $eventService;
-
-        return $this;
+        return $this->getLeaderboardService()->getTotal($this->getAuthService()->getIdentity());
     }
 
     /**
@@ -70,5 +46,18 @@ class UserScore extends AbstractHelper
         $this->authService = $authService;
 
         return $this;
+    }
+
+
+    public function setLeaderboardService($leaderboardService)
+    {
+        $this->leaderboardService = $leaderboardService;
+
+        return $this;
+    }
+
+    public function getLeaderboardService()
+    {
+       return $this->leaderboardService; 
     }
 }

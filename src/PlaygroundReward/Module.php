@@ -132,6 +132,12 @@ class Module
                         $sm->get('playgroundreward_module_options')
                     );
                 },
+                'playgroundreward_learderboard_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\Leaderboard(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
                 'playgroundreward_editaction_form' => function($sm) {
                     $options = $sm->get('playgroundreward_module_options');
                     $form = new Form\EditAction(null, $options, $sm);
@@ -182,9 +188,8 @@ class Module
                 'userScore' => function ($sm) {
                     $locator = $sm->getServiceLocator();
                     $viewHelper = new View\Helper\UserScore;
-                    //$viewHelper->setEventService($locator->get('playgroundreward_event_service'));
                     $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
-
+                    $viewHelper->setLeaderboardService($locator->get('playgroundreward_leaderboard_service'));
                     return $viewHelper;
                 },
                 'userBadges' => function ($sm) {
