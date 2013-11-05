@@ -36,7 +36,7 @@ class Leaderboard
 
     /**
      * Le nombre de points totaux 
-     * @ORM\Column(name="total_points",type="integer",columnDefinition="MEDIUMINT UNSIGNED NOT NULL DEFAULT 0")
+     * @ORM\Column(name="total_points",type="integer",columnDefinition="BIGINT NOT NULL DEFAULT 0")
      */
     protected $totalPoints;
  
