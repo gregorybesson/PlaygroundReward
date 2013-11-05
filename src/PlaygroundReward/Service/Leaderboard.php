@@ -56,7 +56,9 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     {
         $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(array('user' => $user, 'leaderboardType' => $leaderboardType));
-
+        if (!$leaderboardUser) {
+            return 0;
+        }
         return $leaderboardUser->getTotalPoints();
     }
 
