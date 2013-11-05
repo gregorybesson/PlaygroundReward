@@ -115,5 +115,9 @@ return array(
 	'Thank you and see you soon on Playground!' => 'Merci et &agrave; tr&egrave;s vite sur Playground !',
 	'Playground team' => 'L&apos;&eacute;quipe Playground',
 	'Follow us on Facebook' => 'Suivez-nous sur Facebook',
+
+	'Add new Type' => 'Ajout un nouveau type de classement',
+	'list type of Leaderboard' => 'Liste des types de classement',
+	'name' => 'nom',
 		
 );
