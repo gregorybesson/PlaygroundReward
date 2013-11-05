@@ -122,12 +122,13 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             ORDER BY e.totalPoints DESC
         ');
 
-        if ($leaderboardType === null) {
-            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
-        }
-
+       
         if (is_string($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
+        }
+
+        if ($leaderboardType === null) {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
 
         $query->setParameter('leaderboardTypeId', $leaderboardType->getId());
