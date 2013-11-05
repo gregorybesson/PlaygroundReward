@@ -10,18 +10,29 @@ use Zend\View\Model\ViewModel;
 class LeaderBoardTypeController extends AbstractActionController
 {
 
+    /**
+     * @var leaderboardTypeService
+     */
     protected $leaderboardTypeService;
 
+    /**
+    * listAction : retrieve all leaderboardtype
+    *
+    * @return array $return 
+    */
     public function listAction()
     {
-
         $leaderboardTypes = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 
         return array('leaderboardTypes'   => $leaderboardTypes,
                      'flashMessages'      => $this->flashMessenger()->getMessages());
-
     }
 
+    /**
+    * createAction : create a leaderboardtype
+    *
+    * @return viewModel $viewModel 
+    */
     public function createAction()
     {
 
@@ -55,6 +66,12 @@ class LeaderBoardTypeController extends AbstractActionController
         return $viewModel->setVariables(array('form' => $form));
     }
 
+
+    /**
+    * editAction : edit a leaderboardtype
+    *
+    * @return viewModel $viewModel 
+    */
     public function editAction()
     {
         $leaderboardId = $this->getEvent()->getRouteMatch()->getParam('leaderboardId');
@@ -91,6 +108,11 @@ class LeaderBoardTypeController extends AbstractActionController
         return $viewModel->setVariables(array('form' => $form));
     }
 
+    /**
+    * deleteAction : delete a leaderboardtype
+    *
+    * @return redirect 
+    */
     public function deleteAction()
     {
         $leaderboardId = $this->getEvent()->getRouteMatch()->getParam('leaderboardId');
@@ -102,6 +124,11 @@ class LeaderBoardTypeController extends AbstractActionController
         return $this->redirect()->toRoute('admin/leaderboardtype/list');
     }
 
+     /**
+     * Retrieve service leaderboardType instance
+     *
+     * @return Service/leaderboardType leaderboardTypeService
+     */
     public function getLeaderboardTypeService()
     {
            if (null === $this->leaderboardTypeService) {           

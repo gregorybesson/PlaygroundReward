@@ -120,7 +120,7 @@ return array(
 		                    'leaderboard' => array(
 		                        'type' => 'segment',
 		                        'options' => array(
-		                            'route' => '/leaderboard/:period[/:filter][/:p]',
+		                            'route' => '/leaderboard[/:filter][/:p]',
 		                            'constraints' => array(
 		                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
 		                            ),

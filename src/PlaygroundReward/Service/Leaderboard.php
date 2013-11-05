@@ -11,9 +11,20 @@ use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
 class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 {
 
+     /**
+     * @var leaderboardType
+     */
     protected $leaderboardType;
+     /**
+     * @var leaderboardTypeService
+     */
     protected $leaderboardTypeService;
 
+    /**
+    * addPoints : ajout de point pour un utilisateur et un type de leaderboard
+    * @param StoryMapping $storyMapping 
+    * @param User $user
+    */
     public function addPoints($storyMapping, $user)
     {
         if($storyMapping->getLeaderboardType() !== null) {
@@ -25,6 +36,14 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $this->add($storyMapping, $user, $leaderboardType);
     }
 
+    /**
+    * add : ajoute reelement les points
+    * @param StoryMapping $storyMapping 
+    * @param User $user
+    * @param LeaderboardType $leaderboardType
+    * 
+    * @return Leaderboard $leaderboard
+    */
     public function add($storyMapping, $user, $leaderboardType)
     {
        
@@ -37,6 +56,14 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         return $leaderboard;
     }
 
+
+    /**
+    * findOrCreateLeaderboardByUser : recuperer ou crée un leaderboard en fonction d'un type et d'un user
+    * @param User $user
+    * @param LeaderboardType $leaderboardType
+    * 
+    * @return Leaderboard $leaderboardUser
+    */
     public function findOrCreateLeaderboardByUser($user, $leaderboardType)
     {
     
@@ -52,6 +79,13 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         return $leaderboardUser;
     }
 
+
+     /**
+    * getTotal : recupere le nombre de point du leaderboard principal
+    * @param User $user
+    * 
+    * @return int $points
+    */
     public function getTotal($user)
     {
         $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
@@ -62,8 +96,15 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         return $leaderboardUser->getTotalPoints();
     }
 
-
-     public function getLeaderboardQuery($leaderboardType = null, $nbItems = 5, $search = null)
+    /**
+    * getLeaderboardQuery : Permet de recuperer le leaderboard en fonction de différents criteres
+    * @param mixed $leaderboardType
+    * @param int $nbItems
+    * @param string $search
+    * 
+    * @return Query $query
+    */
+    public function getLeaderboardQuery($leaderboardType = null, $nbItems = 5, $search = null)
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         $filterSearch = '';
@@ -81,8 +122,12 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             ORDER BY e.totalPoints DESC
         ');
 
-        if($leaderboardType === null) {
+        if ($leaderboardType === null) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        }
+
+        if (is_string($leaderboardType)) {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
         }
 
         $query->setParameter('leaderboardTypeId', $leaderboardType->getId());
@@ -92,20 +137,22 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             $query->setParameter('queryString2', '%'.$search.'%');
             $query->setParameter('queryString3', '%'.$search.'%');
         }
-        
+
         return $query;
     }
 
-        /**
-     * This function return count of events or total points by event category for one user
-     * @param unknown_type $user
-     * @param unknown_type $type
-     * @param unknown_type $count
-     */
+    /**
+    * getLeaderboard : Permet de recuperer le leaderboard en fonction de différents criteres avec gestion du nombre d'item
+    * @param mixed $leaderboardType
+    * @param int $nbItems
+    * @param string $search
+    * 
+    * @return array $leaderboard
+    */
     public function getLeaderboard($leaderboardType = null, $nbItems = 5, $search = null)
     {
-            $query = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
-                if ($nbItems>0) {
+        $query = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
+        if ($nbItems > 0) {
             $query->setMaxResults($nbItems);
         }
         try {
@@ -121,9 +168,18 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     }
 
 
-
+     /**
+    * getRank : Permet de recuperer le rank et le nombre de point d'un user
+    * @param int $userId
+    * 
+    * @return array $$rank
+    */
     public function getRank($userId = false)
     {
+        if ($userId === false) {
+            return 0;
+        }
+
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         
         
@@ -156,7 +212,12 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             return array('rank'=>0,'result'=>0);
         }
     }
-    
+        
+    /**
+     * Retrieve options
+     *
+     * @return Options $options
+     */    
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
@@ -190,9 +251,9 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     }
 
      /**
-     * getThemeMapper
+     * getLeaderboardMapper : get leaderboardType Mapper
      *
-     * @return ThemeMapperInterface
+     * @return Mapper/leaderboardType $leaderboardType
      */
     public function getLeaderboardMapper()
     {
@@ -203,6 +264,11 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         return $this->leaderboardType;
     }
 
+     /**
+     * getLeaderboardTypeService : get LeaderBoardType Service
+     *
+     * @return Service/leaderboardType $leaderboardTypeService
+     */
     public function getLeaderboardTypeService()
     {
            if (null === $this->leaderboardTypeService) {           

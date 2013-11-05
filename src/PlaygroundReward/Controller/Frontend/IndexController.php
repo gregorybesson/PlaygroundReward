@@ -11,7 +11,7 @@ use PlaygroundCore\ORM\Pagination\LargeTablePaginator as ORMPaginator;
 class IndexController extends AbstractActionController
 {
     /**
-     *
+     * @var options
      */
     protected $options;
 
@@ -25,13 +25,22 @@ class IndexController extends AbstractActionController
      */
     protected $adminActionService;
 
+    /**
+     * @var storyTellingService
+     */
     protected $storyTellingService;
 
+    /**
+     * @var leaderboardTypeService
+     */
     protected $leaderboardTypeService;
     
+    /**
+     * @var objectService
+     */
     protected $objectService;
     /**
-     * @var gameService
+     * @var rewardService
      */
     protected $rewardService;
 
@@ -39,34 +48,38 @@ class IndexController extends AbstractActionController
      * @var leaderboardService
      */
     protected $leaderboardService;
-    
+
+
+    /**
+      * badgesAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function badgesAction()
     {
-        $userId           = 1 * $this->zfcUserAuthentication()->getIdentity()->getId();
-
         return new ViewModel();
     }
 
+    /**
+      * leaderboardAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function leaderboardAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
-        $period = $this->getEvent()->getRouteMatch()->getParam('period');
         $search = $this->params()->fromQuery('name');
-		
-		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter,'', $search);
 
+		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search);
 
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
         $paginator = new Paginator(new DoctrineAdapter(new ORMPaginator($leaderboard)));
         $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-		
-        $viewModel = new ViewModel();
 
         return new ViewModel(
             array(
                 'search' => $search,
-                'period' => $period,
                 'filter' => $filter,
                 'filters' => $filters,
                 'leaderboard' => $paginator
@@ -74,6 +87,11 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+      * activityAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function activityAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
@@ -126,6 +144,11 @@ class IndexController extends AbstractActionController
         );
     }
 
+     /**
+      * retrieve object service
+      *
+      * @return Service/Object $objectService
+      */
     public function getObjectService()
     {
 
@@ -135,6 +158,11 @@ class IndexController extends AbstractActionController
         return $this->objectService;
     }
 
+    /**
+      * retrieve leaderboard service
+      *
+      * @return Service/leaderboard $leaderboardService
+      */
     public function getLeaderboardService()
     {
         if (!$this->leaderboardService) {
@@ -144,6 +172,11 @@ class IndexController extends AbstractActionController
         return $this->leaderboardService;
     }
 
+    /**
+    * set leaderboard service
+    *
+    * @return IndexController
+    */
     public function setLeaderboardService($leaderboardService)
     {
         $this->leaderboardService = $leaderboardService;
@@ -151,7 +184,11 @@ class IndexController extends AbstractActionController
         return $this;
     }
 
-
+    /**
+      * retrieve leaderboardType service
+      *
+      * @return Service/leaderboardType $leaderboardTypeService
+      */
     public function getLeaderboardTypeService()
     {
         if (!$this->leaderboardTypeService) {
@@ -161,6 +198,11 @@ class IndexController extends AbstractActionController
         return $this->leaderboardTypeService;
     }
 
+    /**
+    * set leaderboardType service
+    *
+    * @return IndexController
+    */
     public function setLeaderboardTypeService($leaderboardTypeService)
     {
         $this->leaderboardTypeService = $leaderboardTypeService;
@@ -168,6 +210,11 @@ class IndexController extends AbstractActionController
         return $this;
     }
     
+    /**
+      * retrieve storyTelling service
+      *
+      * @return Service/storyTelling $storyTellingService
+      */
     public function getStoryTellingService()
     {
         if (!$this->storyTellingService) {

@@ -38,9 +38,9 @@ class Leaderboard
 
     /**
     * findById : recupere l'entite en fonction de son id
-    * @param int $id id du theme
+    * @param int $id id du leaderboard
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderboard
     */
     public function findById($id)
     {
@@ -48,6 +48,13 @@ class Leaderboard
     }
 
 
+
+    /**
+    * findOneBy: recupere l'entite en fonction de filtre(s)
+    * @param array $array tableau de filtre
+    *
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderboard
+    */
     public function findOneBy($filters)
     {
          return $this->getEntityRepository()->findOneBy($filters);
@@ -57,7 +64,7 @@ class Leaderboard
     * findBy : recupere des entites en fonction de filtre
     * @param array $array tableau de filtre
     *
-    * @return collection $themes collection de PlaygroundDesign\Entity\Theme
+    * @return collection $leaderboards collection de PlaygroundReward\Entity\LeaderBoard
     */
     public function findBy($array)
     {
@@ -65,10 +72,10 @@ class Leaderboard
     }
 
     /**
-    * insert : insert en base une entité theme
-    * @param PlaygroundDesign\Entity\Theme $entity theme
+    * insert : insert en base une entité LeaderBoard
+    * @param PlaygroundReward\Entity\LeaderBoard $entity LeaderBoard
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderBoard
     */
     public function insert($entity)
     {
@@ -76,10 +83,10 @@ class Leaderboard
     }
 
     /**
-    * insert : met a jour en base une entité theme
-    * @param PlaygroundDesign\Entity\Theme $entity theme
+    * update : met a jour en base une entité LeaderBoard
+    * @param PlaygroundReward\Entity\LeaderBoard $entity LeaderBoard
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderBoard
     */
     public function update($entity)
     {
@@ -87,10 +94,10 @@ class Leaderboard
     }
 
     /**
-    * insert : met a jour en base une entité theme et persiste en base
-    * @param PlaygroundDesign\Entity\Theme $entity theme
+    * persist : met a jour en base une entité leaderBoard et persiste en base
+    * @param PlaygroundReward\Entity\LeaderBoard $entity leaderBoard
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderBoard
     */
     public function persist($entity)
     {
@@ -103,16 +110,16 @@ class Leaderboard
     /**
     * findAll : recupere toutes les entites 
     *
-    * @return collection $themes collection de PlaygroundDesign\Entity\Theme
+    * @return collection $leaderBoards collection de PlaygroundReward\Entity\LeaderBoard
     */
     public function findAll()
     {
         return $this->getEntityRepository()->findAll();
     }
 
-     /**
-    * remove : supprimer une entite theme
-    * @param PlaygroundDesign\Entity\Theme $entity theme
+    /**
+    * remove : supprimer une entite leaderBoard
+    * @param PlaygroundReward\Entity\LeaderBoard $leaderBoard leaderBoard
     *
     */
     public function remove($entity)
@@ -121,15 +128,20 @@ class Leaderboard
         $this->em->flush();
     }
 
+    /**
+    * refresh : supprimer une entite leaderBoard
+    * @param PlaygroundReward\Entity\LeaderBoard $leaderBoard leaderBoard
+    *
+    */
     public function refresh($entity)
     {
         $this->em->refresh($entity);
     }
 
     /**
-    * getEntityRepository : recupere l'entite theme
+    * getEntityRepository : recupere l'entite leaderBoard
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundReward\Entity\LeaderBoard $leaderBoard leaderBoard
     */
     public function getEntityRepository()
     {

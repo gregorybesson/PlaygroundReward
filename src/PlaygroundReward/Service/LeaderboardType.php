@@ -11,8 +11,19 @@ use PlaygroundReward\Entity\LeaderboardType as LeaderboardTypeEntity;
 class LeaderboardType extends EventProvider implements ServiceManagerAwareInterface
 {
 
+    /**
+    * @var leaderboardType
+    */
     protected $leaderboardType;
 
+
+    /**
+    * create : ajout de leaderBoardType
+    * @param array $data 
+    * @param string $formClass
+    *
+    * @return LeaderBoardType $leaderboardType
+    */
     public function create(array $data, $formClass)
     {
         $leaderboardType = new LeaderboardTypeEntity();
@@ -32,16 +43,14 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
         return $leaderboardType;
     }
 
-     /**
-     *
-     * This service is ready for edit a theme
-     *
-     * @param  array  $data
-     * @param  string $theme
-     * @param  string $formClass
-     *
-     * @return \PlaygroundDesignEntity\Theme
-     */
+    /**
+    * edit : mise ajour de leaderBoardType
+    * @param array $data 
+    * @param LeaderBoardType $leaderboardType
+    * @param string $formClass
+    *
+    * @return LeaderBoardType  $leaderboardType
+    */
     public function edit(array $data, $leaderboardType, $formClass)
     {
         $form  = $this->getServiceManager()->get($formClass);
@@ -59,7 +68,11 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
         return $leaderboardType;
     }
 
-
+    /**
+    * getLeaderboardTypeDefault : get the default leaderboard type
+    *
+    * @return LeaderBoardType  $leaderboardTypeDefault
+    */
     public function getLeaderboardTypeDefault()
     {
         $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->findOneBy(array('name' => LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT));
@@ -74,9 +87,9 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
 
 
     /* findById : recupere l'entite en fonction de son id
-    * @param int $id id du theme
+    * @param int $id id du leaderboardType
     *
-    * @return PlaygroundDesign\Entity\Theme $theme
+    * @return PlaygroundFlow\Entity\leaderboardType $leaderboardType
     */
     public function findById($id)
     {
@@ -84,8 +97,8 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     }
 
     /**
-    * remove : supprimer une entite theme
-    * @param PlaygroundDesign\Entity\Theme $entity theme
+    * remove : supprimer une entite leaderboardType
+    * @return PlaygroundFlow\Entity\leaderboardType $entity leaderboardType
     *
     */
     public function remove($entity)
@@ -93,6 +106,11 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
         return $this->getLeaderboardTypeMapper()->remove($entity);
     }
 
+      /**
+     * Retrieve options instance
+     *
+     * @return Options $options
+     */
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
@@ -127,9 +145,9 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
 
 
      /**
-     * getThemeMapper
+     * getLeaderboardTypeMapper : retrieve LeaderBoardType mapper instance
      *
-     * @return ThemeMapperInterface
+     * @return Mapper/LeaderBoardType $leaderboardType
      */
     public function getLeaderboardTypeMapper()
     {
