@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\PreUpdate;
  * @ORM\Entity @HasLifecycleCallbacks
  * @ORM\Table(name="reward_leaderboard",
  *     uniqueConstraints={@ORM\UniqueConstraint(name="uniq_user_leaderboard_type", columns={"user_id", "leaderboardtype_id"})},
- *     indexes={@ORM\Index(name="idx_week_points", columns={"week_points"}),@ORM\Index(name="idx_total_points", columns={"total_points"})})
+ *     indexes={@ORM\Index(name="idx_total_points", columns={"total_points"})})
  */
 class Leaderboard
 {
@@ -36,16 +36,10 @@ class Leaderboard
 
     /**
      * Le nombre de points totaux 
-     * @ORM\Column(name="total_points",type="integer",columnDefinition="MEDIUMINT UNSIGNED NOT NULL DEFAULT 0")
+     * @ORM\Column(name="total_points",type="integer",columnDefinition="BIGINT NOT NULL DEFAULT 0")
      */
     protected $totalPoints;
-
-    /**
-     * Le nombre de points sur la semaine courante 
-     * @ORM\Column(name="week_points",type="integer",columnDefinition="MEDIUMINT UNSIGNED NOT NULL DEFAULT 0")
-     */
-    protected $weekPoints;
-    
+ 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
@@ -118,6 +112,8 @@ class Leaderboard
     public function setLeaderboardType($leaderboardType)
     {
         $this->leaderboardType = $leaderboardType;
+
+        return $this;
     }
 
     /**
@@ -134,22 +130,8 @@ class Leaderboard
     public function setTotalPoints($totalPoints)
     {
         $this->totalPoints = $totalPoints;
-    }
 
-    /**
-     * @return the $weekPoints
-     */
-    public function getWeekPoints()
-    {
-        return $this->weekPoints;
-    }
-
-    /**
-     * @param field_type $weekPoints
-     */
-    public function setWeekPoints($weekPoints)
-    {
-        $this->weekPoints = $weekPoints;
+        return $this;
     }
     
     /**
@@ -168,6 +150,8 @@ class Leaderboard
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -186,6 +170,8 @@ class Leaderboard
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**

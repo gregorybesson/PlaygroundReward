@@ -30,8 +30,6 @@ class Module
 
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
-            $eventManager->attach($serviceManager->get('playgroundreward_event_listener'));
-            //$eventManager->attach($serviceManager->get('playgroundreward_achievement_listener'));
             $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
         }
 
@@ -85,15 +83,11 @@ class Module
             ),
 
             'invokables' => array(
-                    'playgroundreward_action_service'       => 'PlaygroundReward\Service\Action',
-                    'playgroundreward_event_service'        => 'PlaygroundReward\Service\Event',
-                    'playgroundreward_event_listener'       => 'PlaygroundReward\Service\EventListener',
-                    'playgroundreward_achievement_service'  => 'PlaygroundReward\Service\Achievement',
-                    'playgroundreward_reward_service'       => 'PlaygroundReward\Service\Reward',
-                    //'playgroundreward_achievement_listener' => 'PlaygroundReward\Service\AchievementListener',
-                    'playgroundreward_leaderboard_service'  => 'PlaygroundReward\Service\Leaderboard',
-                    'playgroundreward_cron_service'         => 'PlaygroundReward\Service\Cron',
-                    'playgroundreward_reward_listener'      => 'PlaygroundReward\Service\RewardListener',
+                    'playgroundreward_achievement_service'      => 'PlaygroundReward\Service\Achievement',
+                    'playgroundreward_reward_service'           => 'PlaygroundReward\Service\Reward',
+                    'playgroundreward_leaderboard_service'      => 'PlaygroundReward\Service\Leaderboard',
+                    'playgroundreward_leaderboardtype_service'  => 'PlaygroundReward\Service\LeaderboardType',
+                    'playgroundreward_reward_listener'          => 'PlaygroundReward\Service\RewardListener',
                ),
 
             'factories' => array(
@@ -107,12 +101,6 @@ class Module
                         $sm->get('playgroundreward_doctrine_em'),
                         $sm->get('playgroundreward_module_options')
                 );
-                },
-                'playgroundreward_action_mapper' => function ($sm) {
-                    return new \PlaygroundReward\Mapper\Action(
-                        $sm->get('playgroundreward_doctrine_em'),
-                        $sm->get('playgroundreward_module_options')
-                    );
                 },
                 'playgroundreward_achievement_mapper' => function ($sm) {
                     return new \PlaygroundReward\Mapper\Achievement(
@@ -138,6 +126,18 @@ class Module
                         $sm->get('playgroundreward_module_options')
                     );
                 },
+                'playgroundreward_learderboardtype_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\LeaderboardType(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
+                'playgroundreward_learderboard_mapper' => function ($sm) {
+                    return new \PlaygroundReward\Mapper\Leaderboard(
+                        $sm->get('playgroundreward_doctrine_em'),
+                        $sm->get('playgroundreward_module_options')
+                    );
+                },
                 'playgroundreward_editaction_form' => function($sm) {
                     $options = $sm->get('playgroundreward_module_options');
                     $form = new Form\EditAction(null, $options, $sm);
@@ -154,7 +154,15 @@ class Module
                 },
                 'playgroundreward_rewardrule_form' => function($sm) {
                     $translator = $sm->get('translator');
-                    $form = new Form\Admin\RewardRule(null, $sm, $translator);
+                    $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
+                    $leaderboardType = new Entity\LeaderboardType();
+                    $form->setInputFilter($leaderboardType->getInputFilter());
+
+                    return $form;
+                },
+                'playgroundreward_leaderboard_form' => function($sm) {
+                    $translator = $sm->get('translator');
+                    $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
                     $form->setInputFilter($rewardRule->getInputFilter());
 
@@ -180,9 +188,8 @@ class Module
                 'userScore' => function ($sm) {
                     $locator = $sm->getServiceLocator();
                     $viewHelper = new View\Helper\UserScore;
-                    $viewHelper->setEventService($locator->get('playgroundreward_event_service'));
                     $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
-
+                    $viewHelper->setLeaderboardService($locator->get('playgroundreward_leaderboard_service'));
                     return $viewHelper;
                 },
                 'userBadges' => function ($sm) {

@@ -31,6 +31,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
+            'playgroundleaderboardadmin' => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
             'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
         ),
     ),
@@ -119,7 +120,7 @@ return array(
 		                    'leaderboard' => array(
 		                        'type' => 'segment',
 		                        'options' => array(
-		                            'route' => '/leaderboard/:period[/:filter][/:p]',
+		                            'route' => '/leaderboard[/:filter][/:p]',
 		                            'constraints' => array(
 		                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
 		                            ),
@@ -234,6 +235,60 @@ return array(
                             ),
                         ),
                     ),
+                    'leaderboardtype' =>  array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/leaderboardtype',
+                            'defaults' => array(
+                                'controller' => 'playgroundleaderboardadmin',
+                                'action'     => 'list',
+                            ),
+                        ),
+                        'child_routes' =>array(
+                            'list' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/list[/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                            ),
+                            'create' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/create',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'create'
+                                    ), 
+                                ), 
+                            ),
+                            'edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/edit/:leaderboardId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'edit',
+                                        'leaderboardId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'delete' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/delete/:leaderboardId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'delete',
+                                        'leaderboardId'     => 0
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -277,6 +332,12 @@ return array(
                     'create' => array(
                         'label' => 'Rewards list',
                         'route' => 'admin/reward/list',
+                        'resource' => 'reward',
+                        'privilege' => 'list',
+                    ),
+                    'leaderboard' => array(
+                        'label' => 'Type of Leaderboard',
+                        'route' => 'admin/leaderboardtype/list',
                         'resource' => 'reward',
                         'privilege' => 'list',
                     ),

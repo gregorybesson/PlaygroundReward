@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
+use Zend\InputFilter\InputFilter;
+use Zend\InputFilter\Factory as InputFactory;
 
 /**
  * @ORM\Entity @HasLifecycleCallbacks
@@ -13,6 +15,10 @@ use Doctrine\ORM\Mapping\PreUpdate;
 class LeaderboardType
 {
 
+    const LEADERBOARD_TYPE_DEFAULT = 'all';
+
+    protected $inputFilter;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -25,11 +31,6 @@ class LeaderboardType
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="PlaygroundReward\Entity\Action", mappedBy="leaderboard_types")
-     */
-    protected $actions;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -140,5 +141,30 @@ class LeaderboardType
     public function getArrayCopy()
     {
         return get_object_vars($this);
+    }
+
+
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function populate($data = array())
+    {
+        if (isset($data['name']) && $data['name'] != null) {
+            $this->name = $data['name'];
+        }
+
+    }
+
+    public function getInputFilter ()
+    {
+        if (! $this->inputFilter) {
+            $inputFilter = new InputFilter();
+            $factory = new InputFactory();
+            $this->inputFilter = $inputFilter;
+        }
+    
+        return $this->inputFilter;
     }
 }

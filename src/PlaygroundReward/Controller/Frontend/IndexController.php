@@ -11,7 +11,7 @@ use PlaygroundCore\ORM\Pagination\LargeTablePaginator as ORMPaginator;
 class IndexController extends AbstractActionController
 {
     /**
-     *
+     * @var options
      */
     protected $options;
 
@@ -25,11 +25,22 @@ class IndexController extends AbstractActionController
      */
     protected $adminActionService;
 
+    /**
+     * @var storyTellingService
+     */
     protected $storyTellingService;
+
+    /**
+     * @var leaderboardTypeService
+     */
+    protected $leaderboardTypeService;
     
+    /**
+     * @var objectService
+     */
     protected $objectService;
     /**
-     * @var gameService
+     * @var rewardService
      */
     protected $rewardService;
 
@@ -37,62 +48,50 @@ class IndexController extends AbstractActionController
      * @var leaderboardService
      */
     protected $leaderboardService;
-    
+
+
+    /**
+      * badgesAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function badgesAction()
     {
-        $userId           = 1 * $this->zfcUserAuthentication()->getIdentity()->getId();
-    
-        $gamesTotal       = 1 * $this->getRewardService()->getTotal($userId, 'game');
-        $userTotal        = 1 * $this->getRewardService()->getTotal($userId, 'user');
-        $newsletterTotal  = 1 * $this->getRewardService()->getTotal($userId, 'newsletter');
-        $sponsorshipTotal = 1 * $this->getRewardService()->getTotal($userId, 'sponsorship');
-        $socialTotal 	  = 1 * $this->getRewardService()->getTotal($userId, 'social');
-        $badgesBronze     = 1 * $this->getRewardService()->getTotal($userId, 'badgesBronze');
-        $badgesSilver     = 1 * $this->getRewardService()->getTotal($userId, 'badgesSilver');
-        $badgesGold       = 1 * $this->getRewardService()->getTotal($userId, 'badgesGold');
-        $anniversaryTotal = 1 * $this->getRewardService()->getTotal($userId, 'anniversary');
-        $total            = 1 * $this->getRewardService()->getTotal($userId);
-
-        return new ViewModel(
-            array(
-                'gamesTotal'       => $gamesTotal,
-                'userTotal'        => $userTotal,
-                'newsletterTotal'  => $newsletterTotal,
-                'sponsorshipTotal' => $sponsorshipTotal,
-                'socialTotal'	   => $socialTotal,
-                'badgesBronze'     => $badgesBronze,
-                'badgesSilver'     => $badgesSilver,
-                'badgesGold'       => $badgesGold,
-                'anniversaryTotal' => $anniversaryTotal,
-                'total'            => $total,
-            )
-        );
+        return new ViewModel();
     }
 
+    /**
+      * leaderboardAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function leaderboardAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
-        $period = $this->getEvent()->getRouteMatch()->getParam('period');
         $search = $this->params()->fromQuery('name');
-		
-		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, ($period=='week')?'week':'', $search);
-		
+
+		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search);
+
+        $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
         $paginator = new Paginator(new DoctrineAdapter(new ORMPaginator($leaderboard)));
         $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-		
-        $viewModel = new ViewModel();
 
         return new ViewModel(
             array(
                 'search' => $search,
-                'period' => $period,
                 'filter' => $filter,
+                'filters' => $filters,
                 'leaderboard' => $paginator
             )
         );
     }
 
+    /**
+      * activityAction
+      *
+      * @return ViewModel $viewModel
+      */
     public function activityAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
@@ -145,6 +144,11 @@ class IndexController extends AbstractActionController
         );
     }
 
+     /**
+      * retrieve object service
+      *
+      * @return Service/Object $objectService
+      */
     public function getObjectService()
     {
 
@@ -154,6 +158,11 @@ class IndexController extends AbstractActionController
         return $this->objectService;
     }
 
+    /**
+      * retrieve leaderboard service
+      *
+      * @return Service/leaderboard $leaderboardService
+      */
     public function getLeaderboardService()
     {
         if (!$this->leaderboardService) {
@@ -163,28 +172,49 @@ class IndexController extends AbstractActionController
         return $this->leaderboardService;
     }
 
+    /**
+    * set leaderboard service
+    *
+    * @return IndexController
+    */
     public function setLeaderboardService($leaderboardService)
     {
         $this->leaderboardService = $leaderboardService;
 
         return $this;
     }
-    
-    public function getRewardService()
+
+    /**
+      * retrieve leaderboardType service
+      *
+      * @return Service/leaderboardType $leaderboardTypeService
+      */
+    public function getLeaderboardTypeService()
     {
-        if (!$this->rewardService) {
-            $this->rewardService = $this->getServiceLocator()->get('playgroundreward_event_service');
+        if (!$this->leaderboardTypeService) {
+            $this->leaderboardTypeService = $this->getServiceLocator()->get('playgroundreward_leaderboardtype_service');
         }
-    
-        return $this->rewardService;
+
+        return $this->leaderboardTypeService;
     }
-    
-    public function setRewardService(rewardService $rewardService)
+
+    /**
+    * set leaderboardType service
+    *
+    * @return IndexController
+    */
+    public function setLeaderboardTypeService($leaderboardTypeService)
     {
-        $this->rewardService = $rewardService;
-    
+        $this->leaderboardTypeService = $leaderboardTypeService;
+
         return $this;
     }
+    
+    /**
+      * retrieve storyTelling service
+      *
+      * @return Service/storyTelling $storyTellingService
+      */
     public function getStoryTellingService()
     {
         if (!$this->storyTellingService) {

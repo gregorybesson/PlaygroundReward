@@ -22,10 +22,10 @@ class UserBadges extends AbstractHelper
      */
     public function __invoke($userId=0, $detail=false)
     {
+
         if ($userId == 0 && $this->getAuthService()->hasIdentity()) {
             $userId = $this->getAuthService()->getIdentity()->getId();
         }
-
 
         $allRewards  = $this->getRewardService()->getRewardMapper()->findBy(array('active' => true));
         $userRewards = $this->getAchievementService()->getBadges($userId);
