@@ -16,11 +16,6 @@ return array(
             )
         )
     ),
-
-	'data-fixture' => array(
-		'PlaygroundReward_fixture' => __DIR__ . '/../src/PlaygroundReward/DataFixtures/ORM',
-	),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view/admin',
