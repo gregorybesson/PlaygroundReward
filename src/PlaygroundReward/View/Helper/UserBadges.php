@@ -24,7 +24,11 @@ class UserBadges extends AbstractHelper
     {
 
         if ($userId == 0 && $this->getAuthService()->hasIdentity()) {
-            $userId = $this->getAuthService()->getIdentity()->getId();
+            if ($this->getAuthService()->getIdentity()) {
+                $userId = $this->getAuthService()->getIdentity()->getId();
+            } else {
+                return array();
+            }
         }
 
         $allRewards  = $this->getRewardService()->getRewardMapper()->findBy(array('active' => true));
