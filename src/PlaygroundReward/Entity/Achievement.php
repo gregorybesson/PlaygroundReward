@@ -25,6 +25,11 @@ class Achievement
      * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      **/
     protected $user;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Reward")
+     **/
+    protected $reward;
 
     /**
      * Le type d'achievement
@@ -115,6 +120,22 @@ class Achievement
     }
 
     /**
+     * @return the $reward
+     */
+    public function getReward()
+    {
+        return $this->reward;
+    }
+
+	/**
+     * @param field_type $reward
+     */
+    public function setReward($reward)
+    {
+        $this->reward = $reward;
+    }
+
+	/**
      * @return the $category
      */
     public function getCategory()

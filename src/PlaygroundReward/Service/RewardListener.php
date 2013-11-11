@@ -177,6 +177,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     //echo 'Creation du badge ' . $rule->getReward()->getTitle(); 
                     $achievement = new \PlaygroundReward\Entity\Achievement();
                     $achievement->setUser($storyTelling->getUser());
+                    $achievement->setReward($rule->getReward());
                     $achievement->setType($rule->getReward()->getType());
                     $achievement->setCategory($rule->getReward()->getCategory());
                     $achievement->setLevel(1);
@@ -233,10 +234,11 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
     public function tellStory($storyTelling, $achievement)
     {
         // TODO : Put this mouth stuff to a dedicated listener.
-        $userId = $storyTelling->getProspect()->getProspect();
+        $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
         // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
-        //$action = $data["story_mapping_id"];
+        
+        $basepath = $this->getServiceManager()->get('Request')->getBasePath();
          
         //TODO : Make it dynamic
         //$args["style"] = 'http://playground.local/lib/css/mouth.css';
@@ -248,7 +250,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         '<div id="chrono">' .
         '<div class="header"  style="background-color: #000" >' .
         '<h2> Bravo ! Vous avez remporté le badge ' . $achievement->getLabel() .'</h2>' .
-        
+        '<img src="'. $basepath.'/'.$achievement->getReward()->getImage() .'"/>' .
         '</div>' .
         '</div>';
          
@@ -295,14 +297,14 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
             '</div>' .
             '</div>';
         
-        $args["duration"] = 5000;
+        $args["duration"] = 50000;
         $args["who"]      = 'self';
         $args["html"]     = str_replace("=", "%3D", $welcome);
     
         $this->sendRequest($url, $args);
     
         $args["who"]        = 'others';
-        $args["style"]      = 'http://playground.local/lib/css/mouth.css';
+        $args["style"]      = $basepath . '/lib/css/mouth.css';
         $args["container"]  = 'body';
         $args["html"]       = str_replace("=", "%3D", $bye);
     
