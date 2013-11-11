@@ -154,6 +154,14 @@ class Module
                 },
                 'playgroundreward_rewardrule_form' => function($sm) {
                     $translator = $sm->get('translator');
+                    $form = new Form\Admin\RewardRule(null, $sm, $translator);
+                    $rewardRule = new Entity\RewardRule();
+                    $form->setInputFilter($rewardRule->getInputFilter());
+                
+                    return $form;
+                },
+                'playgroundreward_leaderboardtype_form' => function($sm) {
+                    $translator = $sm->get('translator');
                     $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $leaderboardType = new Entity\LeaderboardType();
                     $form->setInputFilter($leaderboardType->getInputFilter());
