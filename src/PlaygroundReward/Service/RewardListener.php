@@ -250,7 +250,6 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         '<div id="chrono">' .
         '<div class="header"  style="background-color: #000" >' .
         '<h2> Bravo ! Vous avez remporté le badge ' . $achievement->getLabel() .'</h2>' .
-        '<img src="'. $basepath.'/'.$achievement->getReward()->getImage() .'"/>' .
         '</div>' .
         '</div>';
          
@@ -297,14 +296,14 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
             '</div>' .
             '</div>';
         
-        $args["duration"] = 50000;
+        $args["duration"] = 10000;
         $args["who"]      = 'self';
         $args["html"]     = str_replace("=", "%3D", $welcome);
     
         $this->sendRequest($url, $args);
     
         $args["who"]        = 'others';
-        $args["style"]      = $basepath . '/lib/css/mouth.css';
+        $args["style"]      = 'http://playground.local/lib/css/mouth.css';
         $args["container"]  = 'body';
         $args["html"]       = str_replace("=", "%3D", $bye);
     
