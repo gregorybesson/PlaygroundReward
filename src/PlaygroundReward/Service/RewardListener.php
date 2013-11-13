@@ -185,7 +185,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     $achievement->setLabel($rule->getReward()->getTitle());
                     $achievement = $achievementService->getAchievementMapper()->insert($achievement);
                     
-                    $this->tellStory($storyTelling, $achievement);
+                    $this->tellReward($storyTelling, $achievement);
                     
                     $e->getTarget()->getEventManager()->trigger('complete_reward.post', $this, array('user' => $storyTelling->getUser(), 'prospect' => $storyTelling->getProspect(), 'achievement' => $achievement));
                 }
@@ -231,18 +231,13 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         return $op1 <= $op2;
     }
     
-    public function tellStory($storyTelling, $achievement)
+    public function tellReward($storyTelling, $achievement)
     {
         // TODO : Put this mouth stuff to a dedicated listener.
         $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
         // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
-        
-        $basepath = $this->getServiceManager()->get('Request')->getBasePath();
          
-        //TODO : Make it dynamic
-        //$args["style"] = 'http://playground.local/lib/css/mouth.css';
-        $args["container"] = 'body';
         //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
          
@@ -252,62 +247,48 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         '<h2> Bravo ! Vous avez remporté le badge ' . $achievement->getLabel() .'</h2>' .
         '</div>' .
         '</div>';
-         
-        $login ='<div id="welcome" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'welcome\').parentNode.removeChild(document.getElementById(\'welcome\'));" ' .
-            '>X</a>' .
-            'Welcome aboard ! Ready to hunt ?' .
-            '</div>' .
-            '</div>';
-         
-        // html for other user that the one that just logged off
-        $bye = '<div id="bye" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'bye\').parentNode.removeChild(document.getElementById(\'bye\'));" ' .
-            '>X</a>' .
-            'User ' . $userId . ' has won ' . $storyTelling->getPoints() . ' points for the story "' . $storyTelling->getOpenGraphStoryMapping()->getStory()->getLabel() . '"' .
-            '</div>' .
-            '</div>';
-         
-        // html for user that found the treasure
-        $win = '<div id="win" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'win\').parentNode.removeChild(document.getElementById(\'win\'));" ' .
-            '>X</a>' .
-            'Congratz ! You have found the treasure ! : ' .
-            '</div>' .
-            '</div>';
-         
-        // html for other user that loose and didn't find the treasure
-        $loose = '<div id="loose" class="playground" >' .
-            '<div >' .
-            '<a ' .
-            'href="#" ' .
-            'onclick="document.getElementById(\'loose\').parentNode.removeChild(document.getElementById(\'loose\'));" ' .
-            '>X</a>' .
-            'User ' . $userId . ' has found the secret treasure' .
-            '</div>' .
-            '</div>';
         
-        $args["duration"] = 10000;
-        $args["who"]      = 'self';
-        $args["html"]     = str_replace("=", "%3D", $welcome);
+        $placeholders = array('{username}', '{title}');
+        $values = array($userId, $achievement->getLabel());
+        
+        if($achievement->getReward()->getDisplayNotification()){
+        
+            $notification = str_replace($placeholders, $values, $achievement->getReward()->getNotification());
+
+            $args["container"] = 'body';
+            $args["duration"] = 10000;
+            $message =
+            '<div id="chrono">' .
+                '<div class="header" style="background-color: #000">' .
+                    $notification .
+                '</div>' .
+            '</div>';
+            $args["who"]    = 'self';
+            $args["html"]   = str_replace("=", "%3D", $message);
+        
+            $this->sendRequest($url, $args);
+        }
     
-        $this->sendRequest($url, $args);
+        if($achievement->getReward()->getDisplayActivityStream()){
+            $activityStream = str_replace($placeholders, $values, $achievement->getReward()->getActivityStream());
+            
+            $message = 
+                '<div id="pgActivityStream" class="playgrounde" >' .
+                    '<div >' .
+                        '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
+                        'X</a>' .
+                        $activityStream .
+                    '</div>' .
+                '</div>';
+            
+            $args["who"]        = 'others';
+            $args["container"]  = 'body';
+            $args["style"]      = 'http://playground.local/lib/css/mouth.css';
+            
+            $args["html"]       = str_replace("=", "%3D", $message);
     
-        $args["who"]        = 'others';
-        $args["style"]      = 'http://playground.local/lib/css/mouth.css';
-        $args["container"]  = 'body';
-        $args["html"]       = str_replace("=", "%3D", $bye);
-    
-        $this->sendRequest($url, $args);
+            $this->sendRequest($url, $args);
+        }
     
         return;
     }

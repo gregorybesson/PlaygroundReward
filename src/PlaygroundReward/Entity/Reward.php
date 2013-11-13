@@ -44,9 +44,24 @@ class Reward
     protected $hint;
     
     /**
-     * @ORM\Column(name="activity_stream_text", type="text", nullable=true)
+     * @ORM\Column(name="display_notification", type="boolean", nullable=true)
      */
-    protected $activityStreamText;
+    protected $displayNotification = 1;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $notification;
+    
+    /**
+     * @ORM\Column(name="display_activity_stream", type="boolean", nullable=true)
+     */
+    protected $displayActivityStream = 1;
+    
+    /**
+     * @ORM\Column(name="activity_stream", type="text", nullable=true)
+     */
+    protected $activityStream;
     
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -195,20 +210,69 @@ class Reward
         $this->hint = $hint;
     }
 
-	/**
-     * @return the $activityStreamText
-     */
-    public function getActivityStreamText()
-    {
-        return $this->activityStreamText;
-    }
 
-	/**
-     * @param field_type $activityStreamText
+    /**
+     * @return the $displayNotification
      */
-    public function setActivityStreamText($activityStreamText)
+    public function getDisplayNotification()
     {
-        $this->activityStreamText = $activityStreamText;
+        return $this->displayNotification;
+    }
+    
+    /**
+     * @param number $displayNotification
+     */
+    public function setDisplayNotification($displayNotification)
+    {
+        $this->displayNotification = $displayNotification;
+    }
+    
+    /**
+     * @return the $displayActivityStream
+     */
+    public function getDisplayActivityStream()
+    {
+        return $this->displayActivityStream;
+    }
+    
+    /**
+     * @param number $displayActivityStream
+     */
+    public function setDisplayActivityStream($displayActivityStream)
+    {
+        $this->displayActivityStream = $displayActivityStream;
+    }
+    
+    /**
+     * @return the $notification
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
+    
+    /**
+     * @param number $notification
+     */
+    public function setNotification($notification)
+    {
+        $this->notification = $notification;
+    }
+    
+    /**
+     * @return the $activityStream
+     */
+    public function getActivityStream()
+    {
+        return $this->activityStream;
+    }
+    
+    /**
+     * @param number $activityStream
+     */
+    public function setActivityStream($activityStream)
+    {
+        $this->activityStream = $activityStream;
     }
 
 	/**
