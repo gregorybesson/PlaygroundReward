@@ -280,7 +280,19 @@ class RewardRuleCondition
         if (! $this->inputFilter) {
             $inputFilter = new InputFilter();
             $factory = new InputFactory();
-    
+
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'comparison',
+                'required' => false,
+                'allowEmpty' => true,
+            )));
+             $inputFilter->add($factory->createInput(array(
+                'name' => 'type',
+                'required' => false,
+                'allowEmpty' => true,
+
+            )));
+
             $this->inputFilter = $inputFilter;
         }
     

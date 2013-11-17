@@ -41,7 +41,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         
         // I deduplicate stories to be listened
         $arrayListeners = array();
-        /*
+        
         foreach ($rules as $rule) {
             foreach($rule->getStoryMappings() as $storyMapping){
                 $arrayListeners[$storyMapping->getId()] = 'story.' . $storyMapping->getId();
@@ -56,7 +56,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 $this,
                 'reward'
             ), 200);
-        } */
+        }
     }
 
     /**
@@ -131,10 +131,18 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
 
             if($compliancy){
             
-                $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
-                    'user' => $storyTelling->getUser(),
-                    'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
-                ));
+                if($storyTelling->getUser()){
+                    $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
+                        'user' => $storyTelling->getUser(),
+                        'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
+                    ));
+                }else{
+                    $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
+                        'prospect' => $storyTelling->getProspect(),
+                        'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
+                    ));
+                }
+                
                         
                 // Do I have conditions to check ?
                 if (count($rule->getConditions()) > 0) {
@@ -169,6 +177,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     //echo 'Creation du badge ' . $rule->getReward()->getTitle(); 
                     $achievement = new \PlaygroundReward\Entity\Achievement();
                     $achievement->setUser($storyTelling->getUser());
+                    $achievement->setReward($rule->getReward());
                     $achievement->setType($rule->getReward()->getType());
                     $achievement->setCategory($rule->getReward()->getCategory());
                     $achievement->setLevel(1);
@@ -176,7 +185,9 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     $achievement->setLabel($rule->getReward()->getTitle());
                     $achievement = $achievementService->getAchievementMapper()->insert($achievement);
                     
-                    $e->getTarget()->getEventManager()->trigger('complete_reward.post', $this, array('user' => $storyTelling->getUser(), 'achievement' => $achievement));
+                    $this->tellReward($storyTelling, $achievement);
+                    
+                    $e->getTarget()->getEventManager()->trigger('complete_reward.post', $this, array('user' => $storyTelling->getUser(), 'prospect' => $storyTelling->getProspect(), 'achievement' => $achievement));
                 }
             }
         }
@@ -218,6 +229,91 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
     public function less_than($op1,$op2)
     {
         return $op1 <= $op2;
+    }
+    
+    public function tellReward($storyTelling, $achievement)
+    {
+        // TODO : Put this mouth stuff to a dedicated listener.
+        $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
+        // TODO : apiKey is ... the key ! factorize it
+        $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
+         
+        //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
+        $url = "http://localhost:93/notification";
+         
+        $welcome =
+        '<div id="chrono">' .
+        '<div class="header"  style="background-color: #000" >' .
+        '<h2> Bravo ! Vous avez remporté le badge ' . $achievement->getLabel() .'</h2>' .
+        '</div>' .
+        '</div>';
+        
+        $placeholders = array('{username}', '{title}');
+        $values = array($userId, $achievement->getLabel());
+        
+        if($achievement->getReward()->getDisplayNotification()){
+        
+            $notification = str_replace($placeholders, $values, $achievement->getReward()->getNotification());
+
+            $args["container"] = 'body';
+            $args["duration"] = 10000;
+            $message =
+            '<div id="chrono">' .
+                '<div class="header" style="background-color: #000">' .
+                    $notification .
+                '</div>' .
+            '</div>';
+            $args["who"]    = 'self';
+            $args["html"]   = str_replace("=", "%3D", $message);
+        
+            $this->sendRequest($url, $args);
+        }
+    
+        if($achievement->getReward()->getDisplayActivityStream()){
+            $activityStream = str_replace($placeholders, $values, $achievement->getReward()->getActivityStream());
+            
+            $message = 
+                '<div id="pgActivityStream" class="playgrounde" >' .
+                    '<div >' .
+                        '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
+                        'X</a>' .
+                        $activityStream .
+                    '</div>' .
+                '</div>';
+            
+            $args["who"]        = 'others';
+            $args["container"]  = 'body';
+            $args["style"]      = 'http://playground.local/lib/css/mouth.css';
+            
+            $args["html"]       = str_replace("=", "%3D", $message);
+    
+            $this->sendRequest($url, $args);
+        }
+    
+        return;
+    }
+    
+    /**
+     * Actually send the to Mouth !
+     *
+     * @return void
+     */
+    public function sendRequest($url, $args)
+    {
+    
+        $ch = curl_init();
+        $curlConfig = array(
+            CURLOPT_URL            => $url,
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => json_encode($args)
+        );
+        // print the array that was sent
+        //echo "<pre>";
+        //var_dump($args);
+        curl_setopt_array($ch, $curlConfig);
+        $result = curl_exec($ch);
+        curl_close($ch);
     }
 
 }

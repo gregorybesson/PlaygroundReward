@@ -83,13 +83,50 @@ class Reward extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'name' => 'activityStreamText',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayNotification',
             'options' => array(
-                'label' => $translator->translate('Activity Stream Text', 'playgroundreward')
+                'label' => $translator->translate('Display notication to player', 'playgroundflow'),
             ),
             'attributes' => array(
-                'type' => 'text',
-                'placeholder' => $translator->translate('Activity Stream Text', 'playgroundreward')
+                //'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'notification',
+            'type' => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => $translator->translate('Notification Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'notification'
+            )
+        ));
+        
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Checkbox',
+            'name' => 'displayActivityStream',
+            'options' => array(
+                'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
+            ),
+            'attributes' => array(
+                //'checked' => true
+            )
+        ));
+        
+        $this->add(array(
+            'name' => 'activityStream',
+            'type' => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
+            ),
+            'attributes' => array(
+                'cols' => '10',
+                'rows' => '10',
+                'id' => 'activityStream'
             )
         ));
         

@@ -16,11 +16,6 @@ return array(
             )
         )
     ),
-
-	'data-fixture' => array(
-		'PlaygroundReward_fixture' => __DIR__ . '/../src/PlaygroundReward/DataFixtures/ORM',
-	),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view/admin',
@@ -31,6 +26,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
+            'playgroundleaderboardadmin' => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
             'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
         ),
     ),
@@ -46,6 +42,12 @@ return array(
                     'default_layout' => 'layout/2columns-right',
                     'children_views' => array(
                         'col_right'  => 'application/common/column_right.phtml',
+                    ),
+                    'activity' => array(
+                        'layout' => 'layout/2columns-left',
+                        'children_views' => array(
+                            'col_left'  => 'playground-user/user/col-user.phtml',
+                        ),
                     ),
                     'actions' => array(
                         'default_layout' => 'layout/homepage-2columns-right',
@@ -72,6 +74,33 @@ return array(
        			            ),
        			        ),
        			    ),
+                    'activity' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'mon-compte/mon-activite[/:filter]',
+                            'constraints' => array(
+                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'playgroundreward',
+                                'action'     => 'activity',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'pagination' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '[/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundreward',
+                                        'action'     => 'activity',
+                                    ),
+                                    'constraints' => array('p' => '[0-9]*'),
+                                ),
+                            ),
+                        ),
+                    ),
 		            'reward' => array(
 		                'type' => 'Zend\Mvc\Router\Http\Segment',
 		                'options' => array(
@@ -86,7 +115,7 @@ return array(
 		                    'leaderboard' => array(
 		                        'type' => 'segment',
 		                        'options' => array(
-		                            'route' => '/leaderboard/:period[/:filter][/:p]',
+		                            'route' => '/leaderboard[/:filter][/:p]',
 		                            'constraints' => array(
 		                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
 		                            ),
@@ -201,6 +230,60 @@ return array(
                             ),
                         ),
                     ),
+                    'leaderboardtype' =>  array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/leaderboardtype',
+                            'defaults' => array(
+                                'controller' => 'playgroundleaderboardadmin',
+                                'action'     => 'list',
+                            ),
+                        ),
+                        'child_routes' =>array(
+                            'list' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/list[/:p]',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'list',
+                                    ),
+                                ),
+                            ),
+                            'create' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route' => '/create',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'create'
+                                    ), 
+                                ), 
+                            ),
+                            'edit' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/edit/:leaderboardId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'edit',
+                                        'leaderboardId'     => 0
+                                    ),
+                                ),
+                            ),
+                            'delete' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route' => '/delete/:leaderboardId',
+                                    'defaults' => array(
+                                        'controller' => 'playgroundleaderboardadmin',
+                                        'action'     => 'delete',
+                                        'leaderboardId'     => 0
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -218,11 +301,15 @@ return array(
             ),
     ),
 
-    /*'navigation' => array(
+    'navigation' => array(
         'default' => array(
             'reward' => array(
                 'label' => 'Les récompenses',
                 'route' => 'reward',
+            ),
+            array(
+                'label' => 'Mon activité',
+                'route' => 'activity',
             ),
             'leaderboard' => array(
                 'label' => 'Le classement',
@@ -243,8 +330,14 @@ return array(
                         'resource' => 'reward',
                         'privilege' => 'list',
                     ),
+                    'leaderboard' => array(
+                        'label' => 'Type of Leaderboard',
+                        'route' => 'admin/leaderboardtype/list',
+                        'resource' => 'reward',
+                        'privilege' => 'list',
+                    ),
                 ),
             ),
         ),
-    )*/
+    )
 );

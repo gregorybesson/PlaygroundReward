@@ -7,7 +7,7 @@ use ZfcBase\Mapper\AbstractDbMapper;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundReward\Options\ModuleOptions;
 
-class Achievement extends AbstractDbMapper implements ActionInterface
+class Achievement extends AbstractDbMapper
 {
     /**
      * @var \Doctrine\ORM\EntityManager
