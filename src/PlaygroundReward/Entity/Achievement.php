@@ -117,6 +117,8 @@ class Achievement
     public function setUser($user)
     {
         $this->user = $user;
+        
+        return $this;
     }
 
     /**
@@ -133,6 +135,8 @@ class Achievement
     public function setReward($reward)
     {
         $this->reward = $reward;
+        
+        return $this;
     }
 
 	/**
@@ -149,6 +153,8 @@ class Achievement
     public function setCategory($category)
     {
         $this->category = $category;
+        
+        return $this;
     }
 
     /**
@@ -165,6 +171,8 @@ class Achievement
     public function setType($type)
     {
         $this->type = $type;
+        
+        return $this;
     }
 
     /**
@@ -181,6 +189,8 @@ class Achievement
     public function setLabel($label)
     {
         $this->label = $label;
+        
+        return $this;
     }
 
     /**
@@ -197,6 +207,8 @@ class Achievement
     public function setLevel($level)
     {
         $this->level = $level;
+        
+        return $this;
     }
 
 
@@ -214,6 +226,8 @@ class Achievement
     public function setLevelLabel($levelLabel)
     {
         $this->levelLabel = $levelLabel;
+        
+        return $this;
     }
 
     /**
@@ -232,6 +246,8 @@ class Achievement
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -250,6 +266,8 @@ class Achievement
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

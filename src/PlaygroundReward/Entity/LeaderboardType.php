@@ -95,6 +95,8 @@ class LeaderboardType
     public function setName($name)
     {
         $this->name = $name;
+        
+        return $this;
     }
 
     /**
@@ -113,6 +115,8 @@ class LeaderboardType
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -131,6 +135,8 @@ class LeaderboardType
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

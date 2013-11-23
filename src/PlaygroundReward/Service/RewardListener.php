@@ -176,13 +176,13 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 if ($this->$countType($nbCompliantStories, $rule->getCount())) {
                     //echo 'Creation du badge ' . $rule->getReward()->getTitle(); 
                     $achievement = new \PlaygroundReward\Entity\Achievement();
-                    $achievement->setUser($storyTelling->getUser());
-                    $achievement->setReward($rule->getReward());
-                    $achievement->setType($rule->getReward()->getType());
-                    $achievement->setCategory($rule->getReward()->getCategory());
-                    $achievement->setLevel(1);
-                    $achievement->setLevelLabel('GrG Level');
-                    $achievement->setLabel($rule->getReward()->getTitle());
+                    $achievement->setUser($storyTelling->getUser())
+                        ->setReward($rule->getReward())
+                        ->setType($rule->getReward()->getType())
+                        ->setCategory($rule->getReward()->getCategory())
+                        ->setLevel(1)
+                        ->setLevelLabel('GrG Level')
+                        ->setLabel($rule->getReward()->getTitle());
                     $achievement = $achievementService->getAchievementMapper()->insert($achievement);
                     
                     $this->tellReward($storyTelling, $achievement);

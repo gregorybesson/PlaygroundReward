@@ -127,6 +127,8 @@ class RewardRuleCondition
     public function setRule($rule)
     {
         $this->rule = $rule;
+        
+        return $this;
     }
 
 	/**
@@ -143,6 +145,8 @@ class RewardRuleCondition
     public function setObject($object)
     {
         $this->object = $object;
+        
+        return $this;
     }
 
 	/**
@@ -159,6 +163,8 @@ class RewardRuleCondition
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
+        
+        return $this;
     }
 
 	/**
@@ -175,6 +181,8 @@ class RewardRuleCondition
     public function setType($type)
     {
         $this->type = $type;
+        
+        return $this;
     }
 
 	/**
@@ -191,6 +199,8 @@ class RewardRuleCondition
     public function setComparison($comparison)
     {
         $this->comparison = $comparison;
+        
+        return $this;
     }
 
 	/**
@@ -207,6 +217,8 @@ class RewardRuleCondition
     public function setValue($value)
     {
         $this->value = $value;
+        
+        return $this;
     }
 
 	/**
@@ -225,6 +237,8 @@ class RewardRuleCondition
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -243,6 +257,8 @@ class RewardRuleCondition
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**
