@@ -160,6 +160,8 @@ class Reward
     public function setCategory($category)
     {
         $this->category = $category;
+        
+        return $this;
     }
 
     /**
@@ -176,6 +178,8 @@ class Reward
     public function setType($type)
     {
         $this->type = $type;
+        
+        return $this;
     }
 
     /**
@@ -192,6 +196,8 @@ class Reward
     public function setTitle($title)
     {
         $this->title = $title;
+        
+        return $this;
     }
 
 	/**
@@ -208,6 +214,8 @@ class Reward
     public function setHint($hint)
     {
         $this->hint = $hint;
+        
+        return $this;
     }
 
 
@@ -225,6 +233,8 @@ class Reward
     public function setDisplayNotification($displayNotification)
     {
         $this->displayNotification = $displayNotification;
+        
+        return $this;
     }
     
     /**
@@ -241,6 +251,8 @@ class Reward
     public function setDisplayActivityStream($displayActivityStream)
     {
         $this->displayActivityStream = $displayActivityStream;
+        
+        return $this;
     }
     
     /**
@@ -257,6 +269,8 @@ class Reward
     public function setNotification($notification)
     {
         $this->notification = $notification;
+        
+        return $this;
     }
     
     /**
@@ -273,6 +287,8 @@ class Reward
     public function setActivityStream($activityStream)
     {
         $this->activityStream = $activityStream;
+        
+        return $this;
     }
 
 	/**
@@ -289,6 +305,8 @@ class Reward
     public function setHide($hide)
     {
         $this->hide = $hide;
+        
+        return $this;
     }
 
 	/**
@@ -305,6 +323,8 @@ class Reward
     public function setImage($image)
     {
         $this->image = $image;
+        
+        return $this;
     }
 
 	/**
@@ -321,6 +341,8 @@ class Reward
     public function setActive($active)
     {
         $this->active = $active;
+        
+        return $this;
     }
 
 	/**
@@ -337,6 +359,8 @@ class Reward
     public function setPoints($points)
     {
         $this->points = $points;
+        
+        return $this;
     }
 
 	/**
@@ -353,6 +377,8 @@ class Reward
     public function setCountLimit($countLimit)
     {
         $this->countLimit = $countLimit;
+        
+        return $this;
     }
 
 	/**
@@ -369,6 +395,8 @@ class Reward
     public function setRules($rules)
     {
         $this->rules = $rules;
+        
+        return $this;
     }
     
     /**
@@ -399,6 +427,8 @@ class Reward
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -417,6 +447,8 @@ class Reward
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

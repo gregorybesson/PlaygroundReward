@@ -125,6 +125,8 @@ class RewardRule
     {
         $reward->addRule($this);
         $this->reward = $reward;
+        
+        return $this;
     }
 
 	/**
@@ -141,6 +143,8 @@ class RewardRule
     public function setConditions(ArrayCollection $conditions)
     {
         $this->conditions = $conditions;
+        
+        return $this;
     }
     
     public function addConditions(ArrayCollection $conditions)
@@ -185,6 +189,8 @@ class RewardRule
     public function setCompletionType($completionType)
     {
         $this->completionType = $completionType;
+        
+        return $this;
     }
 
 	/**
@@ -201,6 +207,8 @@ class RewardRule
     public function setStoryMappings($storyMappings)
     {
         $this->storyMappings = $storyMappings;
+        
+        return $this;
     }
     
     public function addStoryMappings(\Doctrine\Common\Collections\ArrayCollection $storyMappings)
@@ -231,6 +239,8 @@ class RewardRule
     public function setCountType($countType)
     {
         $this->countType = $countType;
+        
+        return $this;
     }
 
 	/**
@@ -247,6 +257,8 @@ class RewardRule
     public function setCount($count)
     {
         $this->count = $count;
+        
+        return $this;
     }
 
 	/**
@@ -265,6 +277,8 @@ class RewardRule
     public function setCreatedAt ($createdAt)
     {
         $this->createdAt = $createdAt;
+        
+        return $this;
     }
 
     /**
@@ -283,6 +297,8 @@ class RewardRule
     public function setUpdatedAt ($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        
+        return $this;
     }
 
     /**

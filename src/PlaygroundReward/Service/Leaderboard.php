@@ -70,9 +70,9 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(array('user' => $user, 'leaderboardType' => $leaderboardType));
         if (empty($leaderboardUser)) {
             $leaderboardUser = new LeaderboardEntity();
-            $leaderboardUser->setLeaderboardType($leaderboardType);
-            $leaderboardUser->setUser($user);
-            $leaderboardUser->setTotalPoints(0);
+            $leaderboardUser->setLeaderboardType($leaderboardType)
+                ->setUser($user)
+                ->setTotalPoints(0);
             $leaderboardUser = $this->getLeaderboardMapper()->insert($leaderboardUser);
         }
 
