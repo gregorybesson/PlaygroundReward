@@ -16,6 +16,31 @@ return array(
             )
         )
     ),
+    
+    'bjyauthorize' => array(
+    
+        'resource_providers' => array(
+            'BjyAuthorize\Provider\Resource\Config' => array(
+                'reward'        => array(),
+            ),
+        ),
+    
+        'rule_providers' => array(
+            'BjyAuthorize\Provider\Rule\Config' => array(
+                'allow' => array(
+                    array(array('admin'), 'reward',         array('list','add','edit','delete')),
+                ),
+            ),
+        ),
+    
+        'guards' => array(
+            'BjyAuthorize\Guard\Controller' => array(
+                // Admin area
+                array('controller' => 'playgroundrewardadmin', 'roles' => array('admin')),
+            ),
+        ),
+    ),
+    
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view/admin',
