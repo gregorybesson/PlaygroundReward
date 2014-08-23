@@ -34,29 +34,7 @@ class Module
         }
 
         // I can post cron tasks to be scheduled by the core cron service
-        $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
-    }
-
-    /**
-     * This method get the cron config for this module an add them to the listener
-     * TODO : déporter la def des cron dans la config.
-     *
-     * @param  EventManager $e
-     * @return array
-     */
-    public function addCronjob($e)
-    {
-
-        $cronjobs = $e->getParam('cronjobs');
-
-        // This cron job is scheduled everyday @ 2AM en disable user in state 0 since 'period' (7 days here)
-        $cronjobs['playgroundreward_anniversary'] = array(
-            'frequency' => '0 2 * * *',
-            'callback'  => '\PlaygroundReward\Service\Cron::badgeAnniversary',
-            'args'      => array()
-        );
-
-        return $cronjobs;
+//         $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
     }
 
     public function getConfig()
@@ -157,7 +135,7 @@ class Module
                     $form = new Form\Admin\RewardRule(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
                     $form->setInputFilter($rewardRule->getInputFilter());
-                
+
                     return $form;
                 },
                 'playgroundreward_leaderboardtype_form' => function($sm) {
