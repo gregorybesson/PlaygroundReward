@@ -16,12 +16,20 @@
             "homepage": "http://www.playground.gg"
         }
     ],
+    "repositories" : [{
+			"type" : "git",
+			"url" : "https://github.com/gregorybesson/hybridauth"
+		}
+	],
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
 		"zendframework/zendframework" : "2.*",
 		"playground/core" : "2.*",
-		"playground/design" : "2.*"
+		"playground/design" : "2.*",
+		"playground/hybridauth" : "dev-master",
+		"playground/user" : "2.*",
+		"playground/flow" : "2.*"
     },
     "require-dev" : {
 		"phpunit/phpunit" : "3.7.*"
