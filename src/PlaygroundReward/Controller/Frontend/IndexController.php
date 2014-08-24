@@ -114,7 +114,7 @@ class IndexController extends AbstractActionController
                 $activities[] = array("object" => json_decode($story->getObject(), true),
                                       "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
                                       "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
-                                      "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStreamText(),
+                                      "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStream(),
                                       "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
                                       "points" => $story->getPoints(),
                                       'created_at' => $story->getCreatedAt(),
