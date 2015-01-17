@@ -60,27 +60,31 @@ return array(
     ),
 
     'core_layout' => array(
-        'PlaygroundReward' => array(
-            'default_layout' => 'layout/2columns-right',
-            'children_views' => array(
-                'col_right'  => 'application/common/column_right.phtml',
-            ),
-            'controllers' => array(
-                'playgroundreward'   => array(
+        'frontend' => array(
+            'modules' => array(
+                'PlaygroundReward' => array(
                     'default_layout' => 'layout/2columns-right',
                     'children_views' => array(
                         'col_right'  => 'application/common/column_right.phtml',
                     ),
-                    'activity' => array(
-                        'layout' => 'layout/2columns-left',
-                        'children_views' => array(
-                            'col_left'  => 'playground-user/user/col-user.phtml',
-                        ),
-                    ),
-                    'actions' => array(
-                        'default_layout' => 'layout/homepage-2columns-right',
-                        'children_views' => array(
-                            'col_right'  => 'application/common/column_right.phtml',
+                    'controllers' => array(
+                        'playgroundreward'   => array(
+                            'default_layout' => 'layout/2columns-right',
+                            'children_views' => array(
+                                'col_right'  => 'application/common/column_right.phtml',
+                            ),
+                            'activity' => array(
+                                'layout' => 'layout/2columns-left',
+                                'children_views' => array(
+                                    'col_left'  => 'playground-user/user/col-user.phtml',
+                                ),
+                            ),
+                            'actions' => array(
+                                'default_layout' => 'layout/homepage-2columns-right',
+                                'children_views' => array(
+                                    'col_right'  => 'application/common/column_right.phtml',
+                                ),
+                            ),
                         ),
                     ),
                 ),
