@@ -40,6 +40,7 @@ return array(
                 
                 // Admin area
                 array('controller' => 'playgroundrewardadmin', 'roles' => array('admin')),
+                array('controller' => 'playgroundleaderboardadmin', 'roles' => array('admin')),
             ),
         ),
     ),
