@@ -7,6 +7,7 @@ use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -104,39 +105,56 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     *
     * @return Query $query
     */
-    public function getLeaderboardQuery($leaderboardType = null, $nbItems = 5, $search = null)
+    public function getLeaderboardQuery($leaderboardType = null, $nbItems = 5, $search = null, $order = null, $dir = null)
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         $filterSearch = '';
 
-
         if ($search != '') {
-            $filterSearch = ' AND (u.username LIKE :queryString1 OR u.lastname LIKE :queryString2 OR u.firstname LIKE :queryString3)';
+            $filterSearch = ' AND (u.address LIKE :queryString1 OR u.address2 LIKE :queryString2 OR u.city LIKE :queryString3)'; // FIXME fields to apply querySearch
         }
+        
+        $availableOrders = array('total_points', 'city', 'address2', 'address');
+        if ($order && in_array($order, $availableOrders)) {
+            $order = 'ORDER BY ' . $order;
+        } else {
+            $order = 'ORDER BY total_points';
+        }
+        
+        if ($dir && in_array($dir, array('asc', 'desc'))) {
+            $order .= ' ' . $dir;
+        } else {
+            $order .= ' desc';
+        }
+        
+        $dbal = $em->getConnection();
+        $stmt = '
+             SELECT e.*, u.*
+             FROM (
+             	SELECT sube.*, @curRank := @curRank + 1 AS rank FROM reward_leaderboard sube, (SELECT @curRank := 0) r ORDER BY sube.total_points DESC
+             ) as e
+             JOIN user u ON u.user_id = e.user_id
+             WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId '.$filterSearch. ' ' . $order;
 
-        $query = $em->createQuery('
-            SELECT e.totalPoints as points, u.username, u.avatar, u.id, u.firstname, u.lastname, u.title, u.state
-            FROM PlaygroundReward\Entity\Leaderboard e
-            JOIN e.user u
-            WHERE u.state = 1 AND e.leaderboardType = :leaderboardTypeId '.$filterSearch.'
-            ORDER BY e.totalPoints DESC
-        ');
-
-        if (empty($leaderboardType)) {
-            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
-        }elseif (is_string($leaderboardType)) {
+        if (is_string($leaderboardType) && !empty($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
+        } else {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
-
-        $query->setParameter('leaderboardTypeId', $leaderboardType->getId());
+        
+        if (!$leaderboardType) {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        }
+        
+        $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
 
         if ($search != '') {
-            $query->setParameter('queryString1', '%'.$search.'%');
-            $query->setParameter('queryString2', '%'.$search.'%');
-            $query->setParameter('queryString3', '%'.$search.'%');
+            $parameters['queryString1'] = '%'.$search.'%';
+            $parameters['queryString2'] = '%'.$search.'%';
+            $parameters['queryString3'] = '%'.$search.'%';
         }
-
-        return $query;
+        
+        return $dbal->fetchAll($stmt, $parameters);
     }
 
     /**

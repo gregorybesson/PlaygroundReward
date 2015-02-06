@@ -69,12 +69,15 @@ class IndexController extends AbstractActionController
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
         $search = $this->params()->fromQuery('name');
+        $order = $this->params()->fromQuery('order');
+        $dir = $this->params()->fromQuery('dir');
 
-		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search);
+		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
 
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
-        $paginator = new Paginator(new DoctrineAdapter(new ORMPaginator($leaderboard)));
-        $paginator->setItemCountPerPage(100);
+
+        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($leaderboard));
+        $paginator->setItemCountPerPage(10);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
         return new ViewModel(
@@ -82,7 +85,9 @@ class IndexController extends AbstractActionController
                 'search' => $search,
                 'filter' => $filter,
                 'filters' => $filters,
-                'leaderboard' => $paginator
+                'leaderboard' => $paginator,
+                'order' => $order,
+                'dir' => $dir
             )
         );
     }
