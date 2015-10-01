@@ -167,17 +167,22 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getLeaderboard($leaderboardType = null, $nbItems = 5, $search = null)
     {
+        $leaderboard = null;
+
         $query = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
-        if ($nbItems > 0) {
-            $query->setMaxResults($nbItems);
-        }
-        try {
-            $leaderboard = $query->getResult();
-        }
-        catch( \Doctrine\ORM\Query\QueryException $e ) {
-            echo $e->getMessage();
-            echo $e->getTraceAsString();
-            exit();
+
+        if(count($query) > 0){
+            if ($nbItems > 0) {
+                $query->setMaxResults($nbItems);
+            }
+            try {
+                $leaderboard = $query->getResult();
+            }
+            catch( \Doctrine\ORM\Query\QueryException $e ) {
+                echo $e->getMessage();
+                echo $e->getTraceAsString();
+                exit();
+            }
         }
 
         return $leaderboard;
