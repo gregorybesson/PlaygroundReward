@@ -167,7 +167,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function getLeaderboard($leaderboardType = null, $nbItems = 5, $search = null)
     {
-        $leaderboard = null;
+        $leaderboard = array();
 
         $query = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
 
