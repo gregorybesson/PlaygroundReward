@@ -18,7 +18,7 @@ class LeaderboardWidget extends AbstractHelper
      * @param  array  $options array of options
      * @return string
      */
-    public function __invoke($type =null, $nbItems = 5)
+    public function __invoke($type = null, $nbItems = 5)
     {
         return $this->getLeaderboardService()->getLeaderboard($type, $nbItems);
     }

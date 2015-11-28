@@ -72,7 +72,7 @@ class IndexController extends AbstractActionController
         $order = $this->params()->fromQuery('order');
         $dir = $this->params()->fromQuery('dir');
 
-		$leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
+        $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
 
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 
@@ -115,7 +115,7 @@ class IndexController extends AbstractActionController
                     $matchToFilter = true;
                 }
             }
-            if($matchToFilter) {
+            if ($matchToFilter) {
                 $activities[] = array("object" => json_decode($story->getObject(), true),
                                       "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
                                       "hint"   => $story->getOpenGraphStoryMapping()->getHint(),

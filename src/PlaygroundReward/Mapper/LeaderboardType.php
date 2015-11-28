@@ -106,7 +106,7 @@ class LeaderboardType
     }
 
     /**
-    * findAll : recupere toutes les entites 
+    * findAll : recupere toutes les entites
     *
     * @return collection $leaderBoardTypes collection de PlaygroundReward\Entity\LeaderBoardType
     */

@@ -37,14 +37,14 @@ class Achievement extends AbstractDbMapper
         return $er->find($id);
     }
 
-    public function findBy($array, $sort=array())
+    public function findBy($array, $sort = array())
     {
         $er = $this->getEntityRepository();
 
         return $er->findBy($array, $sort);
     }
 
-    public function findOneBy($array, $sort=array())
+    public function findOneBy($array, $sort = array())
     {
         $er = $this->getEntityRepository();
 

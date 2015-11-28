@@ -20,7 +20,7 @@ class UserBadges extends AbstractHelper
      * @param  array  $options array of options
      * @return string
      */
-    public function __invoke($userId=0, $detail=false)
+    public function __invoke($userId = 0, $detail = false)
     {
 
         if ($userId == 0 && $this->getAuthService()->hasIdentity()) {
@@ -39,7 +39,7 @@ class UserBadges extends AbstractHelper
         $moreBadges = array();
         $haveToUnset = false;
         foreach ($allRewards as $key => $reward) {
-            if($detail) {
+            if ($detail) {
                 $badges[$key]['userReward'] = array();
                 $badges[$key]['reward'] = $reward;
             } else {
@@ -49,28 +49,28 @@ class UserBadges extends AbstractHelper
             }
             foreach ($userRewards as $userReward) {
                 $isDone = ($reward->getType() == $userReward['type'] && $reward->getCategory() == $userReward['category'] && strtolower($reward->getTitle()) ==strtolower($userReward['label']));
-                if($detail) {
+                if ($detail) {
                     $badges[$key]['done'] = $isDone;
                 } else {
                     $moreBadges[$key]['done'] = $isDone;
                 }
-                if($isDone === true) {
-                    if(!$detail) {
+                if ($isDone === true) {
+                    if (!$detail) {
                         $badges[$key]['userReward'] = array();
                         $badges[$key]['reward'] = $reward;
                         $badges[$key]['done'] = $isDone;
                         $haveToUnset = true;
                     }
-                    $countBadges ++;  
+                    $countBadges ++;
                     $badges[$key]['userRewardinfo'] = $userReward;
                     $badges[$key]['userReward'][] = $reward->getId();
                 }
             }
-            if($haveToUnset) {
+            if ($haveToUnset) {
                 unset($moreBadges[$key]);
             }
         }
-        if(!$detail) {
+        if (!$detail) {
             $badges = array_values(array_merge($badges, $moreBadges));
         }
         $badges['userCountBadges'] = $countBadges;
@@ -135,6 +135,4 @@ class UserBadges extends AbstractHelper
 
         return $this;
     }
-
-
 }

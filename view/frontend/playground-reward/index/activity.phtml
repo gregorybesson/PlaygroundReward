@@ -12,9 +12,9 @@
 				<div class="span5">
 					<select name="filter-activity" id="filter-activity" class="select">
 						<option value="">Selectionnez</option>
-						<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)) ?>">Vue d'ensemble</option>
+						<option value="<?php echo $this->url('frontend/activity') ?>">Vue d'ensemble</option>
 						<?php foreach ($filters  as $filter) : ?>
-							<option value="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)).'/'.$filter->getCode()?>"><?php echo $filter->getLabel(); ?></option>
+							<option value="<?php echo $this->url('frontend/activity').'/'.$filter->getCode()?>"><?php echo $filter->getLabel(); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>
@@ -99,6 +99,6 @@
 	<?php */ $i++; endforeach;?>
 </div>
 <?php if($i < $this->total): ?>
-	<div id="more-activity" class="row-fluid more"><a href="<?php echo $this->url('frontend/activity', array('channel' => $this->channel)). '/' . $this->filter ;?>" data-count="2" data-total="<?php echo $total; ?>">+ Plus d'actus</a></div>
+	<div id="more-activity" class="row-fluid more"><a href="<?php echo $this->url('frontend/activity'). '/' . $this->filter ;?>" data-count="2" data-total="<?php echo $total; ?>">+ Plus d'actus</a></div>
 <?php endif; ?>
 <!-- END USER ACTIVITY -->

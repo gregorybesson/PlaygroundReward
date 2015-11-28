@@ -28,8 +28,8 @@ class RewardRule extends ProvidesEventsForm
         $this->setHydrator(new DoctrineHydrator($entityManager, 'PlaygroundReward\Entity\RewardRule'));
 
         $this->setAttribute('method', 'post');
-        $this->setAttribute('enctype','multipart/form-data');
-        $this->setAttribute('class','form-horizontal');
+        $this->setAttribute('enctype', 'multipart/form-data');
+        $this->setAttribute('class', 'form-horizontal');
 
         $this->add(array(
             'name' => 'reward_id',
@@ -96,12 +96,12 @@ class RewardRule extends ProvidesEventsForm
                 'is_method'      => true,
                 'find_method'    => array(
                     'name'   => 'findAll',
-                 /*   'params' => array( 
+                 /*   'params' => array(
                         'criteria' => array('domain' => 3),
                     ),*/
                 ),
                 //'property' => 'id',
-                'label_generator' => function($targetEntity) {
+                'label_generator' => function ($targetEntity) {
                     return $targetEntity->getStory()->getCode()." ".$targetEntity->getDomain()->getDomain();
                 },
             ),
@@ -109,9 +109,9 @@ class RewardRule extends ProvidesEventsForm
                 'required' => false,
                 'multiple' => 'multiple',
             )
-        ));     
+        ));
         
-        $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null,$sm,$translator);
+        $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null, $sm, $translator);
         $this->add(array(
             'type'    => 'Zend\Form\Element\Collection',
             'name'    => 'conditions',
@@ -161,7 +161,7 @@ class RewardRule extends ProvidesEventsForm
      *
      * @return ServiceManager
      */
-    public function getServiceManager ()
+    public function getServiceManager()
     {
         return $this->serviceManager;
     }
@@ -172,7 +172,7 @@ class RewardRule extends ProvidesEventsForm
      * @param  ServiceManager $sm
      * @return User
      */
-    public function setServiceManager (ServiceManager $sm)
+    public function setServiceManager(ServiceManager $sm)
     {
         $this->serviceManager = $sm;
     

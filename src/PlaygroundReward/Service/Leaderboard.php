@@ -28,7 +28,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function addPoints($storyMapping, $user)
     {
-        if($storyMapping->getLeaderboardType() !== null) {
+        if ($storyMapping->getLeaderboardType() !== null) {
             $leaderboardType = $storyMapping->getLeaderboardType();
             $this->add($storyMapping, $user, $leaderboardType);
         }
@@ -171,14 +171,13 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 
         $query = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
 
-        if(count($query) > 0){
+        if (count($query) > 0) {
             if ($nbItems > 0) {
                 $query->setMaxResults($nbItems);
             }
             try {
                 $leaderboard = $query->getResult();
-            }
-            catch( \Doctrine\ORM\Query\QueryException $e ) {
+            } catch (\Doctrine\ORM\Query\QueryException $e) {
                 echo $e->getMessage();
                 echo $e->getTraceAsString();
                 exit();
@@ -292,7 +291,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
      */
     public function getLeaderboardTypeService()
     {
-           if (null === $this->leaderboardTypeService) {
+        if (null === $this->leaderboardTypeService) {
             $this->leaderboardTypeService = $this->getServiceManager()->get('playgroundreward_leaderboardtype_service');
         }
 

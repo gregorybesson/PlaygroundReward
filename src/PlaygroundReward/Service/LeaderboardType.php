@@ -19,7 +19,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
 
     /**
     * create : ajout de leaderBoardType
-    * @param array $data 
+    * @param array $data
     * @param string $formClass
     *
     * @return LeaderBoardType $leaderboardType
@@ -45,7 +45,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
 
     /**
     * edit : mise ajour de leaderBoardType
-    * @param array $data 
+    * @param array $data
     * @param LeaderBoardType $leaderboardType
     * @param string $formClass
     *
@@ -80,7 +80,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
             $leaderboardTypeDefault = new LeaderboardTypeEntity();
             $leaderboardTypeDefault->setName(LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT);
             $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->insert($leaderboardTypeDefault);
-        }   
+        }
 
         return $leaderboardTypeDefault;
     }

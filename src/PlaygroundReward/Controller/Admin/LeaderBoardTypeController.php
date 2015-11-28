@@ -18,7 +18,7 @@ class LeaderBoardTypeController extends AbstractActionController
     /**
     * listAction : retrieve all leaderboardtype
     *
-    * @return array $return 
+    * @return array $return
     */
     public function listAction()
     {
@@ -31,7 +31,7 @@ class LeaderBoardTypeController extends AbstractActionController
     /**
     * createAction : create a leaderboardtype
     *
-    * @return viewModel $viewModel 
+    * @return viewModel $viewModel
     */
     public function createAction()
     {
@@ -43,8 +43,8 @@ class LeaderBoardTypeController extends AbstractActionController
         
         if ($request->isPost()) {
             $data = array_merge(
-                    $request->getPost()->toArray(),
-                    $request->getFiles()->toArray()
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
             );
 
             $leaderboard = $this->getLeaderboardTypeService()->create($data, 'playgroundreward_leaderboard_form');
@@ -70,7 +70,7 @@ class LeaderBoardTypeController extends AbstractActionController
     /**
     * editAction : edit a leaderboardtype
     *
-    * @return viewModel $viewModel 
+    * @return viewModel $viewModel
     */
     public function editAction()
     {
@@ -85,8 +85,8 @@ class LeaderBoardTypeController extends AbstractActionController
 
         if ($request->isPost()) {
             $data = array_merge(
-                    $request->getPost()->toArray(),
-                    $request->getFiles()->toArray()
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
             );
 
             $leaderboard = $this->getLeaderboardTypeService()->edit($data, $leaderboard, 'playgroundreward_leaderboard_form');
@@ -111,7 +111,7 @@ class LeaderBoardTypeController extends AbstractActionController
     /**
     * deleteAction : delete a leaderboardtype
     *
-    * @return redirect 
+    * @return redirect
     */
     public function deleteAction()
     {
@@ -131,7 +131,7 @@ class LeaderBoardTypeController extends AbstractActionController
      */
     public function getLeaderboardTypeService()
     {
-           if (null === $this->leaderboardTypeService) {           
+        if (null === $this->leaderboardTypeService) {
             $this->leaderboardTypeService = $this->getServiceLocator()->get('playgroundreward_leaderboardtype_service');
         }
 
