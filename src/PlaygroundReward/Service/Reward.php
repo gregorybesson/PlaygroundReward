@@ -69,7 +69,7 @@ class Reward implements ServiceManagerAwareInterface
             ErrorHandler::start();
             $data['uploadImage']['name'] = $this->fileNewname(
                 $path,
-                $reward->getId(); . "-" . $data['uploadImage']['name']
+                $reward->getId() . "-" . $data['uploadImage']['name']
             );
             move_uploaded_file($data['uploadImage']['tmp_name'], $path . $data['uploadImage']['name']);
             $reward->setImage($media_url . $data['uploadImage']['name']);
