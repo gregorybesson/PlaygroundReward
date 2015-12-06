@@ -93,7 +93,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $rules = $service->getRewardRuleMapper()->findRulesByStoryMapping($storyMappingId);
         
         foreach ($rules as $rule) {
-            //echo $rule->getReward()->getTitle() . " : " . " " . $rule->getCountType() . " " . $rule->getCount() . "<br>";
+            //echo $rule->getReward()->getTitle()." : "." ".$rule->getCountType()." ".$rule->getCount()."<br>";
             $countType = $rule->getCountType();
 
             // Is the intercepted storytelling compliant with the rule/conditions ?
@@ -102,7 +102,9 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
             $compliancy = false;
             if (count($rule->getConditions()) > 0) {
                 foreach ($rule->getConditions() as $condition) {
-                    //echo "is condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "??<br>";
+                    //echo "is condition " .$condition->getObject()." ".$condition->getAttribute()." ".
+                    // $condition->getComparison()." ".$condition->getValue(). " which is compliant with ".
+                    // $storyTelling->getObject() . "??<br>";
                     $object = json_decode($storyTelling->getObject(), true);
                     $operator = $condition->getComparison();
                     
@@ -110,16 +112,32 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     
                     if ($condition->getType() === 'datetime') {
                         if (isset($object[$condition->getObject()][$condition->getAttribute()])) {
-                            $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
-                            //echo 'condition : ' . $dateTime->format('d/m/Y') . ' value : ' . $condition->getValue();
+                            $dateTime = new \DateTime(
+                                $object[$condition->getObject()][$condition->getAttribute()]['date'],
+                                new \DateTimeZone(
+                                    $object[$condition->getObject()][$condition->getAttribute()]['timezone']
+                                )
+                            );
+                            //echo 'condition : '.$dateTime->format('d/m/Y').' value : '.$condition->getValue();
                             if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
-                                //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                                //echo "Yes !  : condition " .$condition->getObject(). " "
+                                //. $condition->getAttribute() . " " . $condition->getComparison() . " "
+                                //. $condition->getValue(). " which is compliant with "
+                                //. $storyTelling->getObject() . "<br>";
                                 $compliancy = true;
                             }
                         }
                     } else {
-                        if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
-                            //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                        if (isset($object[$condition->getObject()][$condition->getAttribute()]) &&
+                            $this->$operator(
+                                $object[$condition->getObject()][$condition->getAttribute()],
+                                $condition->getValue()
+                            )
+                        ) {
+                            //echo "Yes !  : condition " .$condition->getObject(). " "
+                            //. $condition->getAttribute() . " " . $condition->getComparison() . " "
+                            //. $condition->getValue(). " which is compliant with "
+                            //. $storyTelling->getObject() . "<br>";
                             $compliancy = true;
                         }
                     }
@@ -153,15 +171,28 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                             
                             if ($condition->getType() === 'datetime') {
                                 if (isset($object[$condition->getObject()][$condition->getAttribute()])) {
-                                    $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
+                                    $dateTime = new \DateTime(
+                                        $object[$condition->getObject()][$condition->getAttribute()]['date'],
+                                        new \DateTimeZone(
+                                            $object[$condition->getObject()][$condition->getAttribute()]['timezone']
+                                        )
+                                    );
 
                                     if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
-                                        //echo "Yes !  : condition " .$condition->getObject(). " " . $condition->getAttribute() . " " . $condition->getComparison() . " " . $condition->getValue(). " which is compliant with " . $storyTelling->getObject() . "<br>";
+                                        //echo "Yes !  : condition " .$condition->getObject(). " "
+                                        //. $condition->getAttribute() . " " . $condition->getComparison()
+                                        //. " " . $condition->getValue(). " which is compliant with "
+                                        //. $storyTelling->getObject() . "<br>";
                                         ++ $nbCompliantStories;
                                     }
                                 }
                             } else {
-                                if (isset($object[$condition->getObject()][$condition->getAttribute()]) && $this->$operator($object[$condition->getObject()][$condition->getAttribute()], $condition->getValue())) {
+                                if (isset($object[$condition->getObject()][$condition->getAttribute()]) &&
+                                    $this->$operator(
+                                        $object[$condition->getObject()][$condition->getAttribute()],
+                                        $condition->getValue()
+                                    )
+                                ) {
                                     ++ $nbCompliantStories;
                                 }
                             }
@@ -186,7 +217,15 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     
                     $this->tellReward($storyTelling, $achievement);
                     
-                    $e->getTarget()->getEventManager()->trigger('complete_reward.post', $this, array('user' => $storyTelling->getUser(), 'prospect' => $storyTelling->getProspect(), 'achievement' => $achievement));
+                    $e->getTarget()->getEventManager()->trigger(
+                        'complete_reward.post',
+                        $this,
+                        array(
+                            'user' => $storyTelling->getUser(),
+                            'prospect' => $storyTelling->getProspect(),
+                            'achievement' => $achievement
+                        )
+                    );
                 }
             }
         }
@@ -220,12 +259,12 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         return $op1 === $op2;
     }
     
-    public function more_than($op1, $op2)
+    public function moreThan($op1, $op2)
     {
         return $op1 >= $op2;
     }
     
-    public function less_than($op1, $op2)
+    public function lessThan($op1, $op2)
     {
         return $op1 <= $op2;
     }

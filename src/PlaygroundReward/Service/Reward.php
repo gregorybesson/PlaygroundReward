@@ -67,7 +67,10 @@ class Reward implements ServiceManagerAwareInterface
     
         if (!empty($data['uploadImage']['tmp_name'])) {
             ErrorHandler::start();
-            $data['uploadImage']['name'] = $this->fileNewname($path, $reward->getId() . "-" . $data['uploadImage']['name']);
+            $data['uploadImage']['name'] = $this->fileNewname(
+                $path,
+                $reward->getId(); . "-" . $data['uploadImage']['name']
+            );
             move_uploaded_file($data['uploadImage']['tmp_name'], $path . $data['uploadImage']['name']);
             $reward->setImage($media_url . $data['uploadImage']['name']);
             ErrorHandler::stop(true);
@@ -107,7 +110,10 @@ class Reward implements ServiceManagerAwareInterface
     
         if (!empty($data['uploadImage']['tmp_name'])) {
             ErrorHandler::start();
-            $data['uploadImage']['name'] = $this->fileNewname($path, $reward->getId() . "-" . $data['uploadImage']['name']);
+            $data['uploadImage']['name'] = $this->fileNewname(
+                $path,
+                $reward->getId() . "-" . $data['uploadImage']['name']
+            );
             move_uploaded_file($data['uploadImage']['tmp_name'], $path . $data['uploadImage']['name']);
             $reward->setImage($media_url . $data['uploadImage']['name']);
             ErrorHandler::stop(true);
@@ -253,7 +259,9 @@ class Reward implements ServiceManagerAwareInterface
     public function getRewardRuleConditionMapper()
     {
         if (null === $this->rewardRuleConditionMapper) {
-            $this->rewardRuleConditionMapper = $this->getServiceManager()->get('playgroundreward_rewardrulecondition_mapper');
+            $this->rewardRuleConditionMapper = $this->getServiceManager()->get(
+                'playgroundreward_rewardrulecondition_mapper'
+            );
         }
 
         return $this->rewardRuleConditionMapper;

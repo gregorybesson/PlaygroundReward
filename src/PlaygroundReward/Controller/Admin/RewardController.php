@@ -56,7 +56,12 @@ class RewardController extends AbstractActionController
             );
             $reward = $service->create($data, $reward, 'playgroundreward_reward_form');
             if ($reward) {
-                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(($this->getServiceLocator()->get('translator')->translate('Reward created', 'playgroundreward')));
+                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(
+                    $this->getServiceLocator()->get('translator')->translate(
+                        'Reward created',
+                        'playgroundreward'
+                    )
+                );
     
                 return $this->redirect()->toRoute('admin/reward/list');
             }
@@ -113,9 +118,13 @@ class RewardController extends AbstractActionController
         if ($reward) {
             try {
                 $service->getRewardMapper()->remove($reward);
-                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('The reward has been removed');
+                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(
+                    'The reward has been removed'
+                );
             } catch (\Doctrine\DBAL\DBALException $e) {
-                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('This reward has been already used');
+                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(
+                    'This reward has been already used'
+                );
                 //throw $e;
             }
         }
@@ -164,7 +173,13 @@ class RewardController extends AbstractActionController
         $form = $this->getServiceLocator()->get('playgroundreward_rewardrule_form');
         $form->get('submit')->setAttribute('label', 'Add');
         $form->get('reward_id')->setAttribute('value', $rewardId);
-        $form->setAttribute('action', $this->url()->fromRoute('admin/reward/rule-add', array('rewardId' => $rewardId)));
+        $form->setAttribute(
+            'action',
+            $this->url()->fromRoute(
+                'admin/reward/rule-add',
+                array('rewardId' => $rewardId)
+            )
+        );
         $form->setAttribute('method', 'post');
 
         $rule = new RewardRule();

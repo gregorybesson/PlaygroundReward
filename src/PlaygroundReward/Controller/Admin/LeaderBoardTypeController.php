@@ -89,7 +89,11 @@ class LeaderBoardTypeController extends AbstractActionController
                 $request->getFiles()->toArray()
             );
 
-            $leaderboard = $this->getLeaderboardTypeService()->edit($data, $leaderboard, 'playgroundreward_leaderboard_form');
+            $leaderboard = $this->getLeaderboardTypeService()->edit(
+                $data,
+                $leaderboard,
+                'playgroundreward_leaderboard_form'
+            );
 
             if ($leaderboard) {
                 $this->flashMessenger()->addMessage('The leaderboard "'.$leaderboard->getName().'" was updated');
@@ -132,7 +136,9 @@ class LeaderBoardTypeController extends AbstractActionController
     public function getLeaderboardTypeService()
     {
         if (null === $this->leaderboardTypeService) {
-            $this->leaderboardTypeService = $this->getServiceLocator()->get('playgroundreward_leaderboardtype_service');
+            $this->leaderboardTypeService = $this->getServiceLocator()->get(
+                'playgroundreward_leaderboardtype_service'
+            );
         }
 
         return $this->leaderboardTypeService;

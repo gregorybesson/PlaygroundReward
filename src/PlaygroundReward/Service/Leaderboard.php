@@ -68,7 +68,12 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function findOrCreateLeaderboardByUser($user, $leaderboardType)
     {
 
-        $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(array('user' => $user, 'leaderboardType' => $leaderboardType));
+        $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(
+            array(
+                'user' => $user,
+                'leaderboardType' => $leaderboardType
+            )
+        );
         if (empty($leaderboardUser)) {
             $leaderboardUser = new LeaderboardEntity();
             $leaderboardUser->setLeaderboardType($leaderboardType)
@@ -90,7 +95,12 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function getTotal($user)
     {
         $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
-        $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(array('user' => $user, 'leaderboardType' => $leaderboardType));
+        $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(
+            array(
+                'user' => $user,
+                'leaderboardType' => $leaderboardType
+            )
+        );
         if (!$leaderboardUser) {
             return 0;
         }
@@ -105,13 +115,22 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     *
     * @return Query $query
     */
-    public function getLeaderboardQuery($leaderboardType = null, $nbItems = 5, $search = null, $order = null, $dir = null)
-    {
+    public function getLeaderboardQuery(
+        $leaderboardType = null,
+        $nbItems = 5,
+        $search = null,
+        $order = null,
+        $dir = null
+    ) {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         $filterSearch = '';
 
         if ($search != '') {
-            $filterSearch = ' AND (u.address LIKE :queryString1 OR u.address2 LIKE :queryString2 OR u.city LIKE :queryString3)'; // FIXME fields to apply querySearch
+            $filterSearch = ' AND (
+                u.address LIKE :queryString1 OR 
+                u.address2 LIKE :queryString2 OR 
+                u.city LIKE :queryString3
+            )';
         }
         
         $availableOrders = array('total_points', 'city', 'address2', 'address');
@@ -131,13 +150,17 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $stmt = '
              SELECT e.*, u.*
              FROM (
-             	SELECT sube.*, @curRank := @curRank + 1 AS rank FROM reward_leaderboard sube, (SELECT @curRank := 0) r ORDER BY sube.total_points DESC
+             	SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
+                ORDER BY sube.total_points DESC
              ) as e
              JOIN user u ON u.user_id = e.user_id
              WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId '.$filterSearch. ' ' . $order;
 
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
-            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(
+                array('name' => $leaderboardType)
+            );
         } else {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
@@ -158,7 +181,8 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     }
 
     /**
-    * getLeaderboard : Permet de recuperer le leaderboard en fonction de différents criteres avec gestion du nombre d'item
+    * getLeaderboard : Permet de recuperer le leaderboard en fonction
+    * de différents criteres avec gestion du nombre d'item
     * @param mixed $leaderboardType
     * @param int $nbItems
     * @param string $search
@@ -292,7 +316,9 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function getLeaderboardTypeService()
     {
         if (null === $this->leaderboardTypeService) {
-            $this->leaderboardTypeService = $this->getServiceManager()->get('playgroundreward_leaderboardtype_service');
+            $this->leaderboardTypeService = $this->getServiceManager()->get(
+                'playgroundreward_leaderboardtype_service'
+            );
         }
 
         return $this->leaderboardTypeService;

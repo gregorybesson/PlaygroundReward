@@ -48,7 +48,11 @@ class UserBadges extends AbstractHelper
                 $moreBadges[$key]['reward'] = $reward;
             }
             foreach ($userRewards as $userReward) {
-                $isDone = ($reward->getType() == $userReward['type'] && $reward->getCategory() == $userReward['category'] && strtolower($reward->getTitle()) ==strtolower($userReward['label']));
+                $isDone = (
+                    $reward->getType() == $userReward['type'] &&
+                    $reward->getCategory() == $userReward['category'] &&
+                    strtolower($reward->getTitle()) == strtolower($userReward['label'])
+                );
                 if ($detail) {
                     $badges[$key]['done'] = $isDone;
                 } else {

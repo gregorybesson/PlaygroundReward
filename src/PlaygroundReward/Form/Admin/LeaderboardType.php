@@ -22,7 +22,7 @@ class LeaderboardType extends ProvidesEventsForm
     * @param Zend\I18n\Translator\Translator $translator
     *
     */
-    public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
+    public function __construct($name, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
 
