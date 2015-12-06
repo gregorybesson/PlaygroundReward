@@ -1,7 +1,6 @@
 <?php
 namespace PlaygroundReward\Service;
 
-use Zend\Session\Container;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\Event;
@@ -271,12 +270,8 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
     
     public function tellReward($storyTelling, $achievement)
     {
-        // TODO : Put this mouth stuff to a dedicated listener.
         $userId = ($storyTelling->getProspect())? $storyTelling->getProspect()->getProspect():null;
-        // TODO : apiKey is ... the key ! factorize it
         $args = array( 'apiKey' => 'key_first', 'userId' => $userId );
-         
-        //TODO : Make it dynamic too ! (this has to be taken from the storyMapping's domain)
         $url = "http://localhost:93/notification";
          
         $welcome =

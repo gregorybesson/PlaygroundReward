@@ -3,7 +3,6 @@
 namespace PlaygroundReward\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundReward\Options\ModuleOptions;
 
 class LeaderboardType

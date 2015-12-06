@@ -6,6 +6,7 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
+use PlaygroundReward\Mapper\Achievement as AchievementMapper;
 
 class Achievement extends EventProvider implements ServiceManagerAwareInterface
 {
@@ -130,7 +131,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
      * @param  AchievementMapperInterface $achievementMapper
      * @return Achievement
      */
-    public function setAchievementMapper(AchievementMapperInterface $achievementMapper)
+    public function setAchievementMapper(AchievementMapper $achievementMapper)
     {
         $this->achievementMapper = $achievementMapper;
 

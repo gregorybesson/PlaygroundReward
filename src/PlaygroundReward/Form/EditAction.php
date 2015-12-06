@@ -3,7 +3,6 @@
 namespace PlaygroundReward\Form;
 
 use PlaygroundReward\Options\UserEditOptionsInterface;
-use Zend\Form\Form;
 use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
 

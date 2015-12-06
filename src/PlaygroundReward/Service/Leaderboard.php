@@ -7,7 +7,6 @@ use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 {

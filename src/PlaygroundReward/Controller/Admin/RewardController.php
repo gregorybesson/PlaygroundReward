@@ -4,6 +4,7 @@ namespace PlaygroundReward\Controller\Admin;
 
 use PlaygroundReward\Entity\Reward;
 use PlaygroundReward\Entity\RewardRule;
+use PlaygroundReward\Service\Reward as RewardService;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -125,7 +126,6 @@ class RewardController extends AbstractActionController
                 $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(
                     'This reward has been already used'
                 );
-                //throw $e;
             }
         }
     
@@ -265,7 +265,7 @@ class RewardController extends AbstractActionController
         return $this->rewardService;
     }
 
-    public function setRewardService(rewardService $rewardService)
+    public function setRewardService(RewardService $rewardService)
     {
         $this->rewardService = $rewardService;
 
