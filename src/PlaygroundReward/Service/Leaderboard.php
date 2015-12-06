@@ -222,7 +222,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             } catch (\Doctrine\ORM\Query\QueryException $e) {
                 echo $e->getMessage();
                 echo $e->getTraceAsString();
-                exit();
             }
         }
 
