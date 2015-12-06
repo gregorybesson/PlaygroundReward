@@ -43,11 +43,11 @@ class RewardRuleCondition
     
     /**
      * values : Boolean
-	 *			DateTime
-	 *			Float
-	 *			Integer
-	 *			String
-	 *			Array
+     *          DateTime
+     *          Float
+     *          Integer
+     *          String
+     *          Array
      *
      * @ORM\Column(type="string", length=255, nullable=false)
      */
@@ -113,7 +113,7 @@ class RewardRuleCondition
     
     
 
-	/**
+    /**
      * @return the $rule
      */
     public function getRule()
@@ -121,7 +121,7 @@ class RewardRuleCondition
         return $this->rule;
     }
 
-	/**
+    /**
      * @param field_type $rule
      */
     public function setRule($rule)
@@ -131,7 +131,7 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      * @return the $object
      */
     public function getObject()
@@ -139,7 +139,7 @@ class RewardRuleCondition
         return $this->object;
     }
 
-	/**
+    /**
      * @param field_type $object
      */
     public function setObject($object)
@@ -149,7 +149,7 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      * @return the $attribute
      */
     public function getAttribute()
@@ -157,7 +157,7 @@ class RewardRuleCondition
         return $this->attribute;
     }
 
-	/**
+    /**
      * @param field_type $attribute
      */
     public function setAttribute($attribute)
@@ -167,7 +167,7 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      * @return the $type
      */
     public function getType()
@@ -175,7 +175,7 @@ class RewardRuleCondition
         return $this->type;
     }
 
-	/**
+    /**
      * @param field_type $type
      */
     public function setType($type)
@@ -185,7 +185,7 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      * @return the $comparison
      */
     public function getComparison()
@@ -193,7 +193,7 @@ class RewardRuleCondition
         return $this->comparison;
     }
 
-	/**
+    /**
      * @param field_type $comparison
      */
     public function setComparison($comparison)
@@ -203,7 +203,7 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      * @return the $value
      */
     public function getValue()
@@ -211,7 +211,7 @@ class RewardRuleCondition
         return $this->value;
     }
 
-	/**
+    /**
      * @param field_type $value
      */
     public function setValue($value)
@@ -221,11 +221,11 @@ class RewardRuleCondition
         return $this;
     }
 
-	/**
+    /**
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -234,7 +234,7 @@ class RewardRuleCondition
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -245,7 +245,7 @@ class RewardRuleCondition
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -254,7 +254,7 @@ class RewardRuleCondition
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         
@@ -286,12 +286,12 @@ class RewardRuleCondition
         $this->state = $data['state'];*/
     }
     
-    public function setInputFilter (InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
     
-    public function getInputFilter ()
+    public function getInputFilter()
     {
         if (! $this->inputFilter) {
             $inputFilter = new InputFilter();
@@ -307,9 +307,9 @@ class RewardRuleCondition
                 'required' => false,
                 'allowEmpty' => true,
 
-            )));
+             )));
 
-            $this->inputFilter = $inputFilter;
+             $this->inputFilter = $inputFilter;
         }
     
         return $this->inputFilter;

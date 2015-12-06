@@ -18,7 +18,7 @@ class LeaderboardType extends ProvidesEventsForm
     * __construct : permet de construire le formulaire qui peuplera l'entity LeaderboardType
     *
     * @param string $name
-    * @param Zend\ServiceManager\ServiceManager $serviceManager 
+    * @param Zend\ServiceManager\ServiceManager $serviceManager
     * @param Zend\I18n\Translator\Translator $translator
     *
     */

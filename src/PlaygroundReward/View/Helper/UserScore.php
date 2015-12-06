@@ -58,6 +58,6 @@ class UserScore extends AbstractHelper
 
     public function getLeaderboardService()
     {
-       return $this->leaderboardService; 
+        return $this->leaderboardService;
     }
 }

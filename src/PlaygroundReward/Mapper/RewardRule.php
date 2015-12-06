@@ -43,7 +43,8 @@ class RewardRule
         return $this->getEntityRepository()->findBy($array);
     }
     
-    public function findRulesByStoryMapping($storyMappingId){
+    public function findRulesByStoryMapping($storyMappingId)
+    {
         
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('r'))

@@ -51,14 +51,13 @@ class Reward implements ServiceManagerAwareInterface
     
         $path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
         if (!is_dir($path)) {
-            mkdir($path,0777, true);
+            mkdir($path, 0777, true);
         }
         $media_url = $this->getOptions()->getMediaUrl() . '/';
     
         $form->setData($data);
     
         if (!$form->isValid()) {
-
             return false;
         }
     
@@ -96,14 +95,13 @@ class Reward implements ServiceManagerAwareInterface
     
         $path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
         if (!is_dir($path)) {
-            mkdir($path,0777, true);
+            mkdir($path, 0777, true);
         }
         $media_url = $this->getOptions()->getMediaUrl() . '/';
     
         $form->setData($data);
     
         if (!$form->isValid()) {
-
             return false;
         }
     
@@ -300,13 +298,14 @@ class Reward implements ServiceManagerAwareInterface
         return $this->options;
     }
     
-    public function fileNewname($path, $filename, $generate = false){
+    public function fileNewname($path, $filename, $generate = false)
+    {
         $sanitize = new Sanitize();
         $name = $sanitize->filter($filename);
         $newpath = $path.$name;
     
-        if($generate){
-            if(file_exists($newpath)) {
+        if ($generate) {
+            if (file_exists($newpath)) {
                 $filename = pathinfo($name, PATHINFO_FILENAME);
                 $ext = pathinfo($name, PATHINFO_EXTENSION);
                  

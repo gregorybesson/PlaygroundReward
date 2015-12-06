@@ -12,7 +12,7 @@ use Zend\ServiceManager\ServiceManager;
 
 class RewardRuleConditionFieldset extends Fieldset
 {
-    public function __construct($name = null,ServiceManager $serviceManager, Translator $translator)
+    public function __construct($name = null, ServiceManager $serviceManager, Translator $translator)
     {
         parent::__construct($name);
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
@@ -99,9 +99,9 @@ class RewardRuleConditionFieldset extends Fieldset
             'options' => array(
                 'label' => $translator->translate('Delete', 'playgroundreward'),
             ),
-			'attributes' => array(
-				'class' => 'delete-button',
-			)
+            'attributes' => array(
+                'class' => 'delete-button',
+            )
         ));
 
 

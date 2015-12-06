@@ -35,7 +35,7 @@ class Leaderboard
     protected $leaderboardType;
 
     /**
-     * Le nombre de points totaux 
+     * Le nombre de points totaux
      * @ORM\Column(name="total_points",type="integer",columnDefinition="BIGINT NOT NULL DEFAULT 0")
      */
     protected $totalPoints;
@@ -140,7 +140,7 @@ class Leaderboard
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -149,7 +149,7 @@ class Leaderboard
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -160,7 +160,7 @@ class Leaderboard
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -169,7 +169,7 @@ class Leaderboard
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
 

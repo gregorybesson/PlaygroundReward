@@ -18,23 +18,23 @@ class RewardController extends AbstractActionController
     
     public function listAction()
     {
-		$service = $this->getRewardService();
+        $service = $this->getRewardService();
 
         $rewards = $service->getRewardMapper()->findAll();
-		
+        
         if (is_array($rewards)) {
             $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($rewards));
-			$paginator->setItemCountPerPage(20);
-        	$paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
+            $paginator->setItemCountPerPage(20);
+            $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {
             $paginator = $rewards;
         }
 
         return new ViewModel(
-	        array(
-	        	'rewards'   => $paginator,
-	        )
-		);
+            array(
+                'rewards'   => $paginator,
+            )
+        );
     }
     
     public function createAction()
@@ -143,10 +143,10 @@ class RewardController extends AbstractActionController
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
         return array(
-        	'rules' => $paginator,
-        	'reward_id' => $rewardId,
-        	'reward' => $reward,
-		);
+            'rules' => $paginator,
+            'reward_id' => $rewardId,
+            'reward' => $reward,
+        );
     }
 
     public function addRuleAction()
@@ -176,12 +176,12 @@ class RewardController extends AbstractActionController
                 $this->getRequest()->getFiles()->toArray()
             );
                $rule = $service->createRule($data);
-               if ($rule) {
-                   // Redirect to list of rewards
-                   $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('The rule was created');
+            if ($rule) {
+                // Redirect to list of rewards
+                $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('The rule was created');
 
-                   return $this->redirect()->toRoute('admin/reward/rule-list', array('rewardId'=>$rewardId));
-               }
+                return $this->redirect()->toRoute('admin/reward/rule-list', array('rewardId'=>$rewardId));
+            }
         }
 
         return $viewModel->setVariables(array('form' => $form, 'reward_id' => $rewardId, 'rule_id' => 0));

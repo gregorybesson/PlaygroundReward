@@ -25,7 +25,7 @@ class Module
             $translate->getTranslator()->setLocale($locale);
         }
 
-        AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
+        AbstractValidator::setDefaultTranslator($translator, 'playgroundcore');
 
 
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
@@ -75,10 +75,10 @@ class Module
                     return new Options\ModuleOptions(isset($config['playgroundreward']) ? $config['playgroundreward'] : array());
                 },
                 'playgroundreward_event_mapper' => function ($sm) {
-                return new \PlaygroundReward\Mapper\Event(
+                    return new \PlaygroundReward\Mapper\Event(
                         $sm->get('playgroundreward_doctrine_em'),
                         $sm->get('playgroundreward_module_options')
-                );
+                    );
                 },
                 'playgroundreward_achievement_mapper' => function ($sm) {
                     return new \PlaygroundReward\Mapper\Achievement(
@@ -116,13 +116,13 @@ class Module
                         $sm->get('playgroundreward_module_options')
                     );
                 },
-                'playgroundreward_editaction_form' => function($sm) {
+                'playgroundreward_editaction_form' => function ($sm) {
                     $options = $sm->get('playgroundreward_module_options');
                     $form = new Form\EditAction(null, $options, $sm);
 
                     return $form;
                 },
-                'playgroundreward_reward_form' => function($sm) {
+                'playgroundreward_reward_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\Reward(null, $sm, $translator);
                     $reward = new Entity\Reward();
@@ -130,7 +130,7 @@ class Module
 
                     return $form;
                 },
-                'playgroundreward_rewardrule_form' => function($sm) {
+                'playgroundreward_rewardrule_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\RewardRule(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
@@ -138,7 +138,7 @@ class Module
 
                     return $form;
                 },
-                'playgroundreward_leaderboardtype_form' => function($sm) {
+                'playgroundreward_leaderboardtype_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $leaderboardType = new Entity\LeaderboardType();
@@ -146,7 +146,7 @@ class Module
 
                     return $form;
                 },
-                'playgroundreward_leaderboard_form' => function($sm) {
+                'playgroundreward_leaderboard_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
@@ -154,7 +154,7 @@ class Module
 
                     return $form;
                 },
-                'playgroundreward_rewardrulecondition_form' => function($sm) {
+                'playgroundreward_rewardrulecondition_form' => function ($sm) {
                     $translator = $sm->get('translator');
                     $form = new Form\Admin\RewardRuleCondition(null, $sm, $translator);
                     $rewardRuleCondition = new Entity\RewardRuleCondition();

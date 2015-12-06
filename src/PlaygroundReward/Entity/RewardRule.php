@@ -110,7 +110,7 @@ class RewardRule
         return $this->id;
     }
 
-	/**
+    /**
      * @return the $reward
      */
     public function getReward()
@@ -118,7 +118,7 @@ class RewardRule
         return $this->reward;
     }
 
-	/**
+    /**
      * @param field_type $reward
      */
     public function setReward($reward)
@@ -129,7 +129,7 @@ class RewardRule
         return $this;
     }
 
-	/**
+    /**
      * @return the $conditions
      */
     public function getConditions()
@@ -137,7 +137,7 @@ class RewardRule
         return $this->conditions;
     }
 
-	/**
+    /**
      * @param \Doctrine\Common\Collections\ArrayCollection $conditions
      */
     public function setConditions(ArrayCollection $conditions)
@@ -175,7 +175,7 @@ class RewardRule
         $this->conditions[] = $condition;
     }
 
-	/**
+    /**
      * @return the $completionType
      */
     public function getCompletionType()
@@ -183,7 +183,7 @@ class RewardRule
         return $this->completionType;
     }
 
-	/**
+    /**
      * @param field_type $completionType
      */
     public function setCompletionType($completionType)
@@ -193,7 +193,7 @@ class RewardRule
         return $this;
     }
 
-	/**
+    /**
      * @return the $storyMappings
      */
     public function getStoryMappings()
@@ -201,7 +201,7 @@ class RewardRule
         return $this->storyMappings;
     }
 
-	/**
+    /**
      * @param field_type $storyMappings
      */
     public function setStoryMappings($storyMappings)
@@ -225,7 +225,7 @@ class RewardRule
         }
     }
 
-	/**
+    /**
      * @return the $countType
      */
     public function getCountType()
@@ -233,7 +233,7 @@ class RewardRule
         return $this->countType;
     }
 
-	/**
+    /**
      * @param field_type $countType
      */
     public function setCountType($countType)
@@ -243,7 +243,7 @@ class RewardRule
         return $this;
     }
 
-	/**
+    /**
      * @return the $count
      */
     public function getCount()
@@ -251,7 +251,7 @@ class RewardRule
         return $this->count;
     }
 
-	/**
+    /**
      * @param field_type $count
      */
     public function setCount($count)
@@ -261,11 +261,11 @@ class RewardRule
         return $this;
     }
 
-	/**
+    /**
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -274,7 +274,7 @@ class RewardRule
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -285,7 +285,7 @@ class RewardRule
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -294,7 +294,7 @@ class RewardRule
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         
@@ -326,12 +326,12 @@ class RewardRule
         $this->state = $data['state'];*/
     }
     
-    public function setInputFilter (InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
     
-    public function getInputFilter ()
+    public function getInputFilter()
     {
         if (! $this->inputFilter) {
             $inputFilter = new InputFilter();

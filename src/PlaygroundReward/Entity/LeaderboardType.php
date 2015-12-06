@@ -45,7 +45,8 @@ class LeaderboardType
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -103,7 +104,7 @@ class LeaderboardType
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -112,7 +113,7 @@ class LeaderboardType
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -123,7 +124,7 @@ class LeaderboardType
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -132,7 +133,7 @@ class LeaderboardType
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         
@@ -163,7 +164,7 @@ class LeaderboardType
 
     }
 
-    public function getInputFilter ()
+    public function getInputFilter()
     {
         if (! $this->inputFilter) {
             $inputFilter = new InputFilter();

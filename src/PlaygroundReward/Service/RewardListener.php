@@ -43,9 +43,9 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $arrayListeners = array();
         
         foreach ($rules as $rule) {
-            foreach($rule->getStoryMappings() as $storyMapping){
+            foreach ($rule->getStoryMappings() as $storyMapping) {
                 $arrayListeners[$storyMapping->getId()] = 'story.' . $storyMapping->getId();
-            } 
+            }
         }
         
         // I inject deduplicated stories into listeners
@@ -74,8 +74,8 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
     /**
      * count of story $rule->getStoryMappings() $rule->getCountType() $rule->getCount()
      * count of story 'play game' = 5
-     * 
-     * @param \Zend\EventManager\Event $e            
+     *
+     * @param \Zend\EventManager\Event $e
      */
     public function reward(\Zend\EventManager\Event $e)
     {
@@ -108,8 +108,8 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     
                     //print_r($object);
                     
-                    if($condition->getType() === 'datetime'){
-                        if (isset($object[$condition->getObject()][$condition->getAttribute()])){
+                    if ($condition->getType() === 'datetime') {
+                        if (isset($object[$condition->getObject()][$condition->getAttribute()])) {
                             $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
                             //echo 'condition : ' . $dateTime->format('d/m/Y') . ' value : ' . $condition->getValue();
                             if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
@@ -124,19 +124,18 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                         }
                     }
                 }
-            } else{
+            } else {
                 //echo "has no condition so is compliant<br>";
                 $compliancy = true;
             }
 
-            if($compliancy){
-            
-                if($storyTelling->getUser()){
+            if ($compliancy) {
+                if ($storyTelling->getUser()) {
                     $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
                         'user' => $storyTelling->getUser(),
                         'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
                     ));
-                }else{
+                } else {
                     $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
                         'prospect' => $storyTelling->getProspect(),
                         'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
@@ -152,8 +151,8 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                             $operator = $condition->getComparison();
                             $object = json_decode($story->getObject(), true);
                             
-                            if($condition->getType() === 'datetime'){
-                                if (isset($object[$condition->getObject()][$condition->getAttribute()])){
+                            if ($condition->getType() === 'datetime') {
+                                if (isset($object[$condition->getObject()][$condition->getAttribute()])) {
                                     $dateTime = new \DateTime($object[$condition->getObject()][$condition->getAttribute()]['date'], new \DateTimeZone($object[$condition->getObject()][$condition->getAttribute()]['timezone']));
 
                                     if ($this->$operator($dateTime->format('d/m/Y'), $condition->getValue())) {
@@ -174,7 +173,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 //echo "has " . $nbCompliantStories . " compliant stories<br>";
                 // $this->$countType is the operator : === / <= / >=
                 if ($this->$countType($nbCompliantStories, $rule->getCount())) {
-                    //echo 'Creation du badge ' . $rule->getReward()->getTitle(); 
+                    //echo 'Creation du badge ' . $rule->getReward()->getTitle();
                     $achievement = new \PlaygroundReward\Entity\Achievement();
                     $achievement->setUser($storyTelling->getUser())
                         ->setReward($rule->getReward())
@@ -216,17 +215,17 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         return $this;
     }
     
-    public function equals($op1,$op2)
+    public function equals($op1, $op2)
     {
         return $op1 === $op2;
     }
     
-    public function more_than($op1,$op2)
+    public function more_than($op1, $op2)
     {
         return $op1 >= $op2;
     }
     
-    public function less_than($op1,$op2)
+    public function less_than($op1, $op2)
     {
         return $op1 <= $op2;
     }
@@ -251,8 +250,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $placeholders = array('{username}', '{title}');
         $values = array($userId, $achievement->getLabel());
         
-        if($achievement->getReward()->getDisplayNotification()){
-        
+        if ($achievement->getReward()->getDisplayNotification()) {
             $notification = str_replace($placeholders, $values, $achievement->getReward()->getNotification());
 
             $args["container"] = 'body';
@@ -269,10 +267,10 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
             $this->sendRequest($url, $args);
         }
     
-        if($achievement->getReward()->getDisplayActivityStream()){
+        if ($achievement->getReward()->getDisplayActivityStream()) {
             $activityStream = str_replace($placeholders, $values, $achievement->getReward()->getActivityStream());
             
-            $message = 
+            $message =
                 '<div id="pgActivityStream" class="playgrounde" >' .
                     '<div >' .
                         '<a href="#" onclick="document.getElementById(\'pgActivityStream\').parentNode.removeChild(document.getElementById(\'pgActivityStream\'));">' .
@@ -315,5 +313,4 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $result = curl_exec($ch);
         curl_close($ch);
     }
-
 }

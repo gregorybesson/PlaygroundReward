@@ -129,7 +129,7 @@ class Achievement
         return $this->reward;
     }
 
-	/**
+    /**
      * @param field_type $reward
      */
     public function setReward($reward)
@@ -139,7 +139,7 @@ class Achievement
         return $this;
     }
 
-	/**
+    /**
      * @return the $category
      */
     public function getCategory()
@@ -234,7 +234,7 @@ class Achievement
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -243,7 +243,7 @@ class Achievement
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -254,7 +254,7 @@ class Achievement
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -263,7 +263,7 @@ class Achievement
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         

@@ -190,7 +190,7 @@ class Reward
         return $this->title;
     }
 
-	/**
+    /**
      * @param field_type $title
      */
     public function setTitle($title)
@@ -200,7 +200,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $hint
      */
     public function getHint()
@@ -208,7 +208,7 @@ class Reward
         return $this->hint;
     }
 
-	/**
+    /**
      * @param field_type $hint
      */
     public function setHint($hint)
@@ -291,7 +291,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $hide
      */
     public function getHide()
@@ -299,7 +299,7 @@ class Reward
         return $this->hide;
     }
 
-	/**
+    /**
      * @param boolean $hide
      */
     public function setHide($hide)
@@ -309,7 +309,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $image
      */
     public function getImage()
@@ -317,7 +317,7 @@ class Reward
         return $this->image;
     }
 
-	/**
+    /**
      * @param field_type $image
      */
     public function setImage($image)
@@ -327,7 +327,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $active
      */
     public function getActive()
@@ -335,7 +335,7 @@ class Reward
         return $this->active;
     }
 
-	/**
+    /**
      * @param boolean $active
      */
     public function setActive($active)
@@ -345,7 +345,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $points
      */
     public function getPoints()
@@ -353,7 +353,7 @@ class Reward
         return $this->points;
     }
 
-	/**
+    /**
      * @param field_type $points
      */
     public function setPoints($points)
@@ -363,7 +363,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $countLimit
      */
     public function getCountLimit()
@@ -371,7 +371,7 @@ class Reward
         return $this->countLimit;
     }
 
-	/**
+    /**
      * @param field_type $countLimit
      */
     public function setCountLimit($countLimit)
@@ -381,7 +381,7 @@ class Reward
         return $this;
     }
 
-	/**
+    /**
      * @return the $rules
      */
     public function getRules()
@@ -389,7 +389,7 @@ class Reward
         return $this->rules;
     }
 
-	/**
+    /**
      * @param \Doctrine\Common\Collections\ArrayCollection $rules
      */
     public function setRules($rules)
@@ -411,11 +411,11 @@ class Reward
         $this->rules[] = $rule;
     }
 
-	/**
+    /**
      *
      * @return the $createdAt
      */
-    public function getCreatedAt ()
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -424,7 +424,7 @@ class Reward
      *
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt ($createdAt)
+    public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
         
@@ -435,7 +435,7 @@ class Reward
      *
      * @return the $updatedAt
      */
-    public function getUpdatedAt ()
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -444,7 +444,7 @@ class Reward
      *
      * @param \DateTime $updatedAt
      */
-    public function setUpdatedAt ($updatedAt)
+    public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
         
@@ -476,12 +476,12 @@ class Reward
         $this->state = $data['state'];*/
     }
     
-    public function setInputFilter (InputFilterInterface $inputFilter)
+    public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
     }
     
-    public function getInputFilter ()
+    public function getInputFilter()
     {
         if (! $this->inputFilter) {
             $inputFilter = new InputFilter();

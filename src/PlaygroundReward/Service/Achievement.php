@@ -43,7 +43,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
      * @param unknown_type $type
      * @param unknown_type $count
      */
-    public function getLastBadgesActivity( $number=5 )
+    public function getLastBadgesActivity($number = 5)
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
 
@@ -54,7 +54,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
         return $lastBadges;
     }
 
-    public function getTopBadge($user, $category='')
+    public function getTopBadge($user, $category = '')
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
 
@@ -81,7 +81,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
         return $result;
     }
 
-    public function findBy($array, $sort=array())
+    public function findBy($array, $sort = array())
     {
         return $this->getAchievementMapper()->findBy($array, $sort);
     }
