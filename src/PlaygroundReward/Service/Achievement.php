@@ -67,9 +67,11 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
             FROM PlaygroundReward\Entity\Achievement a 
             WHERE a.user = :user 
             AND a.type = 'badge' 
-            AND a.category = '" . strtolower($category) .
-            "' ORDER BY a.level DESC");
+            AND a.category = :category
+            ORDER BY a.level DESC
+        ");
         $query->setParameter('user', $user);
+        $query->setParameter('category', strtolower($category));
         $query->setMaxResults(1);
         $result = $query->getResult();
 
