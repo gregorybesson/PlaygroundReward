@@ -102,7 +102,10 @@ class IndexController extends AbstractActionController
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
         $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
         $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
-        $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser($user, $filter);
+        $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser(
+            $user,
+            $filter
+        );
         $total = count($stories);
 
 
@@ -116,15 +119,17 @@ class IndexController extends AbstractActionController
                 }
             }
             if ($matchToFilter) {
-                $activities[] = array("object" => json_decode($story->getObject(), true),
-                                      "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
-                                      "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
-                                      "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStream(),
-                                      "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
-                                      "points" => $story->getPoints(),
-                                      'created_at' => $story->getCreatedAt(),
-                                      'definition' => $story->getOpenGraphStoryMapping()->getStory()->getDefinition(),
-                                      'label' => $story->getOpenGraphStoryMapping()->getStory()->getLabel());
+                $activities[] = array(
+                  "object" => json_decode($story->getObject(), true),
+                  "openGraphMapping" => $story->getOpenGraphStoryMapping()->getId(),
+                  "hint"   => $story->getOpenGraphStoryMapping()->getHint(),
+                  "activity_stream_text" => $story->getOpenGraphStoryMapping()->getActivityStream(),
+                  "picto" => $story->getOpenGraphStoryMapping()->getPicto(),
+                  "points" => $story->getPoints(),
+                  'created_at' => $story->getCreatedAt(),
+                  'definition' => $story->getOpenGraphStoryMapping()->getStory()->getDefinition(),
+                  'label' => $story->getOpenGraphStoryMapping()->getStory()->getLabel()
+                );
             }
         }
 
@@ -197,7 +202,9 @@ class IndexController extends AbstractActionController
     public function getLeaderboardTypeService()
     {
         if (!$this->leaderboardTypeService) {
-            $this->leaderboardTypeService = $this->getServiceLocator()->get('playgroundreward_leaderboardtype_service');
+            $this->leaderboardTypeService = $this->getServiceLocator()->get(
+                'playgroundreward_leaderboardtype_service'
+            );
         }
 
         return $this->leaderboardTypeService;

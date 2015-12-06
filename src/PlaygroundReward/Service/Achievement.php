@@ -33,7 +33,11 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     public function edit(array $data, $achievement)
     {
         $this->getAchievementMapper()->update($achievement);
-        $this->getAchievementManager()->trigger(__FUNCTION__.'.post', $this, array('achievement' => $achievement, 'data' => $data));
+        $this->getAchievementManager()->trigger(
+            __FUNCTION__.'.post',
+            $this,
+            array('achievement' => $achievement, 'data' => $data)
+        );
 
         return $achievement;
     }
@@ -58,7 +62,13 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
 
-        $query = $em->createQuery("SELECT a FROM PlaygroundReward\Entity\Achievement a WHERE a.user = :user AND a.type = 'badge' AND a.category = '" . strtolower($category) . "' ORDER BY a.level DESC");
+        $query = $em->createQuery("
+            SELECT a 
+            FROM PlaygroundReward\Entity\Achievement a 
+            WHERE a.user = :user 
+            AND a.type = 'badge' 
+            AND a.category = '" . strtolower($category) .
+            "' ORDER BY a.level DESC");
         $query->setParameter('user', $user);
         $query->setMaxResults(1);
         $result = $query->getResult();

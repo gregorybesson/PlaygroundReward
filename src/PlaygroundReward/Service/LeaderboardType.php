@@ -75,7 +75,11 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     */
     public function getLeaderboardTypeDefault()
     {
-        $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->findOneBy(array('name' => LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT));
+        $leaderboardTypeDefault = $this->getLeaderboardTypeMapper()->findOneBy(
+            array(
+                'name' => LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT
+            )
+        );
         if (empty($leaderboardTypeDefault)) {
             $leaderboardTypeDefault = new LeaderboardTypeEntity();
             $leaderboardTypeDefault->setName(LeaderboardTypeEntity::LEADERBOARD_TYPE_DEFAULT);
@@ -152,7 +156,9 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     public function getLeaderboardTypeMapper()
     {
         if (null === $this->leaderboardType) {
-            $this->leaderboardType = $this->getServiceManager()->get('playgroundreward_learderboardtype_mapper');
+            $this->leaderboardType = $this->getServiceManager()->get(
+                'playgroundreward_learderboardtype_mapper'
+            );
         }
 
         return $this->leaderboardType;

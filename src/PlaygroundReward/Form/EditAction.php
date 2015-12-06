@@ -13,7 +13,7 @@ class EditAction extends ProvidesEventsForm
     protected $userEntity;
     protected $serviceManager;
 
-    public function __construct($name = null, UserEditOptionsInterface $options, $serviceManager)
+    public function __construct($name, UserEditOptionsInterface $options, $serviceManager)
     {
         $this->setUserEditOptions($options);
         parent::__construct($name);

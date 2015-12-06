@@ -34,7 +34,7 @@ class Module
         }
 
         // I can post cron tasks to be scheduled by the core cron service
-//         $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
+        // $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
     }
 
     public function getConfig()
@@ -72,7 +72,11 @@ class Module
                 'playgroundreward_module_options' => function ($sm) {
                     $config = $sm->get('Configuration');
 
-                    return new Options\ModuleOptions(isset($config['playgroundreward']) ? $config['playgroundreward'] : array());
+                    return new Options\ModuleOptions(
+                        isset($config['playgroundreward']) ?
+                        $config['playgroundreward'] :
+                        array()
+                    );
                 },
                 'playgroundreward_event_mapper' => function ($sm) {
                     return new \PlaygroundReward\Mapper\Event(
