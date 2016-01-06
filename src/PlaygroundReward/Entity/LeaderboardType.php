@@ -158,10 +158,9 @@ class LeaderboardType
      */
     public function populate($data = array())
     {
-        if (isset($data['name']) && $data['name'] != null) {
+        if (isset($data['name']) && $data['name'] !== null) {
             $this->name = $data['name'];
         }
-
     }
 
     public function getInputFilter()

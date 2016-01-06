@@ -3,7 +3,6 @@
 namespace PlaygroundReward\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
 use PlaygroundReward\Options\ModuleOptions;
 
 class Leaderboard
@@ -57,7 +56,7 @@ class Leaderboard
     */
     public function findOneBy($filters)
     {
-         return $this->getEntityRepository()->findOneBy($filters);
+        return $this->getEntityRepository()->findOneBy($filters);
     }
 
     /**

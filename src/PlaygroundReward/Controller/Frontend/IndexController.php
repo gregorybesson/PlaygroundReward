@@ -5,8 +5,6 @@ namespace PlaygroundReward\Controller\Frontend;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
-use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
-use PlaygroundCore\ORM\Pagination\LargeTablePaginator as ORMPaginator;
 
 class IndexController extends AbstractActionController
 {
@@ -161,7 +159,6 @@ class IndexController extends AbstractActionController
       */
     public function getObjectService()
     {
-
         if (!$this->objectService) {
             $this->objectService = $this->getServiceLocator()->get('playgroundflow_object_service');
         }

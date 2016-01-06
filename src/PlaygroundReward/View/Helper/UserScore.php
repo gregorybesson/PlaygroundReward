@@ -2,8 +2,6 @@
 
 namespace PlaygroundReward\View\Helper;
 
-use PlaygroundReward\Service\Event;
-
 use Zend\View\Helper\AbstractHelper;
 
 class UserScore extends AbstractHelper

@@ -4,8 +4,6 @@ namespace PlaygroundReward\Form\Admin;
 
 use PlaygroundReward\Entity\RewardRuleCondition;
 use Zend\Form\Fieldset;
-use Zend\Form\Form;
-use Zend\Form\Element;
 use Zend\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\ServiceManager\ServiceManager;
@@ -103,7 +101,5 @@ class RewardRuleConditionFieldset extends Fieldset
                 'class' => 'delete-button',
             )
         ));
-
-
     }
 }

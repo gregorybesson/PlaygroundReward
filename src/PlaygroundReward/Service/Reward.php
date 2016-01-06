@@ -2,12 +2,12 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\Form\Form;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ErrorHandler;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
+use PlaygroundReward\Mapper\Reward as RewardMapper;
 
 class Reward implements ServiceManagerAwareInterface
 {
@@ -64,7 +64,7 @@ class Reward implements ServiceManagerAwareInterface
         $reward = $this->getRewardMapper()->insert($reward);
     
         // I wait for the reward to be saved to obtain its ID.
-    
+
         if (!empty($data['uploadImage']['tmp_name'])) {
             ErrorHandler::start();
             $data['uploadImage']['name'] = $this->fileNewname(
@@ -204,7 +204,7 @@ class Reward implements ServiceManagerAwareInterface
      * @param  RewardMapperInterface $rewardMapper
      * @return Reward
      */
-    public function setRewardMapper(RewardMapperInterface $rewardMapper)
+    public function setRewardMapper(RewardMapper $rewardMapper)
     {
         $this->rewardMapper = $rewardMapper;
 

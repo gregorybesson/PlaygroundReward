@@ -7,12 +7,11 @@ use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 {
 
-     /**
+    /**
      * @var leaderboardType
      */
     protected $leaderboardType;
@@ -47,7 +46,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function add($storyMapping, $user, $leaderboardType)
     {
-
         $leaderboard = $this->findOrCreateLeaderboardByUser($user, $leaderboardType);
 
         $leaderboard->setTotalPoints($leaderboard->getTotalPoints() + $storyMapping->getPoints());
@@ -67,7 +65,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function findOrCreateLeaderboardByUser($user, $leaderboardType)
     {
-
         $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(
             array(
                 'user' => $user,
@@ -120,24 +117,48 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $nbItems = 5,
         $search = null,
         $order = null,
-        $dir = null
+        $dir = 'desc'
     ) {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         $filterSearch = '';
 
         if ($search != '') {
-            $filterSearch = ' AND (
-                u.address LIKE :queryString1 OR 
-                u.address2 LIKE :queryString2 OR 
-                u.city LIKE :queryString3
-            )';
+            $stmt = '
+                SELECT e.*, u.*
+                FROM (
+                    SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                    FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
+                    ORDER BY sube.total_points DESC
+                ) as e
+                JOIN user u ON u.user_id = e.user_id
+                WHERE u.state = 1 AND 
+                e.leaderboardtype_id = :leaderboardTypeId AND 
+                (
+                    u.address LIKE :queryString1 OR 
+                    u.address2 LIKE :queryString2 OR 
+                    u.city LIKE :queryString3
+                )
+                ORDER BY :order
+            ';
+        } else {
+            $stmt = '
+             SELECT e.*, u.*
+             FROM (
+                SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
+                ORDER BY sube.total_points DESC
+             ) as e
+             JOIN user u ON u.user_id = e.user_id
+             WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId
+             ORDER BY :order
+        ';
         }
         
         $availableOrders = array('total_points', 'city', 'address2', 'address');
         if ($order && in_array($order, $availableOrders)) {
-            $order = 'ORDER BY ' . $order;
+            $order = $order;
         } else {
-            $order = 'ORDER BY total_points';
+            $order = 'total_points';
         }
         
         if ($dir && in_array($dir, array('asc', 'desc'))) {
@@ -147,16 +168,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         }
         
         $dbal = $em->getConnection();
-        $stmt = '
-             SELECT e.*, u.*
-             FROM (
-             	SELECT sube.*, @curRank := @curRank + 1 AS rank 
-                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
-                ORDER BY sube.total_points DESC
-             ) as e
-             JOIN user u ON u.user_id = e.user_id
-             WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId '.$filterSearch. ' ' . $order;
-
+        
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(
                 array('name' => $leaderboardType)
@@ -169,7 +181,10 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
         
-        $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
+        $parameters = array(
+            'leaderboardTypeId' => $leaderboardType->getId(),
+            'order' => $order
+        );
 
         if ($search != '') {
             $parameters['queryString1'] = '%'.$search.'%';
@@ -204,7 +219,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             } catch (\Doctrine\ORM\Query\QueryException $e) {
                 echo $e->getMessage();
                 echo $e->getTraceAsString();
-                exit();
             }
         }
 

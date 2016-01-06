@@ -78,12 +78,6 @@ class Module
                         array()
                     );
                 },
-                'playgroundreward_event_mapper' => function ($sm) {
-                    return new \PlaygroundReward\Mapper\Event(
-                        $sm->get('playgroundreward_doctrine_em'),
-                        $sm->get('playgroundreward_module_options')
-                    );
-                },
                 'playgroundreward_achievement_mapper' => function ($sm) {
                     return new \PlaygroundReward\Mapper\Achievement(
                         $sm->get('playgroundreward_doctrine_em'),
@@ -158,15 +152,6 @@ class Module
 
                     return $form;
                 },
-                'playgroundreward_rewardrulecondition_form' => function ($sm) {
-                    $translator = $sm->get('translator');
-                    $form = new Form\Admin\RewardRuleCondition(null, $sm, $translator);
-                    $rewardRuleCondition = new Entity\RewardRuleCondition();
-                    $form->setInputFilter($rewardRuleCondition->getInputFilter());
-
-                    return $form;
-                },
-
             ),
         );
     }

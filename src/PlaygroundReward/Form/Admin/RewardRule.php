@@ -2,7 +2,6 @@
 
 namespace PlaygroundReward\Form\Admin;
 
-use Zend\Form\Form;
 use Zend\Form\Element;
 use ZfcBase\Form\ProvidesEventsForm;
 use Zend\Mvc\I18n\Translator;
@@ -136,7 +135,6 @@ class RewardRule extends ProvidesEventsForm
         $this->add($submitElement, array(
             'priority' => -100,
         ));
-
     }
     
     /**

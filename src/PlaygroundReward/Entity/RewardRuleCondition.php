@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
@@ -302,14 +301,14 @@ class RewardRuleCondition
                 'required' => false,
                 'allowEmpty' => true,
             )));
-             $inputFilter->add($factory->createInput(array(
+            $inputFilter->add($factory->createInput(array(
                 'name' => 'type',
                 'required' => false,
                 'allowEmpty' => true,
 
              )));
 
-             $this->inputFilter = $inputFilter;
+            $this->inputFilter = $inputFilter;
         }
     
         return $this->inputFilter;

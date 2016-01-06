@@ -22,7 +22,6 @@ class UserBadges extends AbstractHelper
      */
     public function __invoke($userId = 0, $detail = false)
     {
-
         if ($userId == 0 && $this->getAuthService()->hasIdentity()) {
             if ($this->getAuthService()->getIdentity()) {
                 $userId = $this->getAuthService()->getIdentity()->getId();
