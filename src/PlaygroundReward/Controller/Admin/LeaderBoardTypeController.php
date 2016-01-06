@@ -3,7 +3,6 @@
 namespace PlaygroundReward\Controller\Admin;
 
 use PlaygroundReward\Entity\LeaderboardType;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -35,7 +34,6 @@ class LeaderBoardTypeController extends AbstractActionController
     */
     public function createAction()
     {
-
         $form = $this->getServiceLocator()->get('playgroundreward_leaderboard_form');
         
         $request = $this->getRequest();
@@ -53,11 +51,10 @@ class LeaderBoardTypeController extends AbstractActionController
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             } else {
-                 $this->flashMessenger()->addMessage('The leaderboard was not created');
+                $this->flashMessenger()->addMessage('The leaderboard was not created');
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             }
-            
         }
 
         $viewModel = new ViewModel();
@@ -100,7 +97,7 @@ class LeaderBoardTypeController extends AbstractActionController
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             } else {
-                 $this->flashMessenger()->addMessage('The leaderboard was not updated');
+                $this->flashMessenger()->addMessage('The leaderboard was not updated');
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             }

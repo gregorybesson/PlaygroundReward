@@ -101,7 +101,5 @@ class RewardRuleConditionFieldset extends Fieldset
                 'class' => 'delete-button',
             )
         ));
-
-
     }
 }

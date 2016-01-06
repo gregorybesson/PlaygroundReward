@@ -161,7 +161,6 @@ class LeaderboardType
         if (isset($data['name']) && $data['name'] !== null) {
             $this->name = $data['name'];
         }
-
     }
 
     public function getInputFilter()

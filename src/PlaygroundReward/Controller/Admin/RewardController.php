@@ -5,7 +5,6 @@ namespace PlaygroundReward\Controller\Admin;
 use PlaygroundReward\Entity\Reward;
 use PlaygroundReward\Entity\RewardRule;
 use PlaygroundReward\Service\Reward as RewardService;
-
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -190,7 +189,7 @@ class RewardController extends AbstractActionController
                 $this->getRequest()->getPost()->toArray(),
                 $this->getRequest()->getFiles()->toArray()
             );
-               $rule = $service->createRule($data);
+            $rule = $service->createRule($data);
             if ($rule) {
                 // Redirect to list of rewards
                 $this->flashMessenger()->setNamespace('playgroundreward')->addMessage('The rule was created');

@@ -64,7 +64,7 @@ class Reward implements ServiceManagerAwareInterface
         $reward = $this->getRewardMapper()->insert($reward);
     
         // I wait for the reward to be saved to obtain its ID.
-    
+
         if (!empty($data['uploadImage']['tmp_name'])) {
             ErrorHandler::start();
             $data['uploadImage']['name'] = $this->fileNewname(

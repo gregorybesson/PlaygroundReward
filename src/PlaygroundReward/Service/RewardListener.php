@@ -108,7 +108,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                     $operator = $condition->getComparison();
                     
                     //print_r($object);
-                    
+
                     if ($condition->getType() === 'datetime') {
                         if (isset($object[$condition->getObject()][$condition->getAttribute()])) {
                             $dateTime = new \DateTime(
@@ -332,7 +332,6 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
      */
     public function sendRequest($url, $args)
     {
-    
         $ch = curl_init();
         $curlConfig = array(
             CURLOPT_URL            => $url,

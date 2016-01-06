@@ -301,14 +301,14 @@ class RewardRuleCondition
                 'required' => false,
                 'allowEmpty' => true,
             )));
-             $inputFilter->add($factory->createInput(array(
+            $inputFilter->add($factory->createInput(array(
                 'name' => 'type',
                 'required' => false,
                 'allowEmpty' => true,
 
              )));
 
-             $this->inputFilter = $inputFilter;
+            $this->inputFilter = $inputFilter;
         }
     
         return $this->inputFilter;

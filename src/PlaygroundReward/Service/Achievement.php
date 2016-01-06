@@ -28,7 +28,6 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
 
     public function create(array $data)
     {
-
     }
 
     public function edit(array $data, $achievement)

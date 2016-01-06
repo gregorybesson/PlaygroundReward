@@ -11,7 +11,7 @@ use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
 class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 {
 
-     /**
+    /**
      * @var leaderboardType
      */
     protected $leaderboardType;
@@ -46,7 +46,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function add($storyMapping, $user, $leaderboardType)
     {
-
         $leaderboard = $this->findOrCreateLeaderboardByUser($user, $leaderboardType);
 
         $leaderboard->setTotalPoints($leaderboard->getTotalPoints() + $storyMapping->getPoints());
@@ -66,7 +65,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     */
     public function findOrCreateLeaderboardByUser($user, $leaderboardType)
     {
-
         $leaderboardUser = $this->getLeaderboardMapper()->findOneBy(
             array(
                 'user' => $user,

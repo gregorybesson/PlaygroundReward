@@ -159,7 +159,6 @@ class IndexController extends AbstractActionController
       */
     public function getObjectService()
     {
-
         if (!$this->objectService) {
             $this->objectService = $this->getServiceLocator()->get('playgroundflow_object_service');
         }

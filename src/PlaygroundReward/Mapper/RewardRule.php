@@ -45,7 +45,6 @@ class RewardRule
     
     public function findRulesByStoryMapping($storyMappingId)
     {
-        
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('r'))
         ->from('PlaygroundReward\Entity\RewardRule', 'r')

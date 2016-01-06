@@ -135,7 +135,6 @@ class RewardRule extends ProvidesEventsForm
         $this->add($submitElement, array(
             'priority' => -100,
         ));
-
     }
     
     /**

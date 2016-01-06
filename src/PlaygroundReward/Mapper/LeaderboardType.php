@@ -54,7 +54,7 @@ class LeaderboardType
     */
     public function findOneBy($filters)
     {
-         return $this->getEntityRepository()->findOneBy($filters);
+        return $this->getEntityRepository()->findOneBy($filters);
     }
 
     /**
