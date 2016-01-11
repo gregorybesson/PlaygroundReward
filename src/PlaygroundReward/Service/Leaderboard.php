@@ -121,54 +121,6 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     ) {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
         $filterSearch = '';
-
-        if ($search != '') {
-            $stmt = '
-                SELECT e.*, u.*
-                FROM (
-                    SELECT sube.*, @curRank := @curRank + 1 AS rank 
-                    FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
-                    ORDER BY sube.total_points DESC
-                ) as e
-                JOIN user u ON u.user_id = e.user_id
-                WHERE u.state = 1 AND 
-                e.leaderboardtype_id = :leaderboardTypeId AND 
-                (
-                    u.address LIKE :queryString1 OR 
-                    u.address2 LIKE :queryString2 OR 
-                    u.city LIKE :queryString3
-                )
-                ORDER BY :order
-            ';
-        } else {
-            $stmt = '
-             SELECT e.*, u.*
-             FROM (
-                SELECT sube.*, @curRank := @curRank + 1 AS rank 
-                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
-                ORDER BY sube.total_points DESC
-             ) as e
-             JOIN user u ON u.user_id = e.user_id
-             WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId
-             ORDER BY :order
-        ';
-        }
-        
-        $availableOrders = array('total_points', 'city', 'address2', 'address');
-        if ($order && in_array($order, $availableOrders)) {
-            $order = $order;
-        } else {
-            $order = 'total_points';
-        }
-        
-        if ($dir && in_array($dir, array('asc', 'desc'))) {
-            $order .= ' ' . $dir;
-        } else {
-            $order .= ' desc';
-        }
-        
-        $dbal = $em->getConnection();
-        
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(
                 array('name' => $leaderboardType)
@@ -181,16 +133,48 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
         
-        $parameters = array(
-            'leaderboardTypeId' => $leaderboardType->getId(),
-            'order' => $order
-        );
+        $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
+
+        $availableOrders = array('rank', 'total_points', 'city', 'address2', 'address');
+        if ($order && in_array(strtolower($order), $availableOrders)) {
+            $order = $order;
+        } else {
+            $order = 'total_points';
+        }
+        
+        if ($dir && in_array(strtolower($dir), array('asc', 'desc'))) {
+            $order .= ' ' . $dir;
+        } else {
+            $order .= ' desc';
+        }
+
+        $stmt = '
+            SELECT e.*, u.*
+            FROM (
+                SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
+                ORDER BY sube.total_points DESC
+            ) as e
+            JOIN user u ON u.user_id = e.user_id
+            WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId
+        ';
 
         if ($search != '') {
+            $stmt .= ' AND 
+                (
+                    u.address LIKE :queryString1 OR 
+                    u.address2 LIKE :queryString2 OR 
+                    u.city LIKE :queryString3
+                )
+            ';
             $parameters['queryString1'] = '%'.$search.'%';
             $parameters['queryString2'] = '%'.$search.'%';
             $parameters['queryString3'] = '%'.$search.'%';
         }
+
+        $stmt .= 'ORDER BY '.$order;
+        
+        $dbal = $em->getConnection();
         
         return $dbal->fetchAll($stmt, $parameters);
     }
