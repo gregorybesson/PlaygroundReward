@@ -29,6 +29,12 @@ class Leaderboard
     protected $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PlaygroundUser\Entity\Team")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id", onDelete="CASCADE")
+     **/
+    protected $team;
+
+    /**
      * @ORM\ManyToOne(targetEntity="PlaygroundReward\Entity\LeaderboardType")
      * @ORM\JoinColumn(name="leaderboardtype_id", referencedColumnName="id", onDelete="CASCADE")
      **/
@@ -96,6 +102,24 @@ class Leaderboard
     public function setUser($user)
     {
         $this->user = $user;
+        
+        return $this;
+    }
+
+    /**
+     * @return the $team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * @param field_type $team
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
         
         return $this;
     }
