@@ -66,11 +66,23 @@ class IndexController extends AbstractActionController
     public function leaderboardAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
+        
+        $userId = $this->params()->fromQuery('user_id');
+        $teamId = $this->params()->fromQuery('team_id');
         $search = $this->params()->fromQuery('name');
         $order = $this->params()->fromQuery('order');
         $dir = $this->params()->fromQuery('dir');
 
-        $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
+        $lb = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name'=>$filter));
+        if ($lb && $lb->getType()==='user' && $userId) {
+            // get a positioned leaderboard on this user_id
+            $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir, $userId);
+        } elseif ($lb && $lb->getType()==='team' && $teamId) {
+            // get a positioned leaderboard on this team_id
+            $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir, $teamId);
+        } else {
+            $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
+        }
 
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 

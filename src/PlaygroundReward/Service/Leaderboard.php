@@ -106,9 +106,10 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 
     /**
     * getLeaderboardQuery : Permet de recuperer le leaderboard en fonction de différents criteres
-    * @param mixed $leaderboardType
-    * @param int $nbItems
+    * @param string $leaderboardType : The name of the leaderboard to display
+    * @param int $nbItems : pagination items
     * @param string $search
+    *
     *
     * @return Query $query
     */
@@ -117,66 +118,109 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $nbItems = 5,
         $search = null,
         $order = null,
-        $dir = 'desc'
+        $dir = null,
+        $highlightId = null
     ) {
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        /* @var $dbal \Doctrine\DBAL\Connection */
+        $dbal = $em->getConnection();
+
         $filterSearch = '';
+        $availableOrders = array('total_points', 'city', 'address2', 'address', 'username');
+
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
-            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(
-                array('name' => $leaderboardType)
-            );
-        } else {
-            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
         }
         
         if (!$leaderboardType) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
-        
-        $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
 
-        $availableOrders = array('rank', 'total_points', 'city', 'address2', 'address');
-        if ($order && in_array(strtolower($order), $availableOrders)) {
-            $order = $order;
+        $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
+        
+        if ($order && in_array($order, $availableOrders)) {
+            $order = 'ORDER BY ' . $order;
         } else {
-            $order = 'total_points';
+            $order = 'ORDER BY rank';
         }
         
-        if ($dir && in_array(strtolower($dir), array('asc', 'desc'))) {
+        if ($dir && in_array($dir, array('asc', 'desc'))) {
             $order .= ' ' . $dir;
         } else {
-            $order .= ' desc';
+            $order .= ' asc';
         }
-
-        $stmt = '
-            SELECT e.*, u.*
-            FROM (
-                SELECT sube.*, @curRank := @curRank + 1 AS rank 
-                FROM reward_leaderboard sube, (SELECT @curRank := 0) r 
-                ORDER BY sube.total_points DESC
-            ) as e
-            JOIN user u ON u.user_id = e.user_id
-            WHERE u.state = 1 AND e.leaderboardtype_id = :leaderboardTypeId
-        ';
-
+        
         if ($search != '') {
-            $stmt .= ' AND 
-                (
-                    u.address LIKE :queryString1 OR 
-                    u.address2 LIKE :queryString2 OR 
-                    u.city LIKE :queryString3
-                )
-            ';
+            $filterSearch = ' AND (u.address LIKE :queryString1 OR u.address2 LIKE :queryString2 OR u.city LIKE :queryString3)';
             $parameters['queryString1'] = '%'.$search.'%';
             $parameters['queryString2'] = '%'.$search.'%';
             $parameters['queryString3'] = '%'.$search.'%';
         }
+        
+        // Statement ordering the players by total_points and determining their respective rank
+        $stmt = '
+            SELECT e.*, u.*, t.*
+            FROM (
+                SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                FROM reward_leaderboard sube, (SELECT @curRank := 0) r
+                WHERE sube.leaderboardtype_id = :leaderboardTypeId
+                ORDER BY sube.total_points DESC
+            ) as e
+            LEFT JOIN user u ON u.user_id = e.user_id
+            LEFT JOIN user_team t ON t.id = e.team_id
+            WHERE 1=1
+        ';
+        
+        $query = $stmt.$filterSearch;
 
-        $stmt .= 'ORDER BY '.$order;
-        
-        $dbal = $em->getConnection();
-        
-        return $dbal->fetchAll($stmt, $parameters);
+        if ($leaderboardType->getType() === 'user' && $highlightId) {
+            $query .= ' AND u.user_id = ' . $highlightId;
+
+            $row = current($dbal->fetchAll($query, $parameters));
+            $rank = (!empty($row))?$row['rank']:0;
+
+            $offset = max(0, $rank - 5);
+            $limit = ($offset == 0 ? 10 : 9);
+            $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
+            $result = $dbal->fetchAll($stmtLimit, $parameters);
+            if (9 == $limit) {
+                $first = current($dbal->fetchAll($stmt . ' LIMIT 1', $parameters));
+                array_unshift($result, $first);
+            }
+            // find rank & set highlight to use it in the template
+            foreach ($result as $k => $row) {
+                if ($row['rank'] == $rank) {
+                    $result[$k]['highlight'] = true;
+                    break;
+                }
+            }
+        } elseif ($leaderboardType->getType() === 'team' && $highlightId) {
+            $query .= ' AND t.id = ' . $highlightId;
+
+            $row = current($dbal->fetchAll($query, $parameters));
+            $rank = (!empty($row))?$row['rank']:0;
+
+            $offset = max(0, $rank - 5);
+            $limit = ($offset == 0 ? 10 : 9);
+            $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
+            $result = $dbal->fetchAll($stmtLimit, $parameters);
+            if (9 == $limit) {
+                $first = current($dbal->fetchAll($stmt . ' LIMIT 1', $parameters));
+                array_unshift($result, $first);
+            }
+            // find rank & set highlight to use it in the template
+            foreach ($result as $k => $row) {
+                if ($row['rank'] == $rank) {
+                    $result[$k]['highlight'] = true;
+                    break;
+                }
+            }
+        } else {
+            $query .= ' ' . $order;
+            $result = $dbal->fetchAll($query, $parameters);
+        }
+
+        return $result;
     }
 
     /**

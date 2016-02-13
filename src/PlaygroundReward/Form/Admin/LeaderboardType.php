@@ -50,7 +50,22 @@ class LeaderboardType extends ProvidesEventsForm
             )
         ));
 
-
+        $this->add(array(
+            'type' => 'Zend\Form\Element\Select',
+            'name' => 'type',
+            'attributes' =>  array(
+                'id' => 'type',
+                'options' => array(
+                    'all' => $translator->translate('User and Team stats', 'playgroundreward'),
+                    'user' => $translator->translate('User stats', 'playgroundreward'),
+                    'team' => $translator->translate('Team stats', 'playgroundreward'),
+                ),
+            ),
+            'options' => array(
+                    'empty_option' => $translator->translate('Select a value', 'playgroundreward'),
+                    'label' => $translator->translate('The stats type of this leaderboard', 'playgroundreward'),
+            ),
+        ));
 
         $submitElement = new Element\Button('submit');
         $submitElement->setAttributes(array('type'  => 'submit'));

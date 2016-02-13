@@ -47,7 +47,7 @@ class LeaderBoardTypeController extends AbstractActionController
 
             $leaderboard = $this->getLeaderboardTypeService()->create($data, 'playgroundreward_leaderboard_form');
             if ($leaderboard) {
-                $this->flashMessenger()->addMessage('The leaderboard "'.$leaderboard->getName().'" was created');
+                $this->flashMessenger()->addMessage('The leaderboard "'.$leaderboard->getName().'" has been created');
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             } else {
@@ -93,7 +93,7 @@ class LeaderBoardTypeController extends AbstractActionController
             );
 
             if ($leaderboard) {
-                $this->flashMessenger()->addMessage('The leaderboard "'.$leaderboard->getName().'" was updated');
+                $this->flashMessenger()->addMessage('The leaderboard "'.$leaderboard->getName().'" has been updated');
 
                 return $this->redirect()->toRoute('admin/leaderboardtype/list');
             } else {
