@@ -33,6 +33,15 @@ class LeaderboardType
     protected $name;
 
     /**
+     * Type of player
+     * - user : The leaderboard contains only user stats
+     * - team : The leaderboard contains only team stats
+     * - all : The leaderboard contains user and teams stats
+     * @ORM\Column(name="type", type="string", length=255, nullable=false)
+     */
+    protected $type = 'all';
+
+    /**
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     protected $createdAt;
@@ -101,6 +110,24 @@ class LeaderboardType
     }
 
     /**
+     * @return the $type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param field_type $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        
+        return $this;
+    }
+
+    /**
      *
      * @return the $createdAt
      */
@@ -160,6 +187,10 @@ class LeaderboardType
     {
         if (isset($data['name']) && $data['name'] !== null) {
             $this->name = $data['name'];
+        }
+
+        if (isset($data['type']) && $data['type'] !== null) {
+            $this->type = $data['type'];
         }
     }
 
