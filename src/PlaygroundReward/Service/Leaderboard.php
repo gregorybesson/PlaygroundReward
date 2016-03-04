@@ -2,13 +2,13 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
+class Leaderboard extends EventProvider
 {
 
     /**
@@ -19,6 +19,17 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
      * @var leaderboardTypeService
      */
     protected $leaderboardTypeService;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     /**
     * addPoints : ajout de point pour un utilisateur et un type de leaderboard
@@ -121,7 +132,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         $dir = null,
         $highlightId = null
     ) {
-        $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
         /* @var $dbal \Doctrine\DBAL\Connection */
         $dbal = $em->getConnection();
 
@@ -266,7 +277,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
             return 0;
         }
 
-        $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
 
 
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
@@ -307,33 +318,10 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundreward_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundreward_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Event
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 
      /**
@@ -344,7 +332,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function getLeaderboardMapper()
     {
         if (null === $this->leaderboardType) {
-            $this->leaderboardType = $this->getServiceManager()->get('playgroundreward_learderboard_mapper');
+            $this->leaderboardType = $this->serviceLocator->get('playgroundreward_learderboard_mapper');
         }
 
         return $this->leaderboardType;
@@ -358,7 +346,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     public function getLeaderboardTypeService()
     {
         if (null === $this->leaderboardTypeService) {
-            $this->leaderboardTypeService = $this->getServiceManager()->get(
+            $this->leaderboardTypeService = $this->serviceLocator->get(
                 'playgroundreward_leaderboardtype_service'
             );
         }

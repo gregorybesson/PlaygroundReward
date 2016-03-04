@@ -60,6 +60,19 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'aliases' => array(
+            'playgroundreward_doctrine_em' => 'doctrine.entitymanager.orm_default',
+        ),
+        'factories' => array(
+            'playgroundreward_leaderboard_service' => 'PlaygroundReward\Service\LeaderboardFactory',
+            'playgroundreward_leaderboardtype_service' => 'PlaygroundReward\Service\LeaderboardTypeFactory',
+            'playgroundreward_reward_service' => 'PlaygroundReward\Service\RewardFactory',
+            'playgroundreward_achievement_service' => 'PlaygroundReward\Service\AchievementFactory',
+            'playgroundreward_reward_listener' => 'PlaygroundReward\Service\RewardListenerFactory',
+        ),
+    ),
+
     'core_layout' => array(
         'frontend' => array(
             'modules' => array(

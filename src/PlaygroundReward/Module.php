@@ -56,18 +56,6 @@ class Module
     public function getServiceConfig()
     {
         return array(
-            'aliases' => array(
-                    'playgroundreward_doctrine_em' => 'doctrine.entitymanager.orm_default',
-            ),
-
-            'invokables' => array(
-                    'playgroundreward_achievement_service'      => 'PlaygroundReward\Service\Achievement',
-                    'playgroundreward_reward_service'           => 'PlaygroundReward\Service\Reward',
-                    'playgroundreward_leaderboard_service'      => 'PlaygroundReward\Service\Leaderboard',
-                    'playgroundreward_leaderboardtype_service'  => 'PlaygroundReward\Service\LeaderboardType',
-                    'playgroundreward_reward_listener'          => 'PlaygroundReward\Service\RewardListener',
-               ),
-
             'factories' => array(
                 'playgroundreward_module_options' => function ($sm) {
                     $config = $sm->get('Configuration');
