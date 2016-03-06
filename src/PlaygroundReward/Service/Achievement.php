@@ -26,6 +26,7 @@ class Achievement extends EventProvider
     {
         $this->serviceLocator = $locator;
     }
+    
     /**
      * @var AchievementServiceOptionsInterface
      */
