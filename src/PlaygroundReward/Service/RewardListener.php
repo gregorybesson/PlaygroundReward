@@ -5,15 +5,15 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;
 use Zend\EventManager\Event;
 use ZfcBase\EventManager\EventProvider;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * This listener is used to calculate the points earned on user layer
  *
  * @author Gregory Besson <gregory.besson@playground.gg>
  */
-class RewardListener extends EventProvider implements ListenerAggregateInterface, ServiceManagerAwareInterface
+class RewardListener extends EventProvider implements ListenerAggregateInterface
 {
 
     /**
@@ -28,14 +28,19 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
      *
      * @var ServiceManager
      */
-    protected $serviceManager;
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     /**
      * {@inheritDoc}
      */
     public function attach(EventManagerInterface $events)
     {
-        $service = $this->getServiceManager()->get('playgroundreward_reward_service');
+        $service = $this->serviceLocator->get('playgroundreward_reward_service');
         $rules = $service->getRewardRuleMapper()->findAll();
         
         // I deduplicate stories to be listened
@@ -228,29 +233,6 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
                 }
             }
         }
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-    
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Achievement
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-    
-        return $this;
     }
     
     public function equals($op1, $op2)

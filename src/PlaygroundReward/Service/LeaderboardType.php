@@ -2,13 +2,13 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\LeaderboardType as LeaderboardTypeEntity;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LeaderboardType extends EventProvider implements ServiceManagerAwareInterface
+class LeaderboardType extends EventProvider
 {
 
     /**
@@ -16,6 +16,16 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     */
     protected $leaderboardType;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
 
     /**
     * create : ajout de leaderBoardType
@@ -28,7 +38,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     {
         $leaderboardType = new LeaderboardTypeEntity();
 
-        $form = $this->getServiceManager()->get($formClass);
+        $form = $this->serviceLocator->get($formClass);
 
         $form->bind($leaderboardType);
        
@@ -53,7 +63,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     */
     public function edit(array $data, $leaderboardType, $formClass)
     {
-        $form  = $this->getServiceManager()->get($formClass);
+        $form  = $this->serviceLocator->get($formClass);
 
         $form->bind($leaderboardType);
 
@@ -110,7 +120,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
         return $this->getLeaderboardTypeMapper()->remove($entity);
     }
 
-      /**
+    /**
      * Retrieve options instance
      *
      * @return Options $options
@@ -118,37 +128,13 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundreward_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundreward_module_options'));
         }
 
         return $this->options;
     }
 
     /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Event
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
-    }
-
-
-     /**
      * getLeaderboardTypeMapper : retrieve LeaderBoardType mapper instance
      *
      * @return Mapper/LeaderBoardType $leaderboardType
@@ -156,7 +142,7 @@ class LeaderboardType extends EventProvider implements ServiceManagerAwareInterf
     public function getLeaderboardTypeMapper()
     {
         if (null === $this->leaderboardType) {
-            $this->leaderboardType = $this->getServiceManager()->get(
+            $this->leaderboardType = $this->serviceLocator->get(
                 'playgroundreward_learderboardtype_mapper'
             );
         }

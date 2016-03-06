@@ -2,14 +2,14 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ErrorHandler;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
 use PlaygroundReward\Mapper\Reward as RewardMapper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Reward implements ServiceManagerAwareInterface
+class Reward
 {
 
     /**
@@ -31,6 +31,17 @@ class Reward implements ServiceManagerAwareInterface
      * @var ModuleOptionsInterface
      */
     protected $options;
+
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
     
     /**
      *
@@ -44,9 +55,9 @@ class Reward implements ServiceManagerAwareInterface
     public function create(array $data, $entity, $formClass)
     {
         $reward  = new $entity;
-        $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $entityManager = $this->serviceLocator->get('doctrine.entitymanager.orm_default');
     
-        $form  = $this->getServiceManager()->get($formClass);
+        $form  = $this->serviceLocator->get($formClass);
         $form->bind($reward);
     
         $path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
@@ -92,8 +103,8 @@ class Reward implements ServiceManagerAwareInterface
      */
     public function edit(array $data, $reward, $formClass)
     {
-        $entityManager = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
-        $form  = $this->getServiceManager()->get($formClass);
+        $entityManager = $this->serviceLocator->get('doctrine.entitymanager.orm_default');
+        $form  = $this->serviceLocator->get($formClass);
         $form->bind($reward);
     
         $path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
@@ -138,7 +149,7 @@ class Reward implements ServiceManagerAwareInterface
         $media_url = $this->getOptions()->getMediaUrl() . '/';
 
         $rule  = new \PlaygroundReward\Entity\RewardRule();
-        $form  = $this->getServiceManager()->get('playgroundreward_rewardrule_form');
+        $form  = $this->serviceLocator->get('playgroundreward_rewardrule_form');
         $form->bind($rule);
         $form->setData($data);
 
@@ -167,7 +178,7 @@ class Reward implements ServiceManagerAwareInterface
         $path = $this->getOptions()->getMediaPath() . DIRECTORY_SEPARATOR;
         $media_url = $this->getOptions()->getMediaUrl() . '/';
 
-        $form  = $this->getServiceManager()->get('playgroundreward_rewardrule_form');
+        $form  = $this->serviceLocator->get('playgroundreward_rewardrule_form');
         $form->bind($rule);
         $form->setData($data);
 
@@ -192,7 +203,7 @@ class Reward implements ServiceManagerAwareInterface
     public function getRewardMapper()
     {
         if (null === $this->rewardMapper) {
-            $this->rewardMapper = $this->getServiceManager()->get('playgroundreward_reward_mapper');
+            $this->rewardMapper = $this->serviceLocator->get('playgroundreward_reward_mapper');
         }
 
         return $this->rewardMapper;
@@ -219,7 +230,7 @@ class Reward implements ServiceManagerAwareInterface
     public function getRewardRuleMapper()
     {
         if (null === $this->rewardRuleMapper) {
-            $this->rewardRuleMapper = $this->getServiceManager()->get('playgroundreward_rewardrule_mapper');
+            $this->rewardRuleMapper = $this->serviceLocator->get('playgroundreward_rewardrule_mapper');
         }
 
         return $this->rewardRuleMapper;
@@ -259,35 +270,12 @@ class Reward implements ServiceManagerAwareInterface
     public function getRewardRuleConditionMapper()
     {
         if (null === $this->rewardRuleConditionMapper) {
-            $this->rewardRuleConditionMapper = $this->getServiceManager()->get(
+            $this->rewardRuleConditionMapper = $this->serviceLocator->get(
                 'playgroundreward_rewardrulecondition_mapper'
             );
         }
 
         return $this->rewardRuleConditionMapper;
-    }
-    
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-    
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $serviceManager
-     * @return Reward
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-    
-        return $this;
     }
     
     public function setOptions(ModuleOptions $options)
@@ -300,7 +288,7 @@ class Reward implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundreward_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundreward_module_options'));
         }
     
         return $this->options;

@@ -2,13 +2,13 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManagerAwareInterface;
 use Zend\ServiceManager\ServiceManager;
 use ZfcBase\EventManager\EventProvider;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Mapper\Achievement as AchievementMapper;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Achievement extends EventProvider implements ServiceManagerAwareInterface
+class Achievement extends EventProvider
 {
 
     /**
@@ -17,10 +17,16 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     protected $achievementMapper;
 
     /**
+     *
      * @var ServiceManager
      */
-    protected $serviceManager;
+    protected $serviceLocator;
 
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+    
     /**
      * @var AchievementServiceOptionsInterface
      */
@@ -49,7 +55,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
      */
     public function getLastBadgesActivity($number = 5)
     {
-        $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
 
         $query = $em->createQuery('SELECT a FROM PlaygroundReward\Entity\Achievement a ORDER BY a.id DESC');
         $query->setMaxResults($number);
@@ -60,7 +66,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
 
     public function getTopBadge($user, $category = '')
     {
-        $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
 
         $query = $em->createQuery("
             SELECT a 
@@ -84,7 +90,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
 
     public function getBadges($user)
     {
-        $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
+        $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
 
         $query = $em->createQuery("
             SELECT 
@@ -118,7 +124,7 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     public function getAchievementMapper()
     {
         if (null === $this->achievementMapper) {
-            $this->achievementMapper = $this->getServiceManager()->get('playgroundreward_achievement_mapper');
+            $this->achievementMapper = $this->serviceLocator->get('playgroundreward_achievement_mapper');
         }
 
         return $this->achievementMapper;
@@ -147,32 +153,9 @@ class Achievement extends EventProvider implements ServiceManagerAwareInterface
     public function getOptions()
     {
         if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('playgroundreward_module_options'));
+            $this->setOptions($this->serviceLocator->get('playgroundreward_module_options'));
         }
 
         return $this->options;
-    }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param  ServiceManager $locator
-     * @return Achievement
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-
-        return $this;
     }
 }
