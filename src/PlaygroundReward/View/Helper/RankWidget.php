@@ -18,10 +18,10 @@ class RankWidget extends AbstractHelper
      * @param  array  $options array of options
      * @return string
      */
-    public function __invoke($userId = false)
+    public function __invoke($userId = false, $leaderboardId = 1, $type = 'user')
     {
         if ($userId) {
-            return $this->getLeaderboardService()->getRank($userId);
+            return $this->getLeaderboardService()->getRank($userId, $leaderboardId, $type);
         }
 
         return false;

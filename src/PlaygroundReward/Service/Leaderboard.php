@@ -260,7 +260,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
     *
     * @return array $$rank
     */
-    public function getRank($userId = false)
+    public function getRank($userId = false, $leaderboardId = 1, $type = 'user')
     {
         if ($userId === false) {
             return 0;
@@ -268,26 +268,42 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
 
         $em = $this->getServiceManager()->get('playgroundreward_doctrine_em');
 
-
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
         $rsm->addScalarResult('points', 'points');
         $rsm->addScalarResult('rank', 'rank');
 
-        $query = $em->createNativeQuery('
-            SELECT
-                COUNT(*) + 1 AS rank,
-                rl2.total_points AS points
-            FROM reward_leaderboard AS rl JOIN user u1, reward_leaderboard AS rl2 JOIN user u2
-            WHERE
-                rl.leaderboardtype_id = 1 AND
-                rl2.leaderboardtype_id = 1 AND
-                rl2.user_id = ? AND
-                rl.total_points > rl2.total_points AND
-                u1.state = 1 AND
-                u2.state = 1
-        ', $rsm);
+        if($type == 'team'){
+            $query = $em->createNativeQuery('
+                SELECT
+                    COUNT(*) + 1 AS rank,
+                    rl2.total_points AS points
+                FROM reward_leaderboard AS rl JOIN user_team u1 on u1.id = rl.team_id, 
+                 reward_leaderboard AS rl2 JOIN user_team u2 on u2.id = rl2.team_id
+                WHERE
+                    rl.leaderboardtype_id = ? AND
+                    rl2.leaderboardtype_id = ? AND
+                    rl2.team_id = ? AND
+                    rl.total_points >= rl2.total_points
+            ', $rsm);
+        } else {
+            $query = $em->createNativeQuery('
+                SELECT
+                    COUNT(*) + 1 AS rank,
+                    rl2.total_points AS points
+                FROM reward_leaderboard AS rl JOIN user u1, reward_leaderboard AS rl2 JOIN user u2
+                WHERE
+                    rl.leaderboardtype_id = ? AND
+                    rl2.leaderboardtype_id = ? AND
+                    rl2.user_id = ? AND
+                    rl.total_points > rl2.total_points AND
+                    u1.state = 1 AND
+                    u2.state = 1
+            ', $rsm);
+        }
 
-        $query->setParameter(1, $userId);
+        $query->setParameter(1, $leaderboardId);
+        $query->setParameter(2, $leaderboardId);
+        $query->setParameter(3, $userId);
 
         $result = $query->getResult();
 
