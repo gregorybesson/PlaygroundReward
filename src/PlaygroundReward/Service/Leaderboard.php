@@ -275,7 +275,7 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
         if($type == 'team'){
             $query = $em->createNativeQuery('
                 SELECT
-                    COUNT(*) + 1 AS rank,
+                    COUNT(*) AS rank,
                     rl2.total_points AS points
                 FROM reward_leaderboard AS rl JOIN user_team u1 on u1.id = rl.team_id, 
                  reward_leaderboard AS rl2 JOIN user_team u2 on u2.id = rl2.team_id
