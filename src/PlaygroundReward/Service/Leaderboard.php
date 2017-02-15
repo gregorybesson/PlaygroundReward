@@ -285,25 +285,27 @@ class Leaderboard extends EventProvider implements ServiceManagerAwareInterface
                     rl2.team_id = ? AND
                     rl.total_points >= rl2.total_points
             ', $rsm);
+
+            $query->setParameter(1, $leaderboardId);
+            $query->setParameter(2, $leaderboardId);
+            $query->setParameter(3, $userId);            
         } else {
             $query = $em->createNativeQuery('
-                SELECT
-                    COUNT(*) + 1 AS rank,
-                    rl2.total_points AS points
-                FROM reward_leaderboard AS rl JOIN user u1, reward_leaderboard AS rl2 JOIN user u2
-                WHERE
-                    rl.leaderboardtype_id = ? AND
-                    rl2.leaderboardtype_id = ? AND
-                    rl2.user_id = ? AND
-                    rl.total_points > rl2.total_points AND
-                    u1.state = 1 AND
-                    u2.state = 1
+                SELECT ranks . *
+                FROM (    
+                   SELECT 
+                    @rownum := @rownum +1 as rank,
+                    rl.total_points AS points,
+                    rl.user_id
+                   FROM reward_leaderboard AS rl, (SELECT @rownum := 0) r
+                   WHERE user_id IS NOT NULL
+                   ORDER BY points DESC
+                ) ranks
+                WHERE ranks.user_id = ?
             ', $rsm);
-        }
 
-        $query->setParameter(1, $leaderboardId);
-        $query->setParameter(2, $leaderboardId);
-        $query->setParameter(3, $userId);
+            $query->setParameter(3, $userId);
+        }
 
         $result = $query->getResult();
 
