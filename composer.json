@@ -23,12 +23,12 @@
 	],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5",
 		"zendframework/zendframework" : "2.*",
 		"playground/core" : "2.*",
 		"playground/design" : "2.*",
 		"playground/hybridauth" : "2.*",
-		"playground/user" : "2.*",
+		"playground/user" : ">2.0.0",
 		"playground/flow" : "2.*"
     },
     "require-dev" : {
