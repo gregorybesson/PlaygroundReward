@@ -30,7 +30,7 @@ class Module
 
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
-            $eventManager->attach($serviceManager->get('playgroundreward_reward_listener'));
+            $eventManager->attach($serviceManager->get(\PlaygroundReward\Service\RewardListener::class));
         }
 
         // I can post cron tasks to be scheduled by the core cron service
@@ -137,44 +137,19 @@ class Module
     {
         return array(
             'factories' => array(
-                'userScore' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $viewHelper = new View\Helper\UserScore;
-                    $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
-                    $viewHelper->setLeaderboardService($locator->get('playgroundreward_leaderboard_service'));
-                    return $viewHelper;
-                },
-                'userBadges' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $viewHelper = new View\Helper\UserBadges;
-                    $viewHelper->setAchievementService($locator->get('playgroundreward_achievement_service'));
-                    $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
-                    $viewHelper->setRewardService($locator->get('playgroundreward_reward_service'));
-                    //$viewHelper->setAchievementListener($locator->get('playgroundreward_achievement_listener'));
-                    return $viewHelper;
-                },
-                'activityWidget' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $viewHelper = new View\Helper\ActivityWidget;
-                    $viewHelper->setAchievementService($locator->get('playgroundreward_achievement_service'));
-
-                    return $viewHelper;
-                },
-                'leaderboardWidget' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $viewHelper = new View\Helper\LeaderboardWidget;
-                    $viewHelper->setLeaderboardService($locator->get('playgroundreward_leaderboard_service'));
-
-                    return $viewHelper;
-                },
-                'rankWidget' => function ($sm) {
-                    $locator = $sm->getServiceLocator();
-                    $viewHelper = new View\Helper\RankWidget;
-                    $viewHelper->setLeaderboardService($locator->get('playgroundreward_leaderboard_service'));
-
-                    return $viewHelper;
-                },
+                \PlaygroundReward\View\Helper\RankWidget::class =>  \PlaygroundReward\View\Helper\RankWidgetFactory::class,
+                \PlaygroundReward\View\Helper\ActivityWidget::class =>  \PlaygroundReward\View\Helper\ActivityWidgetFactory::class,
+                \PlaygroundReward\View\Helper\LeaderboardWidget::class =>  \PlaygroundReward\View\Helper\LeaderboardWidgetFactory::class,
+                \PlaygroundReward\View\Helper\BadgeWidget::class =>  \PlaygroundReward\View\Helper\BadgeWidgetFactory::class,
+                \PlaygroundReward\View\Helper\ScoreWidget::class =>  \PlaygroundReward\View\Helper\ScoreWidgetFactory::class,
             ),
+            'aliases' => [
+                'rankWidget' => \PlaygroundReward\View\Helper\RankWidget::class,
+                'activityWidget' => \PlaygroundReward\View\Helper\ActivityWidget::class,
+                'leaderboardWidget' => \PlaygroundReward\View\Helper\LeaderboardWidget::class,
+                'userScore' => \PlaygroundReward\View\Helper\ScoreWidget::class,
+                'userBadges' => \PlaygroundReward\View\Helper\BadgekWidget::class,
+            ]
         );
     }
 }

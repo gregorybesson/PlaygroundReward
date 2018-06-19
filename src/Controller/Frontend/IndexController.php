@@ -5,6 +5,7 @@ namespace PlaygroundReward\Controller\Frontend;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Paginator\Paginator;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class IndexController extends AbstractActionController
 {
@@ -47,6 +48,21 @@ class IndexController extends AbstractActionController
      */
     protected $leaderboardService;
 
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
 
     /**
       * badgesAction
@@ -185,7 +201,7 @@ class IndexController extends AbstractActionController
     public function getLeaderboardService()
     {
         if (!$this->leaderboardService) {
-            $this->leaderboardService = $this->getServiceLocator()->get('playgroundreward_leaderboard_service');
+            $this->leaderboardService = $this->getServiceLocator()->get(\PlaygroundReward\Service\LeaderBoard::class);
         }
 
         return $this->leaderboardService;
@@ -212,7 +228,7 @@ class IndexController extends AbstractActionController
     {
         if (!$this->leaderboardTypeService) {
             $this->leaderboardTypeService = $this->getServiceLocator()->get(
-                'playgroundreward_leaderboardtype_service'
+                \PlaygroundReward\Service\LeaderboardType::class
             );
         }
 

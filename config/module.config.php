@@ -36,7 +36,7 @@ return array(
         'guards' => array(
             'BjyAuthorize\Guard\Controller' => array(
                 
-                array('controller' => 'playgroundreward', 'roles' => array('guest', 'user')),
+                array('controller' => \PlaygroundReward\Controller\Frontend\Index::class, 'roles' => array('guest', 'user')),
                 
                 // Admin area
                 array('controller' => 'playgroundrewardadmin', 'roles' => array('admin')),
@@ -54,9 +54,18 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
-            'playgroundleaderboardadmin' => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
-            'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
+            //'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
+            //'playgroundleaderboardadmin' => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
+            //'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
+        ),
+        'factories' => array(
+            \PlaygroundReward\Controller\Frontend\Index::class => \PlaygroundReward\Controller\Frontend\IndexControllerFactory::class,
+
+            \PlaygroundReward\Controller\Admin\Reward::class => \PlaygroundReward\Controller\Admin\RewardControllerFactory::class,
+            \PlaygroundReward\Controller\Admin\LeaderBoardType::class => \PlaygroundReward\Controller\Admin\LeaderBoardTypeControllerFactory::class,
+        ),
+        'aliases' => array(
+            'playgroundreward' => \PlaygroundReward\Controller\Frontend\Index::class,
         ),
     ),
 
@@ -65,11 +74,16 @@ return array(
             'playgroundreward_doctrine_em' => 'doctrine.entitymanager.orm_default',
         ),
         'factories' => array(
-            'playgroundreward_leaderboard_service' => 'PlaygroundReward\Service\LeaderboardFactory',
-            'playgroundreward_leaderboardtype_service' => 'PlaygroundReward\Service\LeaderboardTypeFactory',
-            'playgroundreward_reward_service' => 'PlaygroundReward\Service\RewardFactory',
-            'playgroundreward_achievement_service' => 'PlaygroundReward\Service\AchievementFactory',
-            'playgroundreward_reward_listener' => 'PlaygroundReward\Service\RewardListenerFactory',
+            \PlaygroundReward\Service\LeaderBoard::class => \PlaygroundReward\Service\LeaderboardFactory::class,
+            \PlaygroundReward\Service\LeaderboardType::class => \PlaygroundReward\Service\LeaderboardTypeFactory::class,
+            \PlaygroundReward\Service\Reward::class => \PlaygroundReward\Service\RewardFactory::class,
+            \PlaygroundReward\Service\Achievement::class => \PlaygroundReward\Service\AchievementFactory::class,
+            \PlaygroundReward\Service\RewardListener::class => \PlaygroundReward\Service\RewardListenerFactory::class,
+            //'playgroundreward_leaderboard_service' => 'PlaygroundReward\Service\LeaderboardFactory',
+            //'playgroundreward_leaderboardtype_service' => 'PlaygroundReward\Service\LeaderboardTypeFactory',
+            // 'playgroundreward_reward_service' => 'PlaygroundReward\Service\RewardFactory',
+            // 'playgroundreward_achievement_service' => 'PlaygroundReward\Service\AchievementFactory',
+            // 'playgroundreward_reward_listener' => 'PlaygroundReward\Service\RewardListenerFactory',
         ),
     ),
 
@@ -82,7 +96,7 @@ return array(
                         'col_right'  => 'application/common/column_right.phtml',
                     ),
                     'controllers' => array(
-                        'playgroundreward'   => array(
+                        \PlaygroundReward\Controller\Frontend\Index::class   => array(
                             'default_layout' => 'layout/2columns-right',
                             'children_views' => array(
                                 'col_right'  => 'application/common/column_right.phtml',
@@ -115,7 +129,7 @@ return array(
        			        'options' => array(
        			            'route' => 'mon-compte/mes-badges',
        			            'defaults' => array(
-       			                'controller' => 'playgroundreward',
+       			                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
        			                'action'     => 'badges',
        			            ),
        			        ),
@@ -128,7 +142,7 @@ return array(
                                 'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(
-                                'controller' => 'playgroundreward',
+                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
                                 'action'     => 'activity',
                             ),
                         ),
@@ -139,7 +153,7 @@ return array(
                                 'options' => array(
                                     'route'    => '[/:p]',
                                     'defaults' => array(
-                                        'controller' => 'playgroundreward',
+                                        'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
                                         'action'     => 'activity',
                                     ),
                                     'constraints' => array('p' => '[0-9]*'),
@@ -152,7 +166,7 @@ return array(
 		                'options' => array(
 		                    'route'    => 'reward',
 		                    'defaults' => array(
-		                        'controller' => 'playgroundreward',
+		                        'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
 		                        'action'     => 'index',
 		                    ),
 		                ),
@@ -166,7 +180,7 @@ return array(
 		                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
 		                            ),
 		                            'defaults' => array(
-		                                'controller' => 'playgroundreward',
+		                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
 		                                'action'     => 'leaderboard'
 		                            ),
 		                        ),
@@ -342,7 +356,7 @@ return array(
                             'type'         => 'phpArray',
                             'base_dir'     => __DIR__ . '/../language',
                             'pattern'      => '%s.php',
-                            'text_domain'  => 'playgroundreward'
+                            'text_domain'  => \PlaygroundReward\Controller\Frontend\Index::class
                     ),
             ),
     ),

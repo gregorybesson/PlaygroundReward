@@ -3,6 +3,7 @@
 namespace PlaygroundReward\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
+use Interop\Container\ContainerInterface;
 
 class LeaderboardWidget extends AbstractHelper
 {
@@ -10,6 +11,11 @@ class LeaderboardWidget extends AbstractHelper
      * @var LeaderboardService
      */
     protected $leaderboardService;
+
+    public function __construct(\PlaygroundReward\Service\Leaderboard $leaderboardService) 
+    {
+        return $this->leaderboardService = $leaderboardService;
+    }
 
     /**
      * __invoke
@@ -31,18 +37,5 @@ class LeaderboardWidget extends AbstractHelper
     public function getLeaderboardService()
     {
         return $this->leaderboardService;
-    }
-
-    /**
-     * Set leaderboardService.
-     *
-     * @param AuthenticationService $leaderboardService
-     * @return
-     */
-    public function setLeaderboardService(\PlaygroundReward\Service\Leaderboard $leaderboardService)
-    {
-        $this->leaderboardService = $leaderboardService;
-
-        return $this;
     }
 }

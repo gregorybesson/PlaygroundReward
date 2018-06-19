@@ -15,6 +15,22 @@ class LeaderBoardTypeController extends AbstractActionController
     protected $leaderboardTypeService;
 
     /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
     * listAction : retrieve all leaderboardtype
     *
     * @return array $return
@@ -134,7 +150,7 @@ class LeaderBoardTypeController extends AbstractActionController
     {
         if (null === $this->leaderboardTypeService) {
             $this->leaderboardTypeService = $this->getServiceLocator()->get(
-                'playgroundreward_leaderboardtype_service'
+                \PlaygroundReward\Service\LeaderboardType::class
             );
         }
 
