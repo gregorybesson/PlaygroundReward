@@ -347,7 +347,7 @@ class Leaderboard extends EventProvider
     {
         if (null === $this->leaderboardTypeService) {
             $this->leaderboardTypeService = $this->serviceLocator->get(
-                'playgroundreward_leaderboardtype_service'
+                \PlaygroundReward\Service\LeaderboardType::class
             );
         }
 

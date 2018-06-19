@@ -7,6 +7,7 @@ use PlaygroundReward\Entity\RewardRule;
 use PlaygroundReward\Service\Reward as RewardService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RewardController extends AbstractActionController
 {
@@ -16,6 +17,22 @@ class RewardController extends AbstractActionController
      */
     protected $rewardService;
     
+    /**
+     *
+     * @var ServiceManager
+     */
+    protected $serviceLocator;
+
+    public function __construct(ServiceLocatorInterface $locator)
+    {
+        $this->serviceLocator = $locator;
+    }
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
     public function listAction()
     {
         $service = $this->getRewardService();
@@ -258,7 +275,7 @@ class RewardController extends AbstractActionController
     public function getRewardService()
     {
         if (!$this->rewardService) {
-            $this->rewardService = $this->getServiceLocator()->get('playgroundreward_reward_service');
+            $this->rewardService = $this->getServiceLocator()->get(\PlaygroundReward\Service\Reward::class);
         }
 
         return $this->rewardService;

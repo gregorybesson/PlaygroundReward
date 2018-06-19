@@ -40,7 +40,7 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
      */
     public function attach(EventManagerInterface $events)
     {
-        $service = $this->serviceLocator->get('playgroundreward_reward_service');
+        $service = $this->serviceLocator->get(\PlaygroundReward\Service\Reward::class);
         $rules = $service->getRewardRuleMapper()->findAll();
         
         // I deduplicate stories to be listened
@@ -86,9 +86,9 @@ class RewardListener extends EventProvider implements ListenerAggregateInterface
         $storyTelling = $e->getParam('storyTelling');
         
         $sm = $e->getTarget()->getServiceManager();
-        $service = $sm->get('playgroundreward_reward_service');
+        $service = $sm->get(\PlaygroundReward\Service\Reward::class);
         $storyTellingService = $sm->get('playgroundflow_storytelling_service');
-        $achievementService = $sm->get('playgroundreward_achievement_service');
+        $achievementService = $sm->get(\PlaygroundReward\Service\Achievement::class);
         
         $storyTriggered = explode('.', $e->getName());
         $storyMappingId = $storyTriggered[1];

@@ -3,6 +3,7 @@
 namespace PlaygroundReward\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
+use Interop\Container\ContainerInterface;
 
 class ActivityWidget extends AbstractHelper
 {
@@ -10,6 +11,11 @@ class ActivityWidget extends AbstractHelper
      * @var AchievementService
      */
     protected $achievementService;
+
+    public function __construct(\PlaygroundReward\Service\Achievement $achievementService) 
+    {
+        return $this->achievementService = $achievementService;
+    }
 
     /**
      * __invoke
@@ -31,18 +37,5 @@ class ActivityWidget extends AbstractHelper
     public function getAchievementService()
     {
         return $this->achievementService;
-    }
-
-    /**
-     * Set achievementService.
-     *
-     * @param AuthenticationService $achievementService
-     * @return
-     */
-    public function setAchievementService(\PlaygroundReward\Service\Achievement $achievementService)
-    {
-        $this->achievementService = $achievementService;
-
-        return $this;
     }
 }
