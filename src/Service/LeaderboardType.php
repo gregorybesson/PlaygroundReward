@@ -3,13 +3,14 @@
 namespace PlaygroundReward\Service;
 
 use Zend\ServiceManager\ServiceManager;
-use ZfcBase\EventManager\EventProvider;
+use Zend\EventManager\EventManagerAwareTrait;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\LeaderboardType as LeaderboardTypeEntity;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LeaderboardType extends EventProvider
+class LeaderboardType
 {
+    use EventManagerAwareTrait;
 
     /**
     * @var leaderboardType

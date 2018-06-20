@@ -4,7 +4,7 @@ namespace PlaygroundReward\Form;
 
 use PlaygroundReward\Options\UserEditOptionsInterface;
 use Zend\Form\Element;
-use ZfcBase\Form\ProvidesEventsForm;
+use ZfcUser\Form\ProvidesEventsForm;
 
 class EditAction extends ProvidesEventsForm
 {
