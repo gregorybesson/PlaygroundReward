@@ -3,13 +3,14 @@
 namespace PlaygroundReward\Service;
 
 use Zend\ServiceManager\ServiceManager;
-use ZfcBase\EventManager\EventProvider;
+use Zend\EventManager\EventManagerAwareTrait;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Mapper\Achievement as AchievementMapper;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class Achievement extends EventProvider
+class Achievement
 {
+    use EventManagerAwareTrait;
 
     /**
      * @var AchievementMapperInterface

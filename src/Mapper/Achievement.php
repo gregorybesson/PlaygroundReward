@@ -3,11 +3,11 @@
 namespace PlaygroundReward\Mapper;
 
 use Doctrine\ORM\EntityManager;
-use ZfcBase\Mapper\AbstractDbMapper;
+
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use PlaygroundReward\Options\ModuleOptions;
 
-class Achievement extends AbstractDbMapper
+class Achievement
 {
     /**
      * @var \Doctrine\ORM\EntityManager
