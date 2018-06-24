@@ -39,8 +39,8 @@ return array(
                 array('controller' => \PlaygroundReward\Controller\Frontend\Index::class, 'roles' => array('guest', 'user')),
                 
                 // Admin area
-                array('controller' => 'playgroundrewardadmin', 'roles' => array('admin')),
-                array('controller' => 'playgroundleaderboardadmin', 'roles' => array('admin')),
+                array('controller' => \PlaygroundReward\Controller\Admin\Reward::class, 'roles' => array('admin')),
+                array('controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class, 'roles' => array('admin')),
             ),
         ),
     ),
@@ -54,8 +54,8 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            //'playgroundrewardadmin' => 'PlaygroundReward\Controller\Admin\RewardController',
-            //'playgroundleaderboardadmin' => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
+            //\PlaygroundReward\Controller\Admin\Reward::class => 'PlaygroundReward\Controller\Admin\RewardController',
+            //\PlaygroundReward\Controller\Admin\LeaderBoardType::class => 'PlaygroundReward\Controller\Admin\LeaderBoardTypeController',
             //'playgroundreward'      => 'PlaygroundReward\Controller\Frontend\IndexController',
         ),
         'factories' => array(
@@ -125,7 +125,7 @@ return array(
         	'frontend' => array(
        			'child_routes' => array(
        			    'badges' => array(
-       			        'type' => 'Literal',
+       			        'type' => 'Zend\Router\Http\Literal',
        			        'options' => array(
        			            'route' => 'mon-compte/mes-badges',
        			            'defaults' => array(
@@ -162,7 +162,7 @@ return array(
                         ),
                     ),
 		            'reward' => array(
-		                'type' => 'Zend\Mvc\Router\Http\Segment',
+		                'type' => 'Zend\Router\Http\Segment',
 		                'options' => array(
 		                    'route'    => 'reward',
 		                    'defaults' => array(
@@ -192,11 +192,11 @@ return array(
             'admin' => array(
                 'child_routes' => array(
                     'reward' => array(
-                        'type' => 'Literal',
+                        'type' => 'Zend\Router\Http\Literal',
                         'options' => array(
                             'route' => '/reward',
                             'defaults' => array(
-                                'controller' => 'playgroundrewardadmin',
+                                'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                 'action'     => 'index',
                             ),
                         ),
@@ -206,17 +206,17 @@ return array(
                                 'options' => array(
                                     'route' => '/list[/:p]',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'list',
                                     ),
                                 ),
                             ),
                             'create' => array(
-                                'type' => 'Literal',
+                                'type' => 'Zend\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/create',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'create'
                                     ),
                                 ),
@@ -226,7 +226,7 @@ return array(
                                 'options' => array(
                                     'route' => '/edit/:rewardId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'edit',
                                         'rewardId'     => 0
                                     ),
@@ -237,7 +237,7 @@ return array(
                                 'options' => array(
                                     'route' => '/remove/:rewardId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'remove',
                                         'rewardId'     => 0
                                     ),
@@ -249,7 +249,7 @@ return array(
                                 'options' => array(
                                     'route' => '/:rewardId/rule-list',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'listRule',
                                         'rewardId'     => 0
                                     ),
@@ -260,7 +260,7 @@ return array(
                                 'options' => array(
                                     'route' => '/:rewardId/rule-add',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'addRule',
                                         'rewardId'     => 0
                                     ),
@@ -271,7 +271,7 @@ return array(
                                 'options' => array(
                                     'route' => '/rule-edit/:ruleId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'editRule',
                                         'ruleId'     => 0
                                     ),
@@ -282,7 +282,7 @@ return array(
                                 'options' => array(
                                     'route' => '/rule-remove/:ruleId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundrewardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\Reward::class,
                                         'action'     => 'removeRule',
                                         'ruleId'     => 0
                                     ),
@@ -291,11 +291,11 @@ return array(
                         ),
                     ),
                     'leaderboardtype' =>  array(
-                        'type' => 'Literal',
+                        'type' => 'Zend\Router\Http\Literal',
                         'options' => array(
                             'route' => '/leaderboardtype',
                             'defaults' => array(
-                                'controller' => 'playgroundleaderboardadmin',
+                                'controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class,
                                 'action'     => 'list',
                             ),
                         ),
@@ -305,17 +305,17 @@ return array(
                                 'options' => array(
                                     'route' => '/list[/:p]',
                                     'defaults' => array(
-                                        'controller' => 'playgroundleaderboardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class,
                                         'action'     => 'list',
                                     ),
                                 ),
                             ),
                             'create' => array(
-                                'type' => 'Literal',
+                                'type' => 'Zend\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/create',
                                     'defaults' => array(
-                                        'controller' => 'playgroundleaderboardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class,
                                         'action'     => 'create'
                                     ), 
                                 ), 
@@ -325,7 +325,7 @@ return array(
                                 'options' => array(
                                     'route' => '/edit/:leaderboardId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundleaderboardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class,
                                         'action'     => 'edit',
                                         'leaderboardId'     => 0
                                     ),
@@ -336,7 +336,7 @@ return array(
                                 'options' => array(
                                     'route' => '/delete/:leaderboardId',
                                     'defaults' => array(
-                                        'controller' => 'playgroundleaderboardadmin',
+                                        'controller' => \PlaygroundReward\Controller\Admin\LeaderBoardType::class,
                                         'action'     => 'delete',
                                         'leaderboardId'     => 0
                                     ),
@@ -378,7 +378,7 @@ return array(
             ),
         ),
         'admin' => array(
-            'playgroundrewardadmin' => array(
+            \PlaygroundReward\Controller\Admin\Reward::class => array(
                 'label' => 'Rewards',
                 'route' => 'admin/reward/list',
                 'resource' => 'reward',

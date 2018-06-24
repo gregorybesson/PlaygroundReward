@@ -19,7 +19,7 @@ class BadgeWidget extends AbstractHelper
         $authService
     ) {
         $this->rewardService = $rewardService;
-        $this->achievementService = achievementService;
+        $this->achievementService = $achievementService;
         $this->authService = $authService;
 
         return;

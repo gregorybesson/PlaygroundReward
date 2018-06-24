@@ -14,7 +14,6 @@ class LeaderboardWidgetFactory
      */
     public function __invoke(ContainerInterface $container)
     {
-        $container = $container->getServiceLocator();
         $leaderboardService = $container->get(\PlaygroundReward\Service\LeaderBoard::class);
         return new LeaderboardWidget($leaderboardService);
     }

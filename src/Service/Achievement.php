@@ -27,7 +27,7 @@ class Achievement
     {
         $this->serviceLocator = $locator;
     }
-    
+
     /**
      * @var AchievementServiceOptionsInterface
      */

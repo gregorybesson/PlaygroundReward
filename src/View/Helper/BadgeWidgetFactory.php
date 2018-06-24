@@ -12,8 +12,6 @@ class BadgeWidgetFactory
      */
     public function __invoke(ContainerInterface $container)
     {
-        $container = $container->getServiceLocator();
-
         $rewardService = $container->get(\PlaygroundReward\Service\Reward::class);
         $achievementService = $container->get(\PlaygroundReward\Service\Achievement::class);
         $authService = $container->get('zfcuser_auth_service');

@@ -2,18 +2,14 @@
 namespace PlaygroundReward\Controller\Frontend;
 
 use PlaygroundReward\Controller\Frontend\IndexController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class IndexControllerFactory implements FactoryInterface
 {
-    /**
-    * @param ServiceLocatorInterface $locator
-    * @return \PlaygroundReward\Controller\Frontend\IndexController
-    */
-    public function createService(ServiceLocatorInterface $locator)
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $controller = new IndexController($locator);
+        $controller = new IndexController($container);
 
         return $controller;
     }

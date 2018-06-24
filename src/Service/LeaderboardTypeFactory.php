@@ -2,18 +2,14 @@
 namespace PlaygroundReward\Service;
 
 use PlaygroundReward\Service\LeaderboardType;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class LeaderboardTypeFactory implements FactoryInterface
 {
-    /**
-    * @param ServiceLocatorInterface $locator
-    * @return \PlaygroundReward\Service\Achievement
-    */
-    public function createService(ServiceLocatorInterface $locator)
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $service = new LeaderboardType($locator);
+        $service = new LeaderboardType($container);
 
         return $service;
     }

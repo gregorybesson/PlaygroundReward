@@ -4,7 +4,7 @@ namespace PlaygroundReward\Mapper;
 
 use Doctrine\ORM\EntityManager;
 
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\HydratorInterface;
 use PlaygroundReward\Options\ModuleOptions;
 
 class Achievement

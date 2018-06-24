@@ -3,18 +3,12 @@ namespace PlaygroundReward\View\Helper;
 
 use PlaygroundReward\View\Helper\RankWidget;
 use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-class RankWidgetFactory
+class RankWidgetFactory implements FactoryInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
-     * @return mixed
-     */
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $container = $container->getServiceLocator();
         $leaderboardService = $container->get(\PlaygroundReward\Service\LeaderBoard::class);
         return new RankWidget($leaderboardService);
     }

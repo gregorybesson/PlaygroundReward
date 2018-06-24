@@ -12,8 +12,6 @@ class ScoreWidgetFactory
      */
     public function __invoke(ContainerInterface $container)
     {
-        $container = $container->getServiceLocator();
-
         $leaderboardService = $container->get(\PlaygroundReward\Service\LeaderBoard::class);
         $authService = $container->get('zfcuser_auth_service');
 
