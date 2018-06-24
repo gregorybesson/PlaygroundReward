@@ -2,18 +2,14 @@
 namespace PlaygroundReward\Controller\Admin;
 
 use PlaygroundReward\Controller\Admin\RewardController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class RewardControllerFactory implements FactoryInterface
 {
-    /**
-    * @param ServiceLocatorInterface $locator
-    * @return \PlaygroundReward\Controller\Admin\RewardController
-    */
-    public function createService(ServiceLocatorInterface $locator)
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $controller = new RewardController($locator);
+        $controller = new RewardController($container);
 
         return $controller;
     }

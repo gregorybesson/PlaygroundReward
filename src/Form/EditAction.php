@@ -5,12 +5,14 @@ namespace PlaygroundReward\Form;
 use PlaygroundReward\Options\UserEditOptionsInterface;
 use Zend\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
+use Zend\EventManager\EventManager;
 
 class EditAction extends ProvidesEventsForm
 {
     protected $userEditOptions;
     protected $userEntity;
     protected $serviceManager;
+    protected $event;
 
     public function __construct($name, UserEditOptionsInterface $options, $serviceManager)
     {
@@ -81,6 +83,16 @@ class EditAction extends ProvidesEventsForm
     public function getUserEditOptions()
     {
         return $this->userEditOptions;
+    }
+
+    public function getEventManager()
+    {
+        if ($this->event === NULL) {
+            $this->event = new EventManager(
+                $serviceManager->get('SharedEventManager'), [get_class($this)]
+            );
+        }
+        return $this->event;
     }
 
     public function setServiceManager($serviceManager)

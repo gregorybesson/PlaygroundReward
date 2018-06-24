@@ -83,11 +83,13 @@ class IndexController extends AbstractActionController
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
         
+        $user = null;
         $userId = $this->params()->fromQuery('user_id');
         $teamId = $this->params()->fromQuery('team_id');
         $search = $this->params()->fromQuery('name');
         $order = $this->params()->fromQuery('order');
         $dir = $this->params()->fromQuery('dir');
+        $display = $this->params()->fromQuery('display');
 
         $lb = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name'=>$filter));
         if ($lb && $lb->getType()==='user' && $userId) {
@@ -100,6 +102,9 @@ class IndexController extends AbstractActionController
             $leaderboard = $this->getLeaderboardService()->getLeaderboardQuery($filter, 0, $search, $order, $dir);
         }
 
+        if(!empty($userId)){
+            $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
+        }
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 
         $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($leaderboard));
@@ -108,6 +113,10 @@ class IndexController extends AbstractActionController
 
         return new ViewModel(
             array(
+                'searchedUser' => $user,
+                'userId' => $userId,
+                'display' => $display,
+                'teamId' => $teamId,
                 'search' => $search,
                 'filter' => $filter,
                 'filters' => $filters,

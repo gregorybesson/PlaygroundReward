@@ -74,7 +74,7 @@ class RewardController extends AbstractActionController
             $reward = $service->create($data, $reward, 'playgroundreward_reward_form');
             if ($reward) {
                 $this->flashMessenger()->setNamespace('playgroundreward')->addMessage(
-                    $this->getServiceLocator()->get('translator')->translate(
+                    $this->getServiceLocator()->get('MvcTranslator')->translate(
                         'Reward created',
                         'playgroundreward'
                     )

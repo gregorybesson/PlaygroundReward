@@ -15,13 +15,13 @@ class Module
 
         $options = $serviceManager->get('playgroundcore_module_options');
         $locale = $options->getLocale();
-        $translator = $serviceManager->get('translator');
+        $translator = $serviceManager->get('MvcTranslator');
         if (!empty($locale)) {
             //translator
             $translator->setLocale($locale);
 
             // plugins
-            $translate = $serviceManager->get('viewhelpermanager')->get('translate');
+            $translate = $serviceManager->get('ViewHelperManager')->get('translate');
             $translate->getTranslator()->setLocale($locale);
         }
 
@@ -30,7 +30,7 @@ class Module
 
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
-            $eventManager->attach($serviceManager->get(\PlaygroundReward\Service\RewardListener::class));
+            $eventManager->attach('Reward', [$serviceManager->get(\PlaygroundReward\Service\RewardListener::class), 'attach']);
         }
 
         // I can post cron tasks to be scheduled by the core cron service
@@ -98,7 +98,7 @@ class Module
                     return $form;
                 },
                 'playgroundreward_reward_form' => function ($sm) {
-                    $translator = $sm->get('translator');
+                    $translator = $sm->get('MvcTranslator');
                     $form = new Form\Admin\Reward(null, $sm, $translator);
                     $reward = new Entity\Reward();
                     $form->setInputFilter($reward->getInputFilter());
@@ -106,7 +106,7 @@ class Module
                     return $form;
                 },
                 'playgroundreward_rewardrule_form' => function ($sm) {
-                    $translator = $sm->get('translator');
+                    $translator = $sm->get('MvcTranslator');
                     $form = new Form\Admin\RewardRule(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
                     $form->setInputFilter($rewardRule->getInputFilter());
@@ -114,7 +114,7 @@ class Module
                     return $form;
                 },
                 'playgroundreward_leaderboardtype_form' => function ($sm) {
-                    $translator = $sm->get('translator');
+                    $translator = $sm->get('MvcTranslator');
                     $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $leaderboardType = new Entity\LeaderboardType();
                     $form->setInputFilter($leaderboardType->getInputFilter());
@@ -122,7 +122,7 @@ class Module
                     return $form;
                 },
                 'playgroundreward_leaderboard_form' => function ($sm) {
-                    $translator = $sm->get('translator');
+                    $translator = $sm->get('MvcTranslator');
                     $form = new Form\Admin\LeaderboardType(null, $sm, $translator);
                     $rewardRule = new Entity\RewardRule();
                     $form->setInputFilter($rewardRule->getInputFilter());
@@ -148,7 +148,7 @@ class Module
                 'activityWidget' => \PlaygroundReward\View\Helper\ActivityWidget::class,
                 'leaderboardWidget' => \PlaygroundReward\View\Helper\LeaderboardWidget::class,
                 'userScore' => \PlaygroundReward\View\Helper\ScoreWidget::class,
-                'userBadges' => \PlaygroundReward\View\Helper\BadgekWidget::class,
+                'userBadges' => \PlaygroundReward\View\Helper\BadgeWidget::class,
             ]
         );
     }

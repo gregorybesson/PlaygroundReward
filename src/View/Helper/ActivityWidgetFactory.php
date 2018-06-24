@@ -12,7 +12,6 @@ class ActivityWidgetFactory
      */
     public function __invoke(ContainerInterface $container)
     {
-        $container = $container->getServiceLocator();
         $achievementService = $container->get(\PlaygroundReward\Service\Achievement::class);
         return new ActivityWidget($achievementService);
     }

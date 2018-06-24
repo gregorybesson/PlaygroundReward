@@ -2,18 +2,14 @@
 namespace PlaygroundReward\Service;
 
 use PlaygroundReward\Service\RewardListener;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class RewardListenerFactory implements FactoryInterface
 {
-    /**
-    * @param ServiceLocatorInterface $locator
-    * @return \PlaygroundReward\Service\RewardListener
-    */
-    public function createService(ServiceLocatorInterface $locator)
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $service = new RewardListener($locator);
+        $service = new RewardListener($container);
 
         return $service;
     }

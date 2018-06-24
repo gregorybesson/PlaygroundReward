@@ -39,7 +39,7 @@ class RewardListener implements ListenerAggregateInterface
     /**
      * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $service = $this->serviceLocator->get(\PlaygroundReward\Service\Reward::class);
         $rules = $service->getRewardRuleMapper()->findAll();
