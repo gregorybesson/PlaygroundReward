@@ -4,7 +4,6 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineDataFixtureModule',
-        'AsseticBundle',
         'PlaygroundCore',
         'PlaygroundDesign',
         'PlaygroundUser',
