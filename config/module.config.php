@@ -383,6 +383,7 @@ return array(
                 'route' => 'admin/reward/list',
                 'resource' => 'reward',
                 'privilege' => 'list',
+                'target' => 'nav-icon icon-trophy',
                 'pages' => array(
                     'create' => array(
                         'label' => 'Rewards list',
