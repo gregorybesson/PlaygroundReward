@@ -27,7 +27,7 @@
 		"zendframework/zendframework" : ">=3.0.0",
 		"playground/core" : ">=4.0.0",
 		"playground/design" : ">=4.0.0",
-		"playground/hybridauth" : ">=2.0.0",
+		"hybridauth/hybridauth": "@RC",
 		"playground/user" : ">=4.0.0",
 		"playground/flow" : ">=4.0.0"
     },
