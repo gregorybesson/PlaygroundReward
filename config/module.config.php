@@ -72,6 +72,11 @@ return array(
     'service_manager' => array(
         'aliases' => array(
             'playgroundreward_doctrine_em' => 'doctrine.entitymanager.orm_default',
+            'playgroundreward_leaderboard_service' => \PlaygroundReward\Service\LeaderBoard::class,
+            'playgroundreward_leaderboardtype_service' => \PlaygroundReward\Service\LeaderboardType::class,
+            'playgroundreward_reward_service' => \PlaygroundReward\Service\Reward::class,
+            'playgroundreward_achievement_service' => \PlaygroundReward\Service\Achievement::class,
+            'playgroundreward_reward_listener' => \PlaygroundReward\Service\RewardListener::class,
         ),
         'factories' => array(
             \PlaygroundReward\Service\LeaderBoard::class => \PlaygroundReward\Service\LeaderboardFactory::class,
@@ -79,11 +84,6 @@ return array(
             \PlaygroundReward\Service\Reward::class => \PlaygroundReward\Service\RewardFactory::class,
             \PlaygroundReward\Service\Achievement::class => \PlaygroundReward\Service\AchievementFactory::class,
             \PlaygroundReward\Service\RewardListener::class => \PlaygroundReward\Service\RewardListenerFactory::class,
-            //'playgroundreward_leaderboard_service' => 'PlaygroundReward\Service\LeaderboardFactory',
-            //'playgroundreward_leaderboardtype_service' => 'PlaygroundReward\Service\LeaderboardTypeFactory',
-            // 'playgroundreward_reward_service' => 'PlaygroundReward\Service\RewardFactory',
-            // 'playgroundreward_achievement_service' => 'PlaygroundReward\Service\AchievementFactory',
-            // 'playgroundreward_reward_listener' => 'PlaygroundReward\Service\RewardListenerFactory',
         ),
     ),
 

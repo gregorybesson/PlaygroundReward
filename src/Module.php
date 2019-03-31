@@ -30,7 +30,8 @@ class Module
 
         // I don't attach the events in a cli situation to avoid Doctrine database update problems.
         if (PHP_SAPI !== 'cli') {
-            $eventManager->attach('Reward', [$serviceManager->get(\PlaygroundReward\Service\RewardListener::class), 'attach']);
+            $strategy = $serviceManager->get(\PlaygroundReward\Service\RewardListener::class);
+            $strategy->attach($eventManager);
         }
 
         // I can post cron tasks to be scheduled by the core cron service
