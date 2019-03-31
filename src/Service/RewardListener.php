@@ -43,7 +43,7 @@ class RewardListener implements ListenerAggregateInterface
     {
         $service = $this->serviceLocator->get(\PlaygroundReward\Service\Reward::class);
         $rules = $service->getRewardRuleMapper()->findAll();
-        
+
         // I deduplicate stories to be listened
         $arrayListeners = array();
         
@@ -55,12 +55,12 @@ class RewardListener implements ListenerAggregateInterface
         
         // I inject deduplicated stories into listeners
         foreach ($arrayListeners as $key => $value) {
-            $this->listeners[] = $events->getSharedManager()->attach(array(
-                '*'
-            ), $value, array(
-                $this,
-                'reward'
-            ), 200);
+            $this->listeners[] = $events->getSharedManager()->attach(
+                '*',
+                $value,
+                [$this,'reward'],
+                200
+            );
         }
     }
 
@@ -241,12 +241,12 @@ class RewardListener implements ListenerAggregateInterface
         return $op1 === $op2;
     }
     
-    public function moreThan($op1, $op2)
+    public function more_than($op1, $op2)
     {
         return $op1 >= $op2;
     }
     
-    public function lessThan($op1, $op2)
+    public function less_than($op1, $op2)
     {
         return $op1 <= $op2;
     }

@@ -84,31 +84,33 @@ class RewardRule extends ProvidesEventsForm
             ),
         ));
         
-        $this->add(array(
-            'name' => 'storyMappings',
-            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-            'options' => array(
-                //'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
-                'label' => $translator->translate('Stories', 'playgroundreward'),
-                'object_manager' => $entityManager,
-                'target_class' => '\PlaygroundFlow\Entity\OpenGraphStoryMapping',
-                'is_method'      => true,
-                'find_method'    => array(
-                    'name'   => 'findAll',
-                 /*   'params' => array(
-                        'criteria' => array('domain' => 3),
-                    ),*/
-                ),
-                //'property' => 'id',
-                'label_generator' => function ($targetEntity) {
-                    return $targetEntity->getStory()->getCode()." ".$targetEntity->getDomain()->getDomain();
-                },
-            ),
-            'attributes' => array(
-                'required' => false,
-                'multiple' => 'multiple',
-            )
-        ));
+        $this->add(
+            [
+                'name' => 'storyMappings',
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'options' => [
+                    //'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
+                    'label' => $translator->translate('Stories', 'playgroundreward'),
+                    'object_manager' => $entityManager,
+                    'target_class' => '\PlaygroundFlow\Entity\OpenGraphStoryMapping',
+                    'is_method'      => true,
+                    'find_method'    => [
+                        'name'   => 'findAll',
+                        /*   'params' => array(
+                            'criteria' => array('domain' => 3),
+                        ),*/
+                    ],
+                    //'property' => 'id',
+                    'label_generator' => function ($targetEntity) {
+                        return $targetEntity->getStory()->getCode()." ".$targetEntity->getDomain()->getDomain();
+                    },
+                ],
+                'attributes' => [
+                    'required' => false,
+                    'multiple' => 'multiple',
+                ]
+            ]
+        );
         
         $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null, $sm, $translator);
         $this->add(array(
