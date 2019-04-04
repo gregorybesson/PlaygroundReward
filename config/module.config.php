@@ -122,18 +122,18 @@ return array(
 
     'router' => array(
         'routes' => array(
-        	'frontend' => array(
-       			'child_routes' => array(
-       			    'badges' => array(
-       			        'type' => 'Zend\Router\Http\Literal',
-       			        'options' => array(
-       			            'route' => 'mon-compte/mes-badges',
-       			            'defaults' => array(
-       			                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
-       			                'action'     => 'badges',
-       			            ),
-       			        ),
-       			    ),
+            'frontend' => array(
+                'child_routes' => array(
+                    'badges' => array(
+                        'type' => 'Zend\Router\Http\Literal',
+                        'options' => array(
+                            'route' => 'mon-compte/mes-badges',
+                            'defaults' => array(
+                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
+                                'action'     => 'badges',
+                            ),
+                        ),
+                    ),
                     'activity' => array(
                         'type' => 'Segment',
                         'options' => array(
@@ -161,34 +161,34 @@ return array(
                             ),
                         ),
                     ),
-		            'reward' => array(
-		                'type' => 'Zend\Router\Http\Segment',
-		                'options' => array(
-		                    'route'    => 'reward',
-		                    'defaults' => array(
-		                        'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
-		                        'action'     => 'index',
-		                    ),
-		                ),
-		                'may_terminate' => true,
-		                'child_routes' =>array(
-		                    'leaderboard' => array(
-		                        'type' => 'segment',
-		                        'options' => array(
-		                            'route' => '/leaderboard[/:filter][/:p]',
-		                            'constraints' => array(
-		                                'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
-		                            ),
-		                            'defaults' => array(
-		                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
-		                                'action'     => 'leaderboard'
-		                            ),
-		                        ),
-		                    ),
-		                ),
-		            ),
-       			),
-        	),
+                    'reward' => array(
+                        'type' => 'Zend\Router\Http\Segment',
+                        'options' => array(
+                            'route'    => 'reward',
+                            'defaults' => array(
+                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
+                                'action'     => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' =>array(
+                            'leaderboard' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '/leaderboard[/:filter][/:p]',
+                                    'constraints' => array(
+                                        'filter' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
+                                        'action'     => 'leaderboard'
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'admin' => array(
                 'child_routes' => array(
                     'reward' => array(
