@@ -33,13 +33,15 @@ class Leaderboard
     }
 
     /**
-    * addPoints : ajout de point pour un utilisateur et un type de leaderboard
+    * addPoints : ajout de points pour un utilisateur et un type de leaderboard
     * @param StoryMapping $storyMapping
     * @param User $user
     */
     public function addPoints($storyMapping, $user)
     {
-        if ($storyMapping->getLeaderboardType() !== null) {
+        if ($storyMapping->getLeaderboardType() !== null
+            && $storyMapping->getLeaderboardType() !== $this->getLeaderboardTypeService()->getLeaderboardTypeDefault()
+        ) {
             $leaderboardType = $storyMapping->getLeaderboardType();
             $this->add($storyMapping, $user, $leaderboardType);
         }
