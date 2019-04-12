@@ -43,27 +43,25 @@ class Leaderboard
             && $storyMapping->getLeaderboardType() !== $this->getLeaderboardTypeService()->getLeaderboardTypeDefault()
         ) {
             $leaderboardType = $storyMapping->getLeaderboardType();
-            $this->add($storyMapping, $user, $leaderboardType);
+            $this->add($storyMapping->getPoints(), $user, $leaderboardType);
         }
 
         $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
-        $this->add($storyMapping, $user, $leaderboardType);
+        $this->add($storyMapping->getPoints(), $user, $leaderboardType);
     }
 
     /**
-    * add : ajoute reelement les points
+    * add : add points
     * @param StoryMapping $storyMapping
     * @param User $user
     * @param LeaderboardType $leaderboardType
     *
     * @return Leaderboard $leaderboard
     */
-    public function add($storyMapping, $user, $leaderboardType)
+    public function add($points = 0, $user, $leaderboardType)
     {
         $leaderboard = $this->findOrCreateLeaderboardByUser($user, $leaderboardType);
-
-        $leaderboard->setTotalPoints($leaderboard->getTotalPoints() + $storyMapping->getPoints());
-
+        $leaderboard->setTotalPoints($leaderboard->getTotalPoints() + $points);
         $leaderboard = $this->getLeaderboardMapper()->update($leaderboard);
 
         return $leaderboard;
