@@ -32,10 +32,69 @@ class Module
         if (PHP_SAPI !== 'cli') {
             $strategy = $serviceManager->get(\PlaygroundReward\Service\RewardListener::class);
             $strategy->attach($eventManager);
+
+            // Listening to leardboardUserPoints
+            $e->getApplication()->getEventManager()->getSharedManager()->attach(
+                '*',
+                'leaderboardUserTotal',
+                [
+                    $this,
+                    'getLeaderboardUserTotal'
+                ],
+                100
+            );
+
+            $e->getApplication()->getEventManager()->getSharedManager()->attach(
+                '*',
+                'leaderboardUserUpdate',
+                [
+                    $this,
+                    'leaderboardUserUpdate'
+                ],
+                100
+            );
         }
 
         // I can post cron tasks to be scheduled by the core cron service
         // $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
+    }
+
+    /**
+     * This method get the points of a player in default leaderboard
+     *
+     * @param  EventManager $e
+     * @return array
+     */
+    public function getLeaderboardUserTotal($e)
+    {
+        $user = $e->getParam('user');
+
+        $leaderboardService = $e->getTarget()
+            ->getServiceManager()
+            ->get(\PlaygroundReward\Service\LeaderBoard::class);
+        $userPoints = $leaderboardService->getTotal($user);
+
+        return $userPoints;
+    }
+
+    /**
+     * This method updates the default leaderboard of a user
+     *
+     * @param  EventManager $e
+     * @return array
+     */
+    public function leaderboardUserUpdate($e)
+    {
+        $user = $e->getParam('user');
+        $points = $e->getParam('points');
+
+        $leaderboardService = $e->getTarget()
+            ->getServiceManager()
+            ->get(\PlaygroundReward\Service\LeaderBoard::class);
+        $leaderboardType = $leaderboardService->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        $userPoints = $leaderboardService->add($points, $user, $leaderboardType);
+
+        return $userPoints;
     }
 
     public function getConfig()
