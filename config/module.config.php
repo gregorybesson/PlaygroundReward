@@ -161,6 +161,29 @@ return array(
                             ),
                         ),
                     ),
+                    'transfer' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'mon-compte/transfert',
+                            'defaults' => array(
+                                'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
+                                'action'     => 'transferPoints',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                        'child_routes' =>array(
+                            'result' => array(
+                                'type' => 'segment',
+                                'options' => array(
+                                    'route' => '/result',
+                                    'defaults' => array(
+                                        'controller' => \PlaygroundReward\Controller\Frontend\Index::class,
+                                        'action'     => 'transferResult'
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                     'reward' => array(
                         'type' => 'Zend\Router\Http\Segment',
                         'options' => array(
