@@ -94,8 +94,28 @@ class Leaderboard
         return $leaderboardUser;
     }
 
+    /**
+    * transferPoints : transfer an amount of point from one leaderboard to another
+    * @param User $user
+    *
+    * @return int $points
+    */
+    public function transferPoints($from, $to, $amount)
+    {   
+        $availablePoints = $this->getTotal($from);
+        $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
 
-     /**
+        if ($availablePoints >= $amount) {
+            $this->add(-$amount, $from, $leaderboardType);
+            $this->add($amount, $to, $leaderboardType);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * getTotal : recupere le nombre de point du leaderboard principal
     * @param User $user
     *
