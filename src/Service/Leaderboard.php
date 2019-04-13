@@ -229,6 +229,9 @@ class Leaderboard
             }
         } else {
             $query .= ' ' . $order;
+            if ($nbItems && $nbItems> 0) {
+                $query .= ' limit ' . $nbItems;
+            }
             $result = $dbal->fetchAll($query, $parameters);
         }
 
