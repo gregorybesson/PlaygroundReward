@@ -151,14 +151,15 @@ class Leaderboard
         $search = null,
         $order = null,
         $dir = null,
-        $highlightId = null
+        $highlightId = null,
+        $filter = null
     ) {
         $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
         /* @var $dbal \Doctrine\DBAL\Connection */
         $dbal = $em->getConnection();
 
         $filterSearch = '';
-        $availableOrders = array('total_points', 'city', 'address2', 'address', 'username');
+        $availableOrders = array('total_points', 'city', 'address2', 'address', 'username', 'display_name');
 
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
@@ -180,6 +181,12 @@ class Leaderboard
             $order .= ' ' . $dir;
         } else {
             $order .= ' asc';
+        }
+
+        if ($filter) {
+            $filter = ' ' . $filter;
+        } else {
+            $filter = '';
         }
         
         if ($search != '') {
@@ -203,7 +210,7 @@ class Leaderboard
             WHERE 1=1
         ';
         
-        $query = $stmt.$filterSearch;
+        $query = $stmt.$filterSearch.$filter;
 
         if ($leaderboardType->getType() === 'user' && $highlightId) {
             $query .= ' AND u.user_id = ' . $highlightId;
@@ -267,23 +274,27 @@ class Leaderboard
     *
     * @return array $leaderboard
     */
-    public function getLeaderboard($leaderboardType = null, $nbItems = 5, $search = null)
+    public function getLeaderboard(
+        $leaderboardType = null,
+        $nbItems = 5,
+        $search = null,
+        $order = null,
+        $dir = null,
+        $highlightId = null,
+        $filter = null
+    )
     {
         //$leaderboard = array();
 
-        $leaderboard = $this->getLeaderboardQuery($leaderboardType, $nbItems, $search);
-
-        // if (count($query) > 0) {
-        //     if ($nbItems > 0) {
-        //         $query->setMaxResults($nbItems);
-        //     }
-        //     try {
-        //         $leaderboard = $query->getResult();
-        //     } catch (\Doctrine\ORM\Query\QueryException $e) {
-        //         echo $e->getMessage();
-        //         echo $e->getTraceAsString();
-        //     }
-        // }
+        $leaderboard = $this->getLeaderboardQuery(
+            $leaderboardType,
+            $nbItems,
+            $search,
+            $order,
+            $dir,
+            $highlightId,
+            $filter
+        );
 
         return $leaderboard;
     }
@@ -295,7 +306,7 @@ class Leaderboard
     *
     * @return array $$rank
     */
-    public function getRank($userId = false)
+    public function getRank($userId = false, $filter = '')
     {
         if ($userId === false) {
             return 0;
@@ -303,23 +314,39 @@ class Leaderboard
 
         $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
 
-
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping;
-        $rsm->addScalarResult('points', 'points');
+        $rsm->addScalarResult('total_points', 'total_points');
         $rsm->addScalarResult('rank', 'rank');
 
+        // $query = $em->createNativeQuery('
+        //     SELECT
+        //         COUNT(*) + 1 AS rank,
+        //         rl2.total_points AS points
+        //     FROM reward_leaderboard AS rl JOIN user u1, reward_leaderboard AS rl2 JOIN user u2
+        //     WHERE
+        //         rl.leaderboardtype_id = 1 AND
+        //         rl2.leaderboardtype_id = 1 AND
+        //         rl2.user_id = ? AND
+        //         rl.total_points > rl2.total_points AND
+        //         u1.state = 1 AND
+        //         u2.state = 1
+        // ', $rsm);
+
         $query = $em->createNativeQuery('
-            SELECT
-                COUNT(*) + 1 AS rank,
-                rl2.total_points AS points
-            FROM reward_leaderboard AS rl JOIN user u1, reward_leaderboard AS rl2 JOIN user u2
-            WHERE
-                rl.leaderboardtype_id = 1 AND
-                rl2.leaderboardtype_id = 1 AND
-                rl2.user_id = ? AND
-                rl.total_points > rl2.total_points AND
-                u1.state = 1 AND
-                u2.state = 1
+            SELECT reward_leaderboard.total_points,
+            FIND_IN_SET(
+                reward_leaderboard.user_id, 
+                (
+                    SELECT GROUP_CONCAT( 
+                        reward_leaderboard.user_id ORDER BY reward_leaderboard.total_points DESC 
+                    ) 
+                    FROM reward_leaderboard
+                    inner join user on user.user_id = reward_leaderboard.user_id
+                    where 1=1 ' . $filter .'
+                )
+            ) AS rank
+            FROM reward_leaderboard
+            where user_id = ?
         ', $rsm);
 
         $query->setParameter(1, $userId);

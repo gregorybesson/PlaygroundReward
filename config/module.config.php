@@ -397,7 +397,7 @@ return array(
             'leaderboard' => array(
                 'label' => 'Le classement',
                 'route' => 'reward/leaderboard',
-                'action'     => 'leaderboard'
+                'action'     => 'leaderboard',
             ),
         ),
         'admin' => array(
@@ -407,18 +407,21 @@ return array(
                 'resource' => 'reward',
                 'privilege' => 'list',
                 'target' => 'nav-icon icon-trophy',
+                'use_route_match' => true,
                 'pages' => array(
                     'create' => array(
                         'label' => 'Rewards list',
                         'route' => 'admin/reward/list',
                         'resource' => 'reward',
                         'privilege' => 'list',
+                        'use_route_match' => true,
                     ),
                     'leaderboard' => array(
                         'label' => 'Type of Leaderboard',
                         'route' => 'admin/leaderboardtype/list',
                         'resource' => 'reward',
                         'privilege' => 'list',
+                        'use_route_match' => true,
                     ),
                 ),
             ),
