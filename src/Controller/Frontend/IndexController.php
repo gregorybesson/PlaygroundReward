@@ -127,6 +127,57 @@ class IndexController extends AbstractActionController
         );
     }
 
+    public function transferPointsAction()
+    {
+        $message = '';
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost()->toArray();
+            $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+            $from = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
+    
+            $email = $data['email'];
+            if ($email) {
+                $to = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findByEmail($email);
+            } else {
+                $message .= " Ce destinataire n'existe pas.";
+            }
+
+            $amount = $data['amount'];
+
+            if ($to && $amount && $amount > 0) {
+                $success = $this->getLeaderboardService()->transferPoints($from, $to, $amount);
+
+                if ($success) {
+
+                    return $this->redirect()->toUrl(
+                        $this->frontendUrl()->fromRoute('/transfer/result').'?points='.$amount
+                    );
+                } else {
+                    $message = 'Error transfering this amount of points';
+                }
+            } else {
+                $message .= " Le montant saisi n'est pas correct.";
+            }
+        }
+
+        return new ViewModel(
+            [
+                'message' => $message,
+            ]
+        );
+    }
+
+    public function transferResultAction()
+    {
+        $points = $this->params()->fromQuery('points');
+        return new ViewModel(
+            [
+                'points' => $points,
+            ]
+        );
+    }
+
     /**
       * activityAction
       *
