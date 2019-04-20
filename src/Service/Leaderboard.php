@@ -346,7 +346,8 @@ class Leaderboard
                 )
             ) AS rank
             FROM reward_leaderboard
-            where user_id = ?
+            WHERE reward_leaderboard.leaderboardtype_id = 1
+            AND user_id = ?
         ', $rsm);
 
         $query->setParameter(1, $userId);
