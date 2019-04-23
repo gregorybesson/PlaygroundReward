@@ -44,15 +44,15 @@ class Module
                 100
             );
 
-            $e->getApplication()->getEventManager()->getSharedManager()->attach(
-                '*',
-                'leaderboardUserUpdate',
-                [
-                    $this,
-                    'leaderboardUserUpdate'
-                ],
-                100
-            );
+            // $e->getApplication()->getEventManager()->getSharedManager()->attach(
+            //     '*',
+            //     'leaderboardUserUpdate',
+            //     [
+            //         $this,
+            //         'leaderboardUserUpdate'
+            //     ],
+            //     100
+            // );
         }
 
         // I can post cron tasks to be scheduled by the core cron service
@@ -77,25 +77,25 @@ class Module
         return $userPoints;
     }
 
-    /**
-     * This method updates the default leaderboard of a user
-     *
-     * @param  EventManager $e
-     * @return array
-     */
-    public function leaderboardUserUpdate($e)
-    {
-        $user = $e->getParam('user');
-        $points = $e->getParam('points');
+    // /**
+    //  * This method updates the default leaderboard of a user
+    //  *
+    //  * @param  EventManager $e
+    //  * @return array
+    //  */
+    // public function leaderboardUserUpdate($e)
+    // {
+    //     $user = $e->getParam('user');
+    //     $points = $e->getParam('points');
 
-        $leaderboardService = $e->getTarget()
-            ->getServiceManager()
-            ->get(\PlaygroundReward\Service\LeaderBoard::class);
-        $leaderboardType = $leaderboardService->getLeaderboardTypeService()->getLeaderboardTypeDefault();
-        $userPoints = $leaderboardService->add($points, $user, $leaderboardType);
+    //     $leaderboardService = $e->getTarget()
+    //         ->getServiceManager()
+    //         ->get(\PlaygroundReward\Service\LeaderBoard::class);
+    //     $leaderboardType = $leaderboardService->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+    //     $userPoints = $leaderboardService->add($points, $user, $leaderboardType);
 
-        return $userPoints;
-    }
+    //     return $userPoints;
+    // }
 
     public function getConfig()
     {
