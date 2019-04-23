@@ -314,10 +314,20 @@ class Leaderboard
     *
     * @return array $$rank
     */
-    public function getRank($userId = false, $filter = '')
+    public function getRank($userId = false, $filter = null, $leaderType = null)
     {
         if ($userId === false) {
             return 0;
+        }
+
+        $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+
+        if (!empty($leaderType)) {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderType));
+        }
+
+        if (empty($filter)) {
+            $filter = '';
         }
 
         $em = $this->serviceLocator->get('playgroundreward_doctrine_em');
@@ -354,11 +364,12 @@ class Leaderboard
                 )
             ) AS rank
             FROM reward_leaderboard
-            WHERE reward_leaderboard.leaderboardtype_id = 1
+            WHERE reward_leaderboard.leaderboardtype_id = ?
             AND user_id = ?
         ', $rsm);
 
-        $query->setParameter(1, $userId);
+        $query->setParameter(1, $leaderboardType->getId());
+        $query->setParameter(2, $userId);
 
         $result = $query->getResult();
 
