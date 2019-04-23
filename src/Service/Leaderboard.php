@@ -100,14 +100,22 @@ class Leaderboard
     *
     * @return int $points
     */
-    public function transferPoints($from, $to, $amount)
+    public function transferPoints($from, $to, $amount, $leaderTypeFrom = null, $leaderTypeTo = null)
     {   
         $availablePoints = $this->getTotal($from);
-        $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        $leaderboardTypeFrom = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+        $leaderboardTypeTo = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
+
+        if (!empty($leaderTypeFrom)) {
+            $leaderboardTypeFrom = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderTypeFrom));
+        }
+        if (!empty($leaderTypeTo)) {
+            $leaderboardTypeTo = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderTypeTo));
+        }
 
         if ($availablePoints >= $amount) {
-            $this->add(-$amount, $from, $leaderboardType);
-            $this->add($amount, $to, $leaderboardType);
+            $this->add(-$amount, $from, $leaderboardTypeFrom);
+            $this->add($amount, $to, $leaderboardTypeTo);
 
             return true;
         }

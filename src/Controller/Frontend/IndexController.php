@@ -144,9 +144,11 @@ class IndexController extends AbstractActionController
             }
 
             $amount = $data['amount'];
+            $leaderboardFrom = isset($data['from']) ? $data['from'] : null;
+            $leaderboardTo = isset($data['to']) ? $data['to'] : null;
 
             if ($to && $amount && $amount > 0) {
-                $success = $this->getLeaderboardService()->transferPoints($from, $to, $amount);
+                $success = $this->getLeaderboardService()->transferPoints($from, $to, $amount, $leaderboardFrom, $leaderboardTo);
 
                 if ($success) {
 
