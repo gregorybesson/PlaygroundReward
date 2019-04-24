@@ -156,10 +156,10 @@ class IndexController extends AbstractActionController
                         $this->frontendUrl()->fromRoute('/transfer/result').'?points='.$amount
                     );
                 } else {
-                    $message = 'Error transfering this amount of points';
+                    $message = $this->getServiceLocator()->get('MvcTranslator')->translate('Error transfering this amount of points');
                 }
             } else {
-                $message .= " Le montant saisi n'est pas correct.";
+                $message .= $this->getServiceLocator()->get('MvcTranslator')->translate("The amount is not correct");
             }
         }
 
