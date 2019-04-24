@@ -375,12 +375,18 @@ return array(
     'translator' => array(
             'locale' => 'fr_FR',
             'translation_file_patterns' => array(
-                    array(
-                            'type'         => 'phpArray',
-                            'base_dir'     => __DIR__ . '/../language',
-                            'pattern'      => '%s.php',
-                            'text_domain'  => \PlaygroundReward\Controller\Frontend\Index::class
-                    ),
+                array(
+                    'type' => 'phpArray',
+                    'base_dir' => __DIR__ . '/../language',
+                    'pattern' => '%s.php',
+                    'text_domain' => 'playgroundreward'
+                ),
+                array(
+                    'type' => 'phpArray',
+                    'base_dir' => __DIR__ . '/../../../../language',
+                    'pattern' => '%s.php',
+                    'text_domain' => 'playgroundreward'
+                ),
             ),
     ),
 
