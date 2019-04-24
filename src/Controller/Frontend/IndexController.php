@@ -151,15 +151,14 @@ class IndexController extends AbstractActionController
                 $success = $this->getLeaderboardService()->transferPoints($from, $to, $amount, $leaderboardFrom, $leaderboardTo);
 
                 if ($success) {
-
                     return $this->redirect()->toUrl(
                         $this->frontendUrl()->fromRoute('/transfer/result').'?points='.$amount
                     );
                 } else {
-                    $message = $this->getServiceLocator()->get('MvcTranslator')->translate('Error transfering this amount of points');
+                    $message = $this->getServiceLocator()->get('MvcTranslator')->translate('Error transferring this amount of points', 'playgroundreward');
                 }
             } else {
-                $message .= $this->getServiceLocator()->get('MvcTranslator')->translate("The amount is not correct");
+                $message .= $this->getServiceLocator()->get('MvcTranslator')->translate("The amount is not correct", 'playgroundreward');
             }
         }
 
