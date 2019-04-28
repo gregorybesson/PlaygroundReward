@@ -39,14 +39,12 @@ class Leaderboard
     */
     public function addPoints($storyMapping, $user)
     {
-        if ($storyMapping->getLeaderboardType() !== null
-            && $storyMapping->getLeaderboardType() !== $this->getLeaderboardTypeService()->getLeaderboardTypeDefault()
-        ) {
+        if ($storyMapping->getLeaderboardType() !== null) {
             $leaderboardType = $storyMapping->getLeaderboardType();
-            $this->add($storyMapping->getPoints(), $user, $leaderboardType);
+        } else {
+            $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
 
-        $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         $this->add($storyMapping->getPoints(), $user, $leaderboardType);
     }
 
