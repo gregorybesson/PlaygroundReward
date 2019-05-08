@@ -204,7 +204,10 @@ class Leaderboard
         
         // Statement ordering the players by total_points and determining their respective rank
         $stmt = '
-            SELECT e.*, u.*, t.*
+            SELECT e.leaderboardtype_id, e.total_points, e.rank, e.leaderboardtype_id,
+                u.*,
+                t.name as teamName, t.identifier as teamIdentifier, t.logo as teamLogo,
+                t.created_at as teamCreatedAt, t.updated_at as teamUpdatedAt
             FROM (
                 SELECT sube.*, @curRank := @curRank + 1 AS rank 
                 FROM reward_leaderboard sube, (SELECT @curRank := 0) r
