@@ -4,6 +4,7 @@ namespace PlaygroundReward\Service;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\EventManager\EventManager;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -27,9 +28,30 @@ class Leaderboard
      */
     protected $serviceLocator;
 
+    protected $event;
+
     public function __construct(ServiceLocatorInterface $locator)
     {
         $this->serviceLocator = $locator;
+    }
+
+    public function getEventManager()
+    {
+        if (null === $this->event) {
+            $this->event = new EventManager($this->serviceLocator->get('SharedEventManager'), [get_class($this)]);
+        }
+
+        return $this->event;
+    }
+
+    /**
+     * getServiceManager
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceLocator;
     }
 
     /**
@@ -114,6 +136,18 @@ class Leaderboard
         if ($availablePoints >= $amount) {
             $this->add(-$amount, $from, $leaderboardTypeFrom);
             $this->add($amount, $to, $leaderboardTypeTo);
+
+            $this->getEventManager()->trigger(
+                __FUNCTION__ . '.post',
+                $this,
+                [
+                    'user'           => $from,
+                    'leaderTypeFrom' => $leaderTypeFrom,
+                    'to'             => $to,
+                    'leaderTypeTo'   => $leaderTypeTo,
+                    'amount'         => $amount,
+                ]
+            );
 
             return true;
         }
