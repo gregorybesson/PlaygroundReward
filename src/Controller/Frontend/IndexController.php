@@ -140,7 +140,7 @@ class IndexController extends AbstractActionController
             if ($email) {
                 $to = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findByEmail($email);
             } else {
-                $message .= " Ce destinataire n'existe pas.";
+                $message .= $this->getServiceLocator()->get('MvcTranslator')->translate("This user doesn't exist", 'playgroundreward');
             }
 
             $amount = $data['amount'];
@@ -152,7 +152,7 @@ class IndexController extends AbstractActionController
 
                 if ($success) {
                     return $this->redirect()->toUrl(
-                        $this->frontendUrl()->fromRoute('/transfer/result').'?points='.$amount
+                        $this->frontendUrl()->fromRoute('/transfer/result').'?points=' . $amount
                     );
                 } else {
                     $message = $this->getServiceLocator()->get('MvcTranslator')->translate('Error transferring this amount of points', 'playgroundreward');
