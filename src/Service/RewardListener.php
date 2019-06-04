@@ -153,11 +153,19 @@ class RewardListener implements ListenerAggregateInterface
             }
 
             if ($compliancy) {
+                $stories = [];
                 if ($storyTelling->getUser()) {
-                    $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
-                        'user' => $storyTelling->getUser(),
-                        'openGraphStoryMapping' => $storyTelling->getOpenGraphStoryMapping()
-                    ));
+                    foreach ($rule->getStoryMappings() as $smapping) {
+                        $newStories = $storyTellingService->getStoryTellingMapper()->findBy(
+                            array(
+                                'user' => $storyTelling->getUser(),
+                                'openGraphStoryMapping' => $smapping,
+                            )
+                        );
+
+                        $stories = array_merge($stories, $newStories);
+                    }
+
                 } else {
                     $stories = $storyTellingService->getStoryTellingMapper()->findBy(array(
                         'prospect' => $storyTelling->getProspect(),
@@ -328,5 +336,10 @@ class RewardListener implements ListenerAggregateInterface
         curl_setopt_array($ch, $curlConfig);
         $result = curl_exec($ch);
         curl_close($ch);
+    }
+
+    public function getServiceManager()
+    {
+        return $this->serviceLocator;
     }
 }
