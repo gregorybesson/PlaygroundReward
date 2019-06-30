@@ -141,11 +141,11 @@ class Leaderboard
                 __FUNCTION__ . '.post',
                 $this,
                 [
-                    'user'           => $from,
-                    'leaderTypeFrom' => $leaderTypeFrom,
-                    'to'             => $to,
-                    'leaderTypeTo'   => $leaderTypeTo,
-                    'amount'         => $amount,
+                    'user'                  => $from,
+                    'leaderboardTypeFrom'   => $leaderboardTypeFrom,
+                    'to'                    => $to,
+                    'leaderboardTypeTo'     => $leaderboardTypeTo,
+                    'amount'                => $amount,
                 ]
             );
 
