@@ -214,7 +214,7 @@ class Leaderboard
         if ($order && in_array($order, $availableOrders)) {
             $order = 'ORDER BY ' . $order;
         } else {
-            $order = 'ORDER BY rank';
+            $order = 'ORDER BY `rank`';
         }
         
         if ($dir && in_array($dir, array('asc', 'desc'))) {
@@ -243,7 +243,7 @@ class Leaderboard
                 t.name as teamName, t.identifier as teamIdentifier, t.logo as teamLogo,
                 t.created_at as teamCreatedAt, t.updated_at as teamUpdatedAt
             FROM (
-                SELECT sube.*, @curRank := @curRank + 1 AS rank 
+                SELECT sube.*, @curRank := @curRank + 1 AS `rank`
                 FROM reward_leaderboard sube, (SELECT @curRank := 0) r
                 WHERE sube.leaderboardtype_id = :leaderboardTypeId
                 ORDER BY sube.total_points DESC
@@ -397,7 +397,7 @@ class Leaderboard
                     inner join user on user.user_id = reward_leaderboard.user_id
                     where 1=1 ' . $filter .'
                 )
-            ) AS rank
+            ) AS `rank`
             FROM reward_leaderboard
             WHERE reward_leaderboard.leaderboardtype_id = ?
             AND user_id = ?
