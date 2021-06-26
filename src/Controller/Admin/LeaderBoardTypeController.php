@@ -3,9 +3,9 @@
 namespace PlaygroundReward\Controller\Admin;
 
 use PlaygroundReward\Entity\LeaderboardType;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class LeaderBoardTypeController extends AbstractActionController
 {

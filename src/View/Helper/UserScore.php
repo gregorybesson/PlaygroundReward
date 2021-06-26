@@ -2,7 +2,7 @@
 
 namespace PlaygroundReward\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 class UserScore extends AbstractHelper
 {

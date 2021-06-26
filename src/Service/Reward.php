@@ -2,12 +2,12 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\Stdlib\ErrorHandler;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Stdlib\ErrorHandler;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundCore\Filter\Sanitize;
 use PlaygroundReward\Mapper\Reward as RewardMapper;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Reward
 {

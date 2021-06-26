@@ -3,9 +3,9 @@
 namespace PlaygroundReward\Form;
 
 use PlaygroundReward\Options\UserEditOptionsInterface;
-use Zend\Form\Element;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\EventManager\EventManager;
+use Laminas\EventManager\EventManager;
 
 class EditAction extends ProvidesEventsForm
 {

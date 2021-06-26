@@ -3,7 +3,7 @@ namespace PlaygroundReward\View\Helper;
 
 use PlaygroundReward\View\Helper\RankWidget;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class RankWidgetFactory implements FactoryInterface
 {

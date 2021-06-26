@@ -5,9 +5,9 @@ namespace PlaygroundReward\Controller\Admin;
 use PlaygroundReward\Entity\Reward;
 use PlaygroundReward\Entity\RewardRule;
 use PlaygroundReward\Service\Reward as RewardService;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class RewardController extends AbstractActionController
 {
@@ -40,7 +40,7 @@ class RewardController extends AbstractActionController
         $rewards = $service->getRewardMapper()->findAll();
         
         if (is_array($rewards)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($rewards));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($rewards));
             $paginator->setItemCountPerPage(20);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {
@@ -159,7 +159,7 @@ class RewardController extends AbstractActionController
         $rules = $service->getRewardRuleMapper()->findByRewardId($rewardId);
 
         if (is_array($rules)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($rules));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($rules));
         } else {
             $paginator = $rules;
         }

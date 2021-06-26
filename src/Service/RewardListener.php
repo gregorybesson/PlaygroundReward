@@ -1,12 +1,12 @@
 <?php
 namespace PlaygroundReward\Service;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * This listener is used to calculate the points earned on user layer
@@ -19,7 +19,7 @@ class RewardListener implements ListenerAggregateInterface
 
     /**
      *
-     * @var \Zend\Stdlib\CallbackHandler[]
+     * @var \Laminas\Stdlib\CallbackHandler[]
      */
     protected $listeners = array();
 
@@ -80,9 +80,9 @@ class RewardListener implements ListenerAggregateInterface
      * count of story $rule->getStoryMappings() $rule->getCountType() $rule->getCount()
      * count of story 'play game' = 5
      *
-     * @param \Zend\EventManager\Event $e
+     * @param \Laminas\EventManager\Event $e
      */
-    public function reward(\Zend\EventManager\Event $e)
+    public function reward(\Laminas\EventManager\Event $e)
     {
         $storyTelling = $e->getParam('storyTelling');
         
