@@ -11,11 +11,11 @@ use Laminas\ServiceManager\ServiceManager;
 class RewardRule extends ProvidesEventsForm
 {
     protected $serviceManager;
-    
+
     public function __construct($name, ServiceManager $sm, Translator $translator)
     {
         parent::__construct($name);
-        
+
         $this->setServiceManager($sm);
 
         $entityManager = $sm->get('doctrine.entitymanager.orm_default');
@@ -45,7 +45,7 @@ class RewardRule extends ProvidesEventsForm
                 'value' => 0,
             ),
         ));
-        
+
         $this->add(array(
             'type' => 'Laminas\Form\Element\Select',
             'name' => 'completionType',
@@ -58,7 +58,7 @@ class RewardRule extends ProvidesEventsForm
                 'label' => $translator->translate('Completion type', 'playgroundreward')
             )
         ));
-        
+
         $this->add(array(
             'type' => 'Laminas\Form\Element\Select',
             'name' => 'countType',
@@ -72,7 +72,7 @@ class RewardRule extends ProvidesEventsForm
                 'label' => $translator->translate('Count type', 'playgroundreward')
             )
         ));
-        
+
         $this->add(array(
             'name' => 'count',
             'type' => 'Laminas\Form\Element\Text',
@@ -83,13 +83,13 @@ class RewardRule extends ProvidesEventsForm
                 'label' => $translator->translate('Count', 'playgroundreward'),
             ),
         ));
-        
+
         $this->add(
             [
                 'name' => 'storyMappings',
                 'type' => 'DoctrineModule\Form\Element\ObjectSelect',
                 'options' => [
-                    //'empty_option' => $translator->translate('Select an attribute', 'playgroundflow'),
+                    //'empty_option' => $translator->translate('Select an attribute', 'playgroundreward'),
                     'label' => $translator->translate('Stories', 'playgroundreward'),
                     'object_manager' => $entityManager,
                     'target_class' => '\PlaygroundFlow\Entity\OpenGraphStoryMapping',
@@ -111,7 +111,7 @@ class RewardRule extends ProvidesEventsForm
                 ]
             ]
         );
-        
+
         $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null, $sm, $translator);
         $this->add(array(
             'type'    => 'Laminas\Form\Element\Collection',
@@ -138,7 +138,7 @@ class RewardRule extends ProvidesEventsForm
             'priority' => -100,
         ));
     }
-    
+
     /**
      *
      * @return array
@@ -148,14 +148,14 @@ class RewardRule extends ProvidesEventsForm
         $stories = array();
         $storyService = $this->getServiceManager()->get('playgroundflow_domain_service');
         $results = $storyService->getStoryMappingMapper()->findByDomainId(3);
-    
+
         foreach ($results as $result) {
             $stories[$result->getId()] = $result->getStory()->getLabel();
         }
-    
+
         return $stories;
     }
-    
+
     /**
      * Retrieve service manager instance
      *
@@ -165,7 +165,7 @@ class RewardRule extends ProvidesEventsForm
     {
         return $this->serviceManager;
     }
-    
+
     /**
      * Set service manager instance
      *
@@ -175,7 +175,7 @@ class RewardRule extends ProvidesEventsForm
     public function setServiceManager(ServiceManager $sm)
     {
         $this->serviceManager = $sm;
-    
+
         return $this;
     }
 }
