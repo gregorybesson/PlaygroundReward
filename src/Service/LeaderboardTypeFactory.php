@@ -2,7 +2,7 @@
 namespace PlaygroundReward\Service;
 
 use PlaygroundReward\Service\LeaderboardType;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class LeaderboardTypeFactory implements FactoryInterface

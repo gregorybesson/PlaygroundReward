@@ -2,10 +2,10 @@
 namespace PlaygroundReward\Form\Admin;
 
 use PlaygroundReward\Options\ModuleOptions;
-use Zend\Form\Element;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Mvc\I18n\Translator;
+use Laminas\ServiceManager\ServiceManager;
 use PlaygroundCore\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class Reward extends ProvidesEventsForm
@@ -34,7 +34,7 @@ class Reward extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0
             )
@@ -64,12 +64,12 @@ class Reward extends ProvidesEventsForm
         ));
         $this->add(array(
             'name' => 'image',
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => ''
             )
         ));
-        
+
         $this->add(array(
             'name' => 'hint',
             'options' => array(
@@ -80,23 +80,23 @@ class Reward extends ProvidesEventsForm
                 'placeholder' => $translator->translate('Hint', 'playgroundreward')
             )
         ));
-        
+
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
+            'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'displayNotification',
             'options' => array(
-                'label' => $translator->translate('Display notication to player', 'playgroundflow'),
+                'label' => $translator->translate('Display notication to player', 'playgroundreward'),
             ),
             'attributes' => array(
                 //'checked' => true
             )
         ));
-        
+
         $this->add(array(
             'name' => 'notification',
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'options' => array(
-                'label' => $translator->translate('Notification Message', 'playgroundflow')
+                'label' => $translator->translate('Notification Message', 'playgroundreward')
             ),
             'attributes' => array(
                 'cols' => '10',
@@ -104,23 +104,23 @@ class Reward extends ProvidesEventsForm
                 'id' => 'notification'
             )
         ));
-        
+
         $this->add(array(
-            'type' => 'Zend\Form\Element\Checkbox',
+            'type' => 'Laminas\Form\Element\Checkbox',
             'name' => 'displayActivityStream',
             'options' => array(
-                'label' => $translator->translate('Display on activity Stream', 'playgroundflow'),
+                'label' => $translator->translate('Display on activity Stream', 'playgroundreward'),
             ),
             'attributes' => array(
                 //'checked' => true
             )
         ));
-        
+
         $this->add(array(
             'name' => 'activityStream',
-            'type' => 'Zend\Form\Element\Textarea',
+            'type' => 'Laminas\Form\Element\Textarea',
             'options' => array(
-                'label' => $translator->translate('Activity Stream Message', 'playgroundflow')
+                'label' => $translator->translate('Activity Stream Message', 'playgroundreward')
             ),
             'attributes' => array(
                 'cols' => '10',
@@ -128,9 +128,9 @@ class Reward extends ProvidesEventsForm
                 'id' => 'activityStream'
             )
         ));
-        
+
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'hide',
             'options' => array(
                 'empty_option' => $translator->translate('Hide this reward', 'playgroundreward'),
@@ -143,7 +143,7 @@ class Reward extends ProvidesEventsForm
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'type',
             'options' => array(
                 'empty_option' => $translator->translate('Reward type', 'playgroundreward'),
@@ -154,9 +154,9 @@ class Reward extends ProvidesEventsForm
                 'label' => $translator->translate('Reward type', 'playgroundreward')
             )
         ));
-        
+
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'category',
             'options' => array(
                 'empty_option' => $translator->translate('Reward category', 'playgroundreward'),
@@ -168,9 +168,9 @@ class Reward extends ProvidesEventsForm
                 'label' => $translator->translate('Reward category', 'playgroundreward'),
             ),
         ));
-        
+
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'active',
             'options' => array(
                 'value_options' => array(
@@ -183,7 +183,7 @@ class Reward extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'points',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Points', 'playgroundreward'),
             ),
@@ -191,10 +191,10 @@ class Reward extends ProvidesEventsForm
                 'label' => $translator->translate('Points', 'playgroundreward'),
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'countLimit',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Limit occurrences', 'playgroundreward'),
             ),

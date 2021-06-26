@@ -125,7 +125,7 @@ return array(
             'frontend' => array(
                 'child_routes' => array(
                     'badges' => array(
-                        'type' => 'Zend\Router\Http\Literal',
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route' => 'mon-compte/mes-badges',
                             'defaults' => array(
@@ -185,7 +185,7 @@ return array(
                         ),
                     ),
                     'reward' => array(
-                        'type' => 'Zend\Router\Http\Segment',
+                        'type' => 'Laminas\Router\Http\Segment',
                         'options' => array(
                             'route'    => 'reward',
                             'defaults' => array(
@@ -215,7 +215,7 @@ return array(
             'admin' => array(
                 'child_routes' => array(
                     'reward' => array(
-                        'type' => 'Zend\Router\Http\Literal',
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route' => '/reward',
                             'defaults' => array(
@@ -235,7 +235,7 @@ return array(
                                 ),
                             ),
                             'create' => array(
-                                'type' => 'Zend\Router\Http\Literal',
+                                'type' => 'Laminas\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/create',
                                     'defaults' => array(
@@ -314,7 +314,7 @@ return array(
                         ),
                     ),
                     'leaderboardtype' =>  array(
-                        'type' => 'Zend\Router\Http\Literal',
+                        'type' => 'Laminas\Router\Http\Literal',
                         'options' => array(
                             'route' => '/leaderboardtype',
                             'defaults' => array(
@@ -334,7 +334,7 @@ return array(
                                 ),
                             ),
                             'create' => array(
-                                'type' => 'Zend\Router\Http\Literal',
+                                'type' => 'Laminas\Router\Http\Literal',
                                 'options' => array(
                                     'route' => '/create',
                                     'defaults' => array(

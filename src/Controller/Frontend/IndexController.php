@@ -2,10 +2,10 @@
 
 namespace PlaygroundReward\Controller\Frontend;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\Paginator\Paginator;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\Paginator\Paginator;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class IndexController extends AbstractActionController
 {
@@ -107,7 +107,7 @@ class IndexController extends AbstractActionController
         }
         $filters = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findAll();
 
-        $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($leaderboard));
+        $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($leaderboard));
         $paginator->setItemCountPerPage(10);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
 
@@ -221,7 +221,7 @@ class IndexController extends AbstractActionController
         }
 
         if (is_array($activities)) {
-            $paginator = new \Zend\Paginator\Paginator(new \Zend\Paginator\Adapter\ArrayAdapter($activities));
+            $paginator = new \Laminas\Paginator\Paginator(new \Laminas\Paginator\Adapter\ArrayAdapter($activities));
             $paginator->setItemCountPerPage(25);
             $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         } else {

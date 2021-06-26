@@ -3,10 +3,10 @@
 namespace PlaygroundReward\Form\Admin;
 
 use PlaygroundReward\Entity\RewardRuleCondition;
-use Zend\Form\Fieldset;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Form\Fieldset;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class RewardRuleConditionFieldset extends Fieldset
 {
@@ -19,13 +19,13 @@ class RewardRuleConditionFieldset extends Fieldset
         ->setObject(new RewardRuleCondition());
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Hidden',
+            'type' => 'Laminas\Form\Element\Hidden',
             'name' => 'id'
         ));
 
         $this->add(array(
             'name' => 'object',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Object', 'playgroundreward'),
             ),
@@ -36,7 +36,7 @@ class RewardRuleConditionFieldset extends Fieldset
         
         $this->add(array(
             'name' => 'attribute',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Attribute', 'playgroundreward'),
             ),
@@ -46,7 +46,7 @@ class RewardRuleConditionFieldset extends Fieldset
         ));
         
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'type',
             'attributes' =>  array(
                 'id' => 'type',
@@ -67,7 +67,7 @@ class RewardRuleConditionFieldset extends Fieldset
         ));
         
         $this->add(array(
-                'type' => 'Zend\Form\Element\Select',
+                'type' => 'Laminas\Form\Element\Select',
                 'name' => 'comparison',
                 'options' => array(
                         'empty_option' => $translator->translate('Comparison ?', 'playgroundreward'),
@@ -82,7 +82,7 @@ class RewardRuleConditionFieldset extends Fieldset
 
         $this->add(array(
             'name' => 'value',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Value', 'playgroundreward'),
             ),
@@ -92,7 +92,7 @@ class RewardRuleConditionFieldset extends Fieldset
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Button',
+            'type' => 'Laminas\Form\Element\Button',
             'name' => 'remove',
             'options' => array(
                 'label' => $translator->translate('Delete', 'playgroundreward'),

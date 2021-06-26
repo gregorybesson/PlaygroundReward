@@ -2,11 +2,11 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\EventManager\EventManagerAwareTrait;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Mapper\Achievement as AchievementMapper;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class Achievement
 {

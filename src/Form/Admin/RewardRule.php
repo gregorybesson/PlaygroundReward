@@ -2,11 +2,11 @@
 
 namespace PlaygroundReward\Form\Admin;
 
-use Zend\Form\Element;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
+use Laminas\Mvc\I18n\Translator;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class RewardRule extends ProvidesEventsForm
 {
@@ -32,7 +32,7 @@ class RewardRule extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'reward_id',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'type'  => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0,
             ),
@@ -40,14 +40,14 @@ class RewardRule extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'type'  => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0,
             ),
         ));
         
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'completionType',
             'options' => array(
                 'empty_option' => $translator->translate('Completion type', 'playgroundreward'),
@@ -60,7 +60,7 @@ class RewardRule extends ProvidesEventsForm
         ));
         
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'countType',
             'options' => array(
                 'empty_option' => $translator->translate('Count type', 'playgroundreward'),
@@ -75,7 +75,7 @@ class RewardRule extends ProvidesEventsForm
         
         $this->add(array(
             'name' => 'count',
-            'type' => 'Zend\Form\Element\Text',
+            'type' => 'Laminas\Form\Element\Text',
             'attributes' => array(
                 'placeholder' => $translator->translate('Count', 'playgroundreward'),
             ),
@@ -114,7 +114,7 @@ class RewardRule extends ProvidesEventsForm
         
         $rewardRuleConditionFieldset = new RewardRuleConditionFieldset(null, $sm, $translator);
         $this->add(array(
-            'type'    => 'Zend\Form\Element\Collection',
+            'type'    => 'Laminas\Form\Element\Collection',
             'name'    => 'conditions',
             'options' => array(
                 'id'    => 'conditions',

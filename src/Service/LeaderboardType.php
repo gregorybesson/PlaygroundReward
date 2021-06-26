@@ -2,11 +2,11 @@
 
 namespace PlaygroundReward\Service;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\EventManager\EventManagerAwareTrait;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\EventManager\EventManagerAwareTrait;
 use PlaygroundReward\Options\ModuleOptions;
 use PlaygroundReward\Entity\LeaderboardType as LeaderboardTypeEntity;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class LeaderboardType
 {
@@ -104,7 +104,7 @@ class LeaderboardType
     /* findById : recupere l'entite en fonction de son id
     * @param int $id id du leaderboardType
     *
-    * @return PlaygroundFlow\Entity\leaderboardType $leaderboardType
+    * @return PlaygroundReward\Entity\leaderboardType $leaderboardType
     */
     public function findById($id)
     {
@@ -113,7 +113,7 @@ class LeaderboardType
 
     /**
     * remove : supprimer une entite leaderboardType
-    * @return PlaygroundFlow\Entity\leaderboardType $entity leaderboardType
+    * @return PlaygroundReward\Entity\leaderboardType $entity leaderboardType
     *
     */
     public function remove($entity)

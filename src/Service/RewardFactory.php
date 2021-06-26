@@ -2,7 +2,7 @@
 namespace PlaygroundReward\Service;
 
 use PlaygroundReward\Service\Reward;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class RewardFactory implements FactoryInterface

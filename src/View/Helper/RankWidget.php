@@ -2,7 +2,7 @@
 
 namespace PlaygroundReward\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 use Interop\Container\ContainerInterface;
 
 class RankWidget extends AbstractHelper

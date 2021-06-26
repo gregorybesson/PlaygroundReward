@@ -7,14 +7,14 @@ use PlaygroundReward\Entity\Leaderboard as LeaderboardEntity;
 use PlaygroundUser\Entity\User;
 use PlaygroundRewardTest\Bootstrap;
 
-class Prospect extends \PHPUnit_Framework_TestCase
+class Prospect extends \PHPUnit\Framework\TestCase
 {
     protected $traceError = true;
 
     protected $userDomainData;
 
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->sm = Bootstrap::getServiceManager();
         $this->em = $this->sm->get('doctrine.entitymanager.orm_default');
@@ -31,7 +31,7 @@ class Prospect extends \PHPUnit_Framework_TestCase
         $leaderboardType->setName('test');
         $LeaderboardType = $this->dm->insert($leaderboardType);
         $this->leaderboardType = $leaderboardType;
-        
+
 
         $leaderboardType2 = new LeaderboardType();
         $leaderboardType2->setName('test2');
@@ -39,13 +39,13 @@ class Prospect extends \PHPUnit_Framework_TestCase
         $this->leaderboardType2 = $leaderboardType2;
 
         $this->userData = array(
-            'username'  => 'troger',
-            'email' => 'thomas.roger@adfab.fr',
-            'displayName' => 'troger',
-            'password' => 'troger',
+            'username'  => 'gbesson',
+            'email' => 'bessong@gmail.com',
+            'displayName' => 'gbesson',
+            'password' => 'grg',
             'state' => '0',
-            'firstname' => 'thomas',
-            'lastname' => 'roger',
+            'firstname' => 'greg',
+            'lastname' => 'besson',
             'optin' => '1',
             'optinPartner' => '0',
         );
@@ -83,9 +83,9 @@ class Prospect extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($leaderboards), 2);
 
     }
- 
 
-    public function tearDown()
+
+    protected function tearDown(): void
     {
         $dbh = $this->em->getConnection();
         unset($this->tm);

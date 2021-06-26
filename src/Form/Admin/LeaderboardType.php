@@ -2,15 +2,15 @@
 
 namespace PlaygroundReward\Form\Admin;
 
-use Zend\Form\Element;
+use Laminas\Form\Element;
 use ZfcUser\Form\ProvidesEventsForm;
-use Zend\Mvc\I18n\Translator;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Mvc\I18n\Translator;
+use Laminas\ServiceManager\ServiceManager;
 
 class LeaderboardType extends ProvidesEventsForm
 {
     /**
-    * @var Zend\ServiceManager\ServiceManager $serviceManager
+    * @var Laminas\ServiceManager\ServiceManager $serviceManager
     */
     protected $serviceManager;
 
@@ -18,8 +18,8 @@ class LeaderboardType extends ProvidesEventsForm
     * __construct : permet de construire le formulaire qui peuplera l'entity LeaderboardType
     *
     * @param string $name
-    * @param Zend\ServiceManager\ServiceManager $serviceManager
-    * @param Zend\I18n\Translator\Translator $translator
+    * @param Laminas\ServiceManager\ServiceManager $serviceManager
+    * @param Laminas\I18n\Translator\Translator $translator
     *
     */
     public function __construct($name, ServiceManager $serviceManager, Translator $translator)
@@ -29,7 +29,7 @@ class LeaderboardType extends ProvidesEventsForm
 
         $this->add(array(
             'name' => 'id',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'type'  => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => 0,
             ),
@@ -46,12 +46,12 @@ class LeaderboardType extends ProvidesEventsForm
                 'required' => 'required'
             ),
             'validator' => array(
-                new \Zend\Validator\NotEmpty(),
+                new \Laminas\Validator\NotEmpty(),
             )
         ));
 
         $this->add(array(
-            'type' => 'Zend\Form\Element\Select',
+            'type' => 'Laminas\Form\Element\Select',
             'name' => 'type',
             'attributes' =>  array(
                 'id' => 'type',

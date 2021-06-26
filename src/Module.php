@@ -2,8 +2,8 @@
 
 namespace PlaygroundReward;
 
-use Zend\Mvc\MvcEvent;
-use Zend\Validator\AbstractValidator;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Validator\AbstractValidator;
 
 class Module
 {
@@ -56,7 +56,7 @@ class Module
         }
 
         // I can post cron tasks to be scheduled by the core cron service
-        // $eventManager->getSharedManager()->attach('Zend\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
+        // $eventManager->getSharedManager()->attach('Laminas\Mvc\Application','getCronjobs', array($this, 'addCronjob'));
     }
 
     /**

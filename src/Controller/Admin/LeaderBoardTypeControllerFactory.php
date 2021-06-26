@@ -2,7 +2,7 @@
 namespace PlaygroundReward\Controller\Admin;
 
 use PlaygroundReward\Controller\Admin\LeaderBoardTypeController;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class LeaderBoardTypeControllerFactory implements FactoryInterface

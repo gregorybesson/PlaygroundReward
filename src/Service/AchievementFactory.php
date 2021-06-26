@@ -2,7 +2,7 @@
 namespace PlaygroundReward\Service;
 
 use PlaygroundReward\Service\Achievement;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class AchievementFactory implements FactoryInterface
