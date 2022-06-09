@@ -91,13 +91,12 @@
         "laminas/laminas-validator": ">=2.8",
         "laminas/laminas-view": ">=2.8",
         "laminas/laminas-xml2json": ">=3.0",
-        "laminas/laminas-xmlrpc": ">=2.6",
-        "zendframework/zendxml": ">=1.0.2"
+        "laminas/laminas-xmlrpc": ">=2.6"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.0.0",
         "squizlabs/php_codesniffer": ">=2.0.0",
-        "php-coveralls/php-coveralls": "^2.4"
+        "php-coveralls/php-coveralls": ">=2.4"
     },
     "autoload": {
         "psr-4": {
@@ -106,7 +105,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "5.x-dev"
+            "dev-master": "6.x-dev"
         }
     }
 }
