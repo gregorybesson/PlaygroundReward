@@ -3,7 +3,7 @@ namespace PlaygroundReward\Form\Admin;
 
 use PlaygroundReward\Options\ModuleOptions;
 use Laminas\Form\Element;
-use ZfcUser\Form\ProvidesEventsForm;
+use LmcUser\Form\ProvidesEventsForm;
 use Laminas\Mvc\I18n\Translator;
 use Laminas\ServiceManager\ServiceManager;
 use PlaygroundCore\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;

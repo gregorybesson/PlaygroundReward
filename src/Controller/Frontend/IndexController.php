@@ -133,7 +133,7 @@ class IndexController extends AbstractActionController
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost()->toArray();
-            $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+            $userId = $this->lmcUserAuthentication()->getIdentity()->getId();
             $from = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
     
             $email = $data['email'];
@@ -187,7 +187,7 @@ class IndexController extends AbstractActionController
     public function activityAction()
     {
         $filter = $this->getEvent()->getRouteMatch()->getParam('filter');
-        $userId = $this->zfcUserAuthentication()->getIdentity()->getId();
+        $userId = $this->lmcUserAuthentication()->getIdentity()->getId();
         $user = $this->getServiceLocator()->get('playgrounduser_user_service')->getUserMapper()->findById($userId);
         $stories = $this->getStoryTellingService()->getStoryTellingMapper()->findWithStoryMappingByUser(
             $user,

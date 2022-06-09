@@ -121,7 +121,7 @@ class Leaderboard
     * @return int $points
     */
     public function transferPoints($from, $to, $amount, $leaderTypeFrom = null, $leaderTypeTo = null)
-    {   
+    {
         $availablePoints = $this->getTotal($from);
         $leaderboardTypeFrom = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         $leaderboardTypeTo = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
@@ -204,19 +204,19 @@ class Leaderboard
         if (is_string($leaderboardType) && !empty($leaderboardType)) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeMapper()->findOneBy(array('name' => $leaderboardType));
         }
-        
+
         if (!$leaderboardType) {
             $leaderboardType = $this->getLeaderboardTypeService()->getLeaderboardTypeDefault();
         }
 
         $parameters = array('leaderboardTypeId' => $leaderboardType->getId());
-        
+
         if ($order && in_array($order, $availableOrders)) {
             $order = 'ORDER BY ' . $order;
         } else {
             $order = 'ORDER BY `rank`';
         }
-        
+
         if ($dir && in_array($dir, array('asc', 'desc'))) {
             $order .= ' ' . $dir;
         } else {
@@ -228,14 +228,14 @@ class Leaderboard
         } else {
             $filter = '';
         }
-        
+
         if ($search != '') {
             $filterSearch = ' AND (u.address LIKE :queryString1 OR u.address2 LIKE :queryString2 OR u.city LIKE :queryString3)';
             $parameters['queryString1'] = '%'.$search.'%';
             $parameters['queryString2'] = '%'.$search.'%';
             $parameters['queryString3'] = '%'.$search.'%';
         }
-        
+
         // Statement ordering the players by total_points and determining their respective rank
         $stmt = '
             SELECT e.leaderboardtype_id, e.total_points, e.rank, e.leaderboardtype_id,
@@ -252,21 +252,21 @@ class Leaderboard
             LEFT JOIN user_team t ON t.id = e.team_id
             WHERE 1=1
         ';
-        
+
         $query = $stmt.$filterSearch.$filter;
 
         if ($leaderboardType->getType() === 'user' && $highlightId) {
             $query .= ' AND u.user_id = ' . $highlightId;
 
-            $row = current($dbal->fetchAll($query, $parameters));
+            $row = current($dbal->fetchAllKeyValue($query, $parameters));
             $rank = (!empty($row))?$row['rank']:0;
 
             $offset = max(0, $rank - 5);
             $limit = ($offset == 0 ? 10 : 9);
             $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
-            $result = $dbal->fetchAll($stmtLimit, $parameters);
+            $result = $dbal->fetchAllKeyValue($stmtLimit, $parameters);
             if (9 == $limit) {
-                $first = current($dbal->fetchAll($stmt . ' LIMIT 1', $parameters));
+                $first = current($dbal->fetchAllKeyValue($stmt . ' LIMIT 1', $parameters));
                 array_unshift($result, $first);
             }
             // find rank & set highlight to use it in the template
@@ -279,15 +279,15 @@ class Leaderboard
         } elseif ($leaderboardType->getType() === 'team' && $highlightId) {
             $query .= ' AND t.id = ' . $highlightId;
 
-            $row = current($dbal->fetchAll($query, $parameters));
+            $row = current($dbal->fetchAllKeyValue($query, $parameters));
             $rank = (!empty($row))?$row['rank']:0;
 
             $offset = max(0, $rank - 5);
             $limit = ($offset == 0 ? 10 : 9);
             $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
-            $result = $dbal->fetchAll($stmtLimit, $parameters);
+            $result = $dbal->fetchAllKeyValue($stmtLimit, $parameters);
             if (9 == $limit) {
-                $first = current($dbal->fetchAll($stmt . ' LIMIT 1', $parameters));
+                $first = current($dbal->fetchAllKeyValue($stmt . ' LIMIT 1', $parameters));
                 array_unshift($result, $first);
             }
             // find rank & set highlight to use it in the template
@@ -302,7 +302,7 @@ class Leaderboard
             if ($nbItems && $nbItems> 0) {
                 $query .= ' limit ' . $nbItems;
             }
-            $result = $dbal->fetchAll($query, $parameters);
+            $result = $dbal->fetchAllKeyValue($query, $parameters);
         }
 
         return $result;
@@ -388,11 +388,11 @@ class Leaderboard
         $query = $em->createNativeQuery('
             SELECT reward_leaderboard.total_points,
             FIND_IN_SET(
-                reward_leaderboard.user_id, 
+                reward_leaderboard.user_id,
                 (
-                    SELECT GROUP_CONCAT( 
-                        reward_leaderboard.user_id ORDER BY reward_leaderboard.total_points DESC 
-                    ) 
+                    SELECT GROUP_CONCAT(
+                        reward_leaderboard.user_id ORDER BY reward_leaderboard.total_points DESC
+                    )
                     FROM reward_leaderboard
                     inner join user on user.user_id = reward_leaderboard.user_id
                     where 1=1 ' . $filter .'
