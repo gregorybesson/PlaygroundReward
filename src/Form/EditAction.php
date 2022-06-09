@@ -4,7 +4,7 @@ namespace PlaygroundReward\Form;
 
 use PlaygroundReward\Options\UserEditOptionsInterface;
 use Laminas\Form\Element;
-use ZfcUser\Form\ProvidesEventsForm;
+use LmcUser\Form\ProvidesEventsForm;
 use Laminas\EventManager\EventManager;
 
 class EditAction extends ProvidesEventsForm

@@ -13,7 +13,7 @@ class ScoreWidgetFactory
     public function __invoke(ContainerInterface $container)
     {
         $leaderboardService = $container->get(\PlaygroundReward\Service\LeaderBoard::class);
-        $authService = $container->get('zfcuser_auth_service');
+        $authService = $container->get('lmcuser_auth_service');
 
         return new ScoreWidget($leaderboardService, $authService);
     }

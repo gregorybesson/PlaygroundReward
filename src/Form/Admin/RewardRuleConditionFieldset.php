@@ -5,7 +5,7 @@ namespace PlaygroundReward\Form\Admin;
 use PlaygroundReward\Entity\RewardRuleCondition;
 use Laminas\Form\Fieldset;
 use Laminas\Mvc\I18n\Translator;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use Doctrine\Laminas\Hydrator\DoctrineObject as DoctrineHydrator;
 use Laminas\ServiceManager\ServiceManager;
 
 class RewardRuleConditionFieldset extends Fieldset

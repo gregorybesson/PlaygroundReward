@@ -14,7 +14,7 @@ class BadgeWidgetFactory
     {
         $rewardService = $container->get(\PlaygroundReward\Service\Reward::class);
         $achievementService = $container->get(\PlaygroundReward\Service\Achievement::class);
-        $authService = $container->get('zfcuser_auth_service');
+        $authService = $container->get('lmcuser_auth_service');
         return new BadgeWidget($rewardService, $achievementService, $authService);
     }
 }
