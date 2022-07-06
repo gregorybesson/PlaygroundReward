@@ -18,7 +18,7 @@ class LeaderboardType
     const LEADERBOARD_TYPE_DEFAULT = 'all';
 
     protected $inputFilter;
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer");
@@ -105,7 +105,7 @@ class LeaderboardType
     public function setName($name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
 
@@ -123,7 +123,7 @@ class LeaderboardType
     public function setType($type)
     {
         $this->type = $type;
-        
+
         return $this;
     }
 
@@ -143,7 +143,7 @@ class LeaderboardType
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        
+
         return $this;
     }
 
@@ -163,7 +163,7 @@ class LeaderboardType
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 
@@ -201,7 +201,12 @@ class LeaderboardType
             $factory = new InputFactory();
             $this->inputFilter = $inputFilter;
         }
-    
+
         return $this->inputFilter;
+    }
+
+    public function  __toString()
+    {
+        return strval($this->getId());
     }
 }
