@@ -258,15 +258,15 @@ class Leaderboard
         if ($leaderboardType->getType() === 'user' && $highlightId) {
             $query .= ' AND u.user_id = ' . $highlightId;
 
-            $row = current($dbal->fetchAllKeyValue($query, $parameters));
+            $row = current($dbal->fetchAllAssociative($query, $parameters));
             $rank = (!empty($row))?$row['rank']:0;
 
             $offset = max(0, $rank - 5);
             $limit = ($offset == 0 ? 10 : 9);
             $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
-            $result = $dbal->fetchAllKeyValue($stmtLimit, $parameters);
+            $result = $dbal->fetchAllAssociative($stmtLimit, $parameters);
             if (9 == $limit) {
-                $first = current($dbal->fetchAllKeyValue($stmt . ' LIMIT 1', $parameters));
+                $first = current($dbal->fetchAllAssociative($stmt . ' LIMIT 1', $parameters));
                 array_unshift($result, $first);
             }
             // find rank & set highlight to use it in the template
@@ -279,15 +279,15 @@ class Leaderboard
         } elseif ($leaderboardType->getType() === 'team' && $highlightId) {
             $query .= ' AND t.id = ' . $highlightId;
 
-            $row = current($dbal->fetchAllKeyValue($query, $parameters));
+            $row = current($dbal->fetchAllAssociative($query, $parameters));
             $rank = (!empty($row))?$row['rank']:0;
 
             $offset = max(0, $rank - 5);
             $limit = ($offset == 0 ? 10 : 9);
             $stmtLimit = $stmt . ' LIMIT '.$limit.' OFFSET ' . $offset;
-            $result = $dbal->fetchAllKeyValue($stmtLimit, $parameters);
+            $result = $dbal->fetchAllAssociative($stmtLimit, $parameters);
             if (9 == $limit) {
-                $first = current($dbal->fetchAllKeyValue($stmt . ' LIMIT 1', $parameters));
+                $first = current($dbal->fetchAllAssociative($stmt . ' LIMIT 1', $parameters));
                 array_unshift($result, $first);
             }
             // find rank & set highlight to use it in the template
@@ -302,7 +302,7 @@ class Leaderboard
             if ($nbItems && $nbItems> 0) {
                 $query .= ' limit ' . $nbItems;
             }
-            $result = $dbal->fetchAllKeyValue($query, $parameters);
+            $result = $dbal->fetchAllAssociative($query, $parameters);
         }
 
         return $result;
