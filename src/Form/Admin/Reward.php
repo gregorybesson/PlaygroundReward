@@ -62,12 +62,22 @@ class Reward extends ProvidesEventsForm
                 'label' => $translator->translate('Image', 'playgroundreward')
             )
         ));
+
         $this->add(array(
             'name' => 'image',
             'type' => 'Laminas\Form\Element\Hidden',
             'attributes' => array(
                 'value' => ''
             )
+        ));
+
+        $this->add(array(
+            'name' => 'delete_image',
+            'type' => 'Laminas\Form\Element\Hidden',
+            'attributes' => array(
+                'value' => '',
+                'class' => 'delete_image',
+            ),
         ));
 
         $this->add(array(
